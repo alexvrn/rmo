@@ -47,7 +47,9 @@ int main(int argc, char *argv[])
                && (window1 != window2), "config", "Ошибка в задании номеров мониторов");
 
     controlLeftPanel.setGeometry(screens[window1 - 1]->geometry());
+    controlLeftPanel.setWindowState(Qt::WindowFullScreen);
     controlRightPanel.setGeometry(screens[window2 - 1]->geometry());
+    controlRightPanel.setWindowState(Qt::WindowFullScreen);
   }
 
   return app.exec();
