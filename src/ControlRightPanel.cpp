@@ -16,8 +16,6 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
   toolBar->setMovable(false);
   addToolBar(Qt::TopToolBarArea, toolBar);
 
-  setWindowState(Qt::WindowFullScreen);
-
   setWindowTitle("Панель управления");
 }
 
