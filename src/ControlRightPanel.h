@@ -4,16 +4,23 @@
 // Qt
 #include <QMainWindow>
 
+// Ui
+namespace Ui
+{
+  class ControlRightPanel;
+}
+
+
 class ControlRightPanel : public QMainWindow
 {
   Q_OBJECT
 
   public:
     explicit ControlRightPanel(QWidget *parent = 0);
+    ~ControlRightPanel();
 
-  signals:
-
-  public slots:
+  private:
+    Ui::ControlRightPanel *ui;
 };
 
 #endif // CONTROLRIGHTPANEL_H

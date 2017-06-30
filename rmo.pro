@@ -16,10 +16,10 @@ SOURCES += src/main.cpp\
     src/ControlLeftPanel.cpp \
     src/ControlRightPanel.cpp
 
-HEADERS +=
+HEADERS += \
     src/ControlLeftPanel.h \
     src/ControlRightPanel.h
 
-FORMS +=
-    ui/ControlLeftPanel.ui \
-    ui/ControlRightPanel.ui
+FORMS += \
+    src/ControlLeftPanel.ui \
+    src/ControlRightPanel.ui

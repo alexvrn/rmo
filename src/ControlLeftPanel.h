@@ -4,9 +4,12 @@
 // Qt
 #include <QMainWindow>
 
-//namespace Ui {
-//  class MainWindow;
-//}
+// Ui
+namespace Ui
+{
+  class ControlLeftPanel;
+}
+
 
 class ControlLeftPanel : public QMainWindow
 {
@@ -14,13 +17,10 @@ class ControlLeftPanel : public QMainWindow
 
   public:
     explicit ControlLeftPanel(QWidget *parent = 0);
-
-  signals:
-
-  public slots:
+    ~ControlLeftPanel();
 
   private:
-    //Ui::MainWindow *ui;
+    Ui::ControlLeftPanel *ui;
 };
 
 #endif // CONTROLLEFTPANEL_H
