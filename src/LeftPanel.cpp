@@ -1,14 +1,16 @@
+// Local
 #include "LeftPanel.h"
 #include "ui_LeftPanel.h"
 
-LeftPanel::LeftPanel(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::LeftPanel)
+LeftPanel::LeftPanel(QWidget *parent)
+  : QFrame(parent)
+  , ui(new Ui::LeftPanel)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 }
+
 
 LeftPanel::~LeftPanel()
 {
-    delete ui;
+  delete ui;
 }
