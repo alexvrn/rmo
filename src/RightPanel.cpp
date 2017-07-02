@@ -5,6 +5,7 @@
 // Qt
 #include <QTimer>
 #include <QDateTime>
+#include <QButtonGroup>
 
 RightPanel::RightPanel(QWidget *parent)
   : QFrame(parent)

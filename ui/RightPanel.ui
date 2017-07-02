@@ -165,8 +165,11 @@
        <height>30</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Дневная палитра</string>
+     </property>
      <property name="text">
-      <string/>
+      <string>ДП</string>
      </property>
     </widget>
    </item>
@@ -178,8 +181,11 @@
        <height>30</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Ночная палитра</string>
+     </property>
      <property name="text">
-      <string/>
+      <string>НП</string>
      </property>
     </widget>
    </item>
@@ -191,8 +197,17 @@
        <height>30</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Выход</string>
+     </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
