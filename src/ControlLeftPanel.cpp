@@ -1,10 +1,12 @@
 // Local
 #include "ControlLeftPanel.h"
 #include "ui_ControlLeftPanel.h"
+#include "LeftPanel.h"
 
 // Qt
 #include <QToolBar>
 #include <QPushButton>
+#include <QHBoxLayout>
 
 ControlLeftPanel::ControlLeftPanel(QWidget *parent)
   : QMainWindow(parent)
@@ -15,6 +17,9 @@ ControlLeftPanel::ControlLeftPanel(QWidget *parent)
   QToolBar *toolBar = new QToolBar(this);
   toolBar->setMovable(false);
   addToolBar(Qt::TopToolBarArea, toolBar);
+
+  LeftPanel *panel = new LeftPanel(this);
+  toolBar->addWidget(panel);
 
   setWindowTitle("Панель управления");
 }

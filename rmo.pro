@@ -14,12 +14,18 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
     src/ControlLeftPanel.cpp \
-    src/ControlRightPanel.cpp
+    src/ControlRightPanel.cpp \
+    src/LeftPanel.cpp \
+    src/RightPanel.cpp
 
 HEADERS += \
     src/ControlLeftPanel.h \
-    src/ControlRightPanel.h
+    src/ControlRightPanel.h \
+    src/LeftPanel.h \
+    src/RightPanel.h
 
 FORMS += \
-    src/ControlLeftPanel.ui \
-    src/ControlRightPanel.ui
+    ui/ControlLeftPanel.ui \
+    ui/ControlRightPanel.ui \
+    ui/LeftPanel.ui \
+    ui/RightPanel.ui

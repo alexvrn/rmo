@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   app.setOrganizationDomain("skbsami.ru");
   app.setApplicationName("rmo");
 
-  QSettings settings;
+  QSettings settings("SAMI DVO RAN", "rmo");
 
   // Установка локали по умолчанию
   QLocale russianLocale(QLocale::Russian, QLocale::RussianFederation);
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
   controlRightPanel.show();
 
   const bool release = settings.value("release", false).toBool();
-  if (release)
+  if (!release)
   {
     const auto screen = qApp->primaryScreen();
     const auto screenGeometry = screen->geometry();
@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
   else
   {
     const auto screens = qApp->screens();
-    const int window1 = settings.value("window1").toInt();
-    const int window2 = settings.value("window2").toInt();
+    const int window1 = settings.value("window1", 1).toInt();
+    const int window2 = settings.value("window2", 2).toInt();
     Q_ASSERT_X(screens.count() >= 2, "main", "Количество мониторов должно быть больше 2-х");
     Q_ASSERT_X((window1 >= 1 && window1 <= 2)
                && (window2 >= 1 && window2 <= 2)
