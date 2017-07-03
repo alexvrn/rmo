@@ -1,21 +1,24 @@
 #ifndef MONITORINGLEFTPANEL_H
 #define MONITORINGLEFTPANEL_H
 
+// Qt
 #include <QWidget>
 
-namespace Ui {
-class MonitoringLeftPanel;
+// UI
+namespace Ui
+{
+  class MonitoringLeftPanel;
 }
 
 class MonitoringLeftPanel : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
-    explicit MonitoringLeftPanel(QWidget *parent = 0);
+  public:
+    explicit MonitoringLeftPanel(QWidget *parent = Q_NULLPTR);
     ~MonitoringLeftPanel();
 
-private:
+  private:
     Ui::MonitoringLeftPanel *ui;
 };
 
