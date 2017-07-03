@@ -4,6 +4,7 @@
 // Qt
 #include <QFrame>
 class QTimer;
+class QLabel;
 
 // UI
 namespace Ui {
@@ -15,7 +16,7 @@ class RightPanel : public QFrame
   Q_OBJECT
 
   public:
-    explicit RightPanel(QWidget *parent = 0);
+    explicit RightPanel(QWidget *parent = Q_NULLPTR);
     ~RightPanel();
 
   private slots:
@@ -24,6 +25,7 @@ class RightPanel : public QFrame
   private:
     Ui::RightPanel *ui;
 
+    QLabel* m_dateTimeLabel;
     QTimer *m_timer;
 };
 

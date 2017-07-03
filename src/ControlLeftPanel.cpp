@@ -5,7 +5,6 @@
 
 // Qt
 #include <QToolBar>
-#include <QPushButton>
 #include <QHBoxLayout>
 
 ControlLeftPanel::ControlLeftPanel(QWidget *parent)

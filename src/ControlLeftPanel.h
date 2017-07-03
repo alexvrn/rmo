@@ -16,7 +16,7 @@ class ControlLeftPanel : public QMainWindow
   Q_OBJECT
 
   public:
-    explicit ControlLeftPanel(QWidget *parent = 0);
+    explicit ControlLeftPanel(QWidget *parent = Q_NULLPTR);
     ~ControlLeftPanel();
 
   private:

@@ -5,7 +5,7 @@
 
 // Qt
 #include <QToolBar>
-#include <QPushButton>
+
 
 ControlRightPanel::ControlRightPanel(QWidget *parent)
   : QMainWindow(parent)

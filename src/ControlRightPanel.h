@@ -16,7 +16,7 @@ class ControlRightPanel : public QMainWindow
   Q_OBJECT
 
   public:
-    explicit ControlRightPanel(QWidget *parent = 0);
+    explicit ControlRightPanel(QWidget *parent = Q_NULLPTR);
     ~ControlRightPanel();
 
   private:

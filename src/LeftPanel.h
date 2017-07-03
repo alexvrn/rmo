@@ -15,11 +15,10 @@ class LeftPanel : public QFrame
   Q_OBJECT
 
   public:
-    explicit LeftPanel(QWidget *parent = 0);
+    explicit LeftPanel(QWidget *parent = Q_NULLPTR);
     ~LeftPanel();
 
   private slots:
-    void buttonToggled(QAbstractButton *button);
 
   private:
     Ui::LeftPanel *ui;

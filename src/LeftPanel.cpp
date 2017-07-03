@@ -1,8 +1,9 @@
 // Local
 #include "LeftPanel.h"
 #include "ui_LeftPanel.h"
+#include "ButtonGroup.h"
 
-#include <QButtonGroup>
+// Qt
 #include <QDebug>
 
 LeftPanel::LeftPanel(QWidget *parent)
@@ -11,16 +12,9 @@ LeftPanel::LeftPanel(QWidget *parent)
 {
   ui->setupUi(this);
 
-  QButtonGroup* bg = new QButtonGroup(this);
-  bg->addButton(ui->toolButton);
-  bg->addButton(ui->toolButton_2);
-  bg->addButton(ui->toolButton_3);
-  bg->addButton(ui->toolButton_4);
-  bg->addButton(ui->toolButton_5);
-  bg->addButton(ui->toolButton_6);
-  bg->addButton(ui->toolButton_7);
-
-  connect(bg, SIGNAL(buttonPressed(QAbstractButton *)), SLOT(buttonToggled(QAbstractButton *)));
+  ButtonGroup* group = new ButtonGroup(this);
+  ui->horizontalLayout->addWidget(group);
+  ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
 }
 
 
@@ -30,14 +24,3 @@ LeftPanel::~LeftPanel()
 }
 
 
-void LeftPanel::buttonToggled(QAbstractButton *button)
-{
-  QButtonGroup* group = (QButtonGroup*)sender();
-  if (button->isChecked())
-  {
-      group->setExclusive(false);
-      button->setChecked(false);
-      group->setExclusive(true);
-      qDebug() << "111111111";
-  }
-}

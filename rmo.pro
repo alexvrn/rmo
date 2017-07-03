@@ -16,16 +16,19 @@ SOURCES += src/main.cpp\
     src/ControlLeftPanel.cpp \
     src/ControlRightPanel.cpp \
     src/LeftPanel.cpp \
-    src/RightPanel.cpp
+    src/RightPanel.cpp \
+    src/ButtonGroup.cpp
 
 HEADERS += \
     src/ControlLeftPanel.h \
     src/ControlRightPanel.h \
     src/LeftPanel.h \
-    src/RightPanel.h
+    src/RightPanel.h \
+    src/ButtonGroup.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
     ui/ControlRightPanel.ui \
     ui/LeftPanel.ui \
-    ui/RightPanel.ui
+    ui/RightPanel.ui \
+    ui/ButtonGroup.ui
