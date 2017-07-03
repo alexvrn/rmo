@@ -11,22 +11,23 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rmo
 TEMPLATE = app
 
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/
 
 SOURCES += src/main.cpp\
-    src/ControlLeftPanel.cpp \
-    src/ControlRightPanel.cpp \
-    src/LeftPanel.cpp \
-    src/RightPanel.cpp \
+    src/LeftPanel/ControlLeftPanel.cpp \
+    src/RightPanel/ControlRightPanel.cpp \
+    src/LeftPanel/LeftPanel.cpp \
+    src/RightPanel/RightPanel.cpp \
     src/ButtonGroup.cpp \
-    src/MonitoringLeftPanel.cpp
+    src/LeftPanel/MonitoringLeftPanel.cpp
 
 HEADERS += \
-    src/ControlLeftPanel.h \
-    src/ControlRightPanel.h \
-    src/LeftPanel.h \
-    src/RightPanel.h \
+    src/LeftPanel/ControlLeftPanel.h \
+    src/RightPanel/ControlRightPanel.h \
+    src/LeftPanel/LeftPanel.h \
+    src/RightPanel/RightPanel.h \
     src/ButtonGroup.h \
-    src/MonitoringLeftPanel.h
+    src/LeftPanel/MonitoringLeftPanel.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
