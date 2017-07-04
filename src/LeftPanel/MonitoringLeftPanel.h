@@ -18,7 +18,14 @@ class MonitoringLeftPanel : public QWidget
     explicit MonitoringLeftPanel(QWidget *parent = Q_NULLPTR);
     ~MonitoringLeftPanel();
 
+  public:
+    void setResultControlComplex(int state);
+    void setResultControlDevice(int state);
+    void setResultControlSoft(int state);
+
   private:
+    QString styleSheetState(int state) const;
+
     Ui::MonitoringLeftPanel *ui;
 };
 
