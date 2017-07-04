@@ -34,7 +34,8 @@
      <property name="styleSheet">
       <string notr="true">border-radius: 10px;
 border: 1px solid grey;
-background-color: grey;</string>
+background-color: grey;
+QToolButton { color: red};</string>
      </property>
      <property name="text">
       <string/>

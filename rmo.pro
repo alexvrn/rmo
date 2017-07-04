@@ -19,7 +19,8 @@ SOURCES += src/main.cpp\
     src/LeftPanel/LeftPanel.cpp \
     src/RightPanel/RightPanel.cpp \
     src/ButtonGroup.cpp \
-    src/LeftPanel/MonitoringLeftPanel.cpp
+    src/LeftPanel/MonitoringLeftPanel.cpp \
+    src/RightPanel/SettingRightPanel.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -27,7 +28,8 @@ HEADERS += \
     src/LeftPanel/LeftPanel.h \
     src/RightPanel/RightPanel.h \
     src/ButtonGroup.h \
-    src/LeftPanel/MonitoringLeftPanel.h
+    src/LeftPanel/MonitoringLeftPanel.h \
+    src/RightPanel/SettingRightPanel.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -35,4 +37,5 @@ FORMS += \
     ui/LeftPanel.ui \
     ui/RightPanel.ui \
     ui/ButtonGroup.ui \
-    ui/MonitoringLeftPanel.ui
+    ui/MonitoringLeftPanel.ui \
+    ui/SettingRightPanel.ui
