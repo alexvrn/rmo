@@ -15,18 +15,17 @@ ButtonGroup::ButtonGroup(QWidget *parent)
 {
   ui->setupUi(this);
 
-  m_mapper = new QSignalMapper(this);
-  connect(m_mapper, SIGNAL(mapped(QString)), SLOT(clicked(QString)));
+  m_map[tr("ГЛ")  ] = ui->glToolButton;
+  m_map[tr("ШП")  ] = ui->shpToolButton;
+  m_map[tr("ИТО") ] = ui->itoToolButton;
+  m_map[tr("СА")  ] = ui->saToolButton;
+  m_map[tr("АНТ") ] = ui->antToolButton;
+  m_map[tr("ИЗП") ] = ui->izpToolButton;
+  m_map[tr("АТГС")] = ui->atgsToolButton;
+  m_map[tr("ОЭ")  ] = ui->oeToolButton;
+  m_map[tr("АСТД")] = ui->astdToolButton;
 
-  m_map["ГЛ"  ] = ui->glToolButton;
-  m_map["ШП"  ] = ui->shpToolButton;
-  m_map["ИТО" ] = ui->itoToolButton;
-  m_map["СА"  ] = ui->saToolButton;
-  m_map["АНТ" ] = ui->antToolButton;
-  m_map["ИЗП" ] = ui->izpToolButton;
-  m_map["АТГС"] = ui->atgsToolButton;
-  m_map["ОЭ"  ] = ui->oeToolButton;
-  m_map["АСТД"] = ui->astdToolButton;
+  connect(m_mapper, SIGNAL(mapped(QString)), SLOT(clicked(QString)));
 
   for (auto it = m_map.constBegin(); it != m_map.constEnd(); ++it)
   {
@@ -42,6 +41,19 @@ ButtonGroup::~ButtonGroup()
 }
 
 
+void ButtonGroup::indicatorCheck(const QString& type, bool checked)
+{
+  if (!checked)
+    return;
+
+  auto toolButton = m_map.find(type);
+  Q_ASSERT(toolButton != m_map.end());
+
+  if (toolButton.value()->isChecked())
+    toolButton.value()->setChecked(false);
+}
+
+
 void ButtonGroup::clicked(const QString& type)
 {
   QToolButton* toolButton = qobject_cast<QToolButton*>(m_mapper->mapping(type));
@@ -51,4 +63,6 @@ void ButtonGroup::clicked(const QString& type)
     if (it.value() != toolButton)
       it.value()->setChecked(false);
   }
+
+  emit indicatorChecked(type, toolButton->isChecked());
 }

@@ -10,6 +10,7 @@
 ControlRightPanel::ControlRightPanel(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::ControlRightPanel)
+  , m_panel(new RightPanel(this))
 {
   ui->setupUi(this);
 
@@ -17,8 +18,9 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
   toolBar->setMovable(false);
   addToolBar(Qt::TopToolBarArea, toolBar);
 
-  RightPanel *panel = new RightPanel(this);
-  toolBar->addWidget(panel);
+  connect(m_panel, &RightPanel::indicatorChecked, this, &ControlRightPanel::indicatorChecked);
+
+  toolBar->addWidget(m_panel);
 
   setWindowTitle("Панель управления");
 }
@@ -27,4 +29,10 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
 ControlRightPanel::~ControlRightPanel()
 {
   delete ui;
+}
+
+
+void ControlRightPanel::indicatorCheck(const QString& type, bool checked)
+{
+  m_panel->indicatorCheck(type, checked);
 }

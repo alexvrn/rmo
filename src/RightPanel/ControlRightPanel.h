@@ -4,6 +4,9 @@
 // Qt
 #include <QMainWindow>
 
+// Local
+class RightPanel;
+
 // Ui
 namespace Ui
 {
@@ -19,8 +22,16 @@ class ControlRightPanel : public QMainWindow
     explicit ControlRightPanel(QWidget *parent = Q_NULLPTR);
     ~ControlRightPanel();
 
+  signals:
+    void indicatorChecked(const QString& type, bool checked);
+
+  public slots:
+    void indicatorCheck(const QString& type, bool checked);
+
   private:
     Ui::ControlRightPanel *ui;
+
+    RightPanel *m_panel;
 };
 
 #endif // CONTROLRIGHTPANEL_H

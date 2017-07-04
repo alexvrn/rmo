@@ -10,11 +10,12 @@
 LeftPanel::LeftPanel(QWidget *parent)
   : QFrame(parent)
   , ui(new Ui::LeftPanel)
+  , m_group(new ButtonGroup(this))
 {
   ui->setupUi(this);
 
-  ButtonGroup *group = new ButtonGroup(this);
-  ui->horizontalLayout->addWidget(group);
+  connect(m_group, &ButtonGroup::indicatorChecked, this, &LeftPanel::indicatorChecked);
+  ui->horizontalLayout->addWidget(m_group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
 
   MonitoringLeftPanel *monitoring = new MonitoringLeftPanel(this);
@@ -25,6 +26,12 @@ LeftPanel::LeftPanel(QWidget *parent)
 LeftPanel::~LeftPanel()
 {
   delete ui;
+}
+
+
+void LeftPanel::indicatorCheck(const QString& type, bool checked)
+{
+  m_group->indicatorCheck(type, checked);
 }
 
 

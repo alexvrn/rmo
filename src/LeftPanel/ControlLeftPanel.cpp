@@ -11,6 +11,7 @@
 ControlLeftPanel::ControlLeftPanel(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::ControlLeftPanel)
+  , m_panel(new LeftPanel(this))
 {
   ui->setupUi(this);
 
@@ -18,8 +19,9 @@ ControlLeftPanel::ControlLeftPanel(QWidget *parent)
   toolBar->setMovable(false);
   addToolBar(Qt::TopToolBarArea, toolBar);
 
-  LeftPanel *panel = new LeftPanel(this);
-  toolBar->addWidget(panel);
+  connect(m_panel, &LeftPanel::indicatorChecked, this, &ControlLeftPanel::indicatorChecked);
+
+  toolBar->addWidget(m_panel);
 
   setWindowTitle("Панель управления");
 }
@@ -28,4 +30,10 @@ ControlLeftPanel::ControlLeftPanel(QWidget *parent)
 ControlLeftPanel::~ControlLeftPanel()
 {
   delete ui;
+}
+
+
+void ControlLeftPanel::indicatorCheck(const QString& type, bool checked)
+{
+  m_panel->indicatorCheck(type, checked);
 }

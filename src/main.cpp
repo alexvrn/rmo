@@ -28,6 +28,9 @@ int main(int argc, char *argv[])
   ControlRightPanel controlRightPanel;
   controlRightPanel.show();
 
+  QObject::connect(&controlLeftPanel, &ControlLeftPanel::indicatorChecked, &controlRightPanel, &ControlRightPanel::indicatorCheck);
+  QObject::connect(&controlRightPanel, &ControlRightPanel::indicatorChecked, &controlLeftPanel, &ControlLeftPanel::indicatorCheck);
+
   const bool release = settings.value("release", false).toBool();
   if (!release)
   {

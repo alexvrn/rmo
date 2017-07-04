@@ -28,7 +28,8 @@ QString MonitoringLeftPanel::styleSheetState(int state) const
 
   return QString("border-radius: 10px;"
                  "border: 1px solid %1;"
-                 "background-color: %1;").arg(color);
+                 "background-color: %1;"
+                 "QToolTip { background-color: red; };").arg(color);
 }
 
 

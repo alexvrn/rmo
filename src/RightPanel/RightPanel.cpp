@@ -12,13 +12,14 @@
 RightPanel::RightPanel(QWidget *parent)
   : QFrame(parent)
   , ui(new Ui::RightPanel)
+  , m_group(new ButtonGroup(this))
   , m_dateTimeLabel(new QLabel(this))
   , m_timer(new QTimer(this))
 {
   ui->setupUi(this);
 
-  ButtonGroup *group = new ButtonGroup(this);
-  ui->horizontalLayout->addWidget(group);
+  connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::indicatorChecked);
+  ui->horizontalLayout->addWidget(m_group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
   ui->horizontalLayout->addWidget(m_dateTimeLabel);
 
@@ -33,6 +34,12 @@ RightPanel::RightPanel(QWidget *parent)
 RightPanel::~RightPanel()
 {
   delete ui;
+}
+
+
+void RightPanel::indicatorCheck(const QString& type, bool checked)
+{
+  m_group->indicatorCheck(type, checked);
 }
 
 
