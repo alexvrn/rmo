@@ -17,12 +17,12 @@ RightPanel::RightPanel(QWidget *parent)
 {
   ui->setupUi(this);
 
-  ButtonGroup* group = new ButtonGroup(this);
+  ButtonGroup *group = new ButtonGroup(this);
   ui->horizontalLayout->addWidget(group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
   ui->horizontalLayout->addWidget(m_dateTimeLabel);
 
-  SettingRightPanel* settingPanel = new SettingRightPanel(this);
+  SettingRightPanel *settingPanel = new SettingRightPanel(this);
   ui->horizontalLayout->addWidget(settingPanel);
 
   connect(m_timer, SIGNAL(timeout()), SLOT(timer()));

@@ -31,6 +31,9 @@
        <height>40</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Дневная палитра</string>
+     </property>
      <property name="text">
       <string>ДП</string>
      </property>
@@ -55,6 +58,9 @@
        <width>40</width>
        <height>40</height>
       </size>
+     </property>
+     <property name="toolTip">
+      <string>Ночная палитра</string>
      </property>
      <property name="text">
       <string>НП</string>
@@ -94,11 +100,15 @@
        <height>40</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Выход</string>
+     </property>
      <property name="text">
       <string/>
      </property>
      <property name="icon">
-      <iconset theme="application-exit"/>
+      <iconset theme="application-exit">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
