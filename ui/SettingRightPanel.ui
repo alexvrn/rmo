@@ -28,7 +28,7 @@
      <property name="maximumSize">
       <size>
        <width>40</width>
-       <height>30</height>
+       <height>40</height>
       </size>
      </property>
      <property name="text">
@@ -53,7 +53,7 @@
      <property name="maximumSize">
       <size>
        <width>40</width>
-       <height>30</height>
+       <height>40</height>
       </size>
      </property>
      <property name="text">
@@ -91,11 +91,14 @@
      <property name="maximumSize">
       <size>
        <width>40</width>
-       <height>30</height>
+       <height>40</height>
       </size>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="application-exit"/>
      </property>
     </widget>
    </item>

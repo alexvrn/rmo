@@ -7,6 +7,7 @@
 #include <QToolBar>
 #include <QHBoxLayout>
 
+
 ControlLeftPanel::ControlLeftPanel(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::ControlLeftPanel)
