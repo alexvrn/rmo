@@ -6,6 +6,7 @@
 
 // Local
 class RightPanel;
+class IndicatorsStackedWidget;
 
 // Ui
 namespace Ui
@@ -32,6 +33,7 @@ class ControlRightPanel : public QMainWindow
     Ui::ControlRightPanel *ui;
 
     RightPanel *m_panel;
+    IndicatorsStackedWidget *m_indicatorsStackedWidget;
 };
 
 #endif // CONTROLRIGHTPANEL_H

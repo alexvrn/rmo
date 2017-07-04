@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rmo
 TEMPLATE = app
 
-INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/
 
 SOURCES += src/main.cpp\
     src/LeftPanel/ControlLeftPanel.cpp \
@@ -20,7 +20,10 @@ SOURCES += src/main.cpp\
     src/RightPanel/RightPanel.cpp \
     src/ButtonGroup.cpp \
     src/LeftPanel/MonitoringLeftPanel.cpp \
-    src/RightPanel/SettingRightPanel.cpp
+    src/RightPanel/SettingRightPanel.cpp \
+    src/Indicators/ShPIndicator.cpp \
+    src/IndicatorsStackedWidget.cpp \
+    src/Indicators/GLIndicator.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -29,7 +32,10 @@ HEADERS += \
     src/RightPanel/RightPanel.h \
     src/ButtonGroup.h \
     src/LeftPanel/MonitoringLeftPanel.h \
-    src/RightPanel/SettingRightPanel.h
+    src/RightPanel/SettingRightPanel.h \
+    src/Indicators/ShPIndicator.h \
+    src/IndicatorsStackedWidget.h \
+    src/Indicators/GLIndicator.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -38,4 +44,6 @@ FORMS += \
     ui/RightPanel.ui \
     ui/ButtonGroup.ui \
     ui/MonitoringLeftPanel.ui \
-    ui/SettingRightPanel.ui
+    ui/SettingRightPanel.ui \
+    src/Indicators/ui/ShPIndicator.ui \
+    src/Indicators/ui/GLIndicator.ui

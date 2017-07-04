@@ -3,9 +3,11 @@
 
 // Qt
 #include <QMainWindow>
+#include <QEvent>
 
 // Local
 class LeftPanel;
+class IndicatorsStackedWidget;
 
 // Ui
 namespace Ui
@@ -32,6 +34,7 @@ class ControlLeftPanel : public QMainWindow
     Ui::ControlLeftPanel *ui;
 
     LeftPanel *m_panel;
+    IndicatorsStackedWidget *m_indicatorsStackedWidget;
 };
 
 #endif // CONTROLLEFTPANEL_H
