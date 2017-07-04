@@ -32,10 +32,11 @@
       <string>Результат контроля работоспособности</string>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 10px;
-border: 1px solid grey;
-background-color: grey;
-QToolButton { color: red};</string>
+      <string notr="true">QLabel {
+  border-radius: 10px;
+  border: 1px solid grey;
+  background-color: grey;
+}</string>
      </property>
      <property name="text">
       <string/>
@@ -60,9 +61,11 @@ QToolButton { color: red};</string>
       <string>Результат контроля функционирования аппаратных средств</string>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 10px;
-border: 1px solid grey;
-background-color: grey;</string>
+      <string notr="true">QLabel {
+  border-radius: 10px;
+  border: 1px solid grey;
+  background-color: grey;
+}</string>
      </property>
      <property name="text">
       <string/>
@@ -87,9 +90,11 @@ background-color: grey;</string>
       <string>Результат контроля программного обеспечения комплекса</string>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 10px;
-border: 1px solid grey;
-background-color: grey;</string>
+      <string notr="true">QLabel {
+  border-radius: 10px;
+  border: 1px solid grey;
+  background-color: grey;
+}</string>
      </property>
      <property name="text">
       <string/>

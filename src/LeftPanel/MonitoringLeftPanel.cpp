@@ -26,10 +26,11 @@ QString MonitoringLeftPanel::styleSheetState(int state) const
   else if (state == 3)
     color = "green";
 
-  return QString("border-radius: 10px;"
+  return QString("QLabel {"
+                 "border-radius: 10px;"
                  "border: 1px solid %1;"
                  "background-color: %1;"
-                 "QToolTip { background-color: red; };").arg(color);
+                 "}").arg(color);
 }
 
 

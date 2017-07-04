@@ -46,6 +46,9 @@ void ButtonGroup::indicatorCheck(const QString& type, bool checked)
   if (!checked)
     return;
 
+  if (type == tr("ГЛ"))
+    return;
+
   auto toolButton = m_map.find(type);
   Q_ASSERT(toolButton != m_map.end());
 
