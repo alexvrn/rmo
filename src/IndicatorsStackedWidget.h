@@ -21,6 +21,7 @@ class IndicatorsStackedWidget : public QStackedWidget
 
   public slots:
     void setCurrentIndicator(const QString& type, bool checked);
+    void sync(const QString& type, bool checked);
 
   private:
     QWidget *m_nullIndicator;
@@ -28,6 +29,8 @@ class IndicatorsStackedWidget : public QStackedWidget
     ShPIndicator *m_shpIndicator;
     TOIndicator *m_toIndicator;
     SAIndicator *m_saIndicator;
+
+    QString m_type;
 };
 
 #endif // INDICATORSSTACKEDWIDGET_H

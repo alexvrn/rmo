@@ -47,9 +47,25 @@ void IndicatorsStackedWidget::setCurrentIndicator(const QString& type, bool chec
       setCurrentWidget(m_toIndicator);
     else if (type == tr("СА"))
       setCurrentWidget(m_saIndicator);
+
+    m_type = type;
   }
   else
   {
     setCurrentWidget(m_nullIndicator);
+    m_type = QString();
+  }
+}
+
+//! TODO: Сделать красиво.
+void IndicatorsStackedWidget::sync(const QString& type, bool checked)
+{
+  if (checked)
+  {
+    if (m_type == type && m_type != tr("ГЛ"))
+    {
+      setCurrentWidget(m_nullIndicator);
+      m_type = QString();
+    }
   }
 }

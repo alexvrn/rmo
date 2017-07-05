@@ -70,46 +70,19 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QComboBox" name="comboBox_2"/>
-         </item>
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSlider" name="horizontalSlider">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSlider" name="horizontalSlider_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox"/>
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_2">
          <property name="text">
           <string>TextLabel</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QWidget" name="widget" native="true"/>
+       <item row="2" column="0">
+        <widget class="QToolButton" name="toolButton_5">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="2">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -138,17 +111,93 @@
          </item>
         </layout>
        </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
+       <item row="1" column="1">
+        <widget class="QWidget" name="widget" native="true"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QToolButton" name="toolButton_5">
+       <item row="0" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QComboBox" name="comboBox_2">
+           <item>
+            <property name="text">
+             <string>Логарифм</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Линейная</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Отметки</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Пороговая</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ГЛ-реверберация</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ГЛ-шум</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Text</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="horizontalSlider">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Text</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="horizontalSlider_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox">
+           <item>
+            <property name="text">
+             <string>Зелёная</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Радуга</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>...</string>
+          <string>18:45</string>
          </property>
         </widget>
        </item>

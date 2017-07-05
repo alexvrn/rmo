@@ -35,4 +35,7 @@ ControlLeftPanel::~ControlLeftPanel()
 void ControlLeftPanel::indicatorCheck(const QString& type, bool checked)
 {
   m_panel->indicatorCheck(type, checked);
+
+  //! TODO: Сделать красиво.
+  m_indicatorsStackedWidget->sync(type, checked);
 }
