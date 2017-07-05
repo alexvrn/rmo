@@ -23,7 +23,10 @@ SOURCES += src/main.cpp\
     src/RightPanel/SettingRightPanel.cpp \
     src/Indicators/ShPIndicator.cpp \
     src/IndicatorsStackedWidget.cpp \
-    src/Indicators/GLIndicator.cpp
+    src/Indicators/GLIndicator.cpp \
+    src/ControlPanel.cpp \
+    src/Indicators/TOIndicator.cpp \
+    src/Indicators/SAIndicator.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -35,7 +38,10 @@ HEADERS += \
     src/RightPanel/SettingRightPanel.h \
     src/Indicators/ShPIndicator.h \
     src/IndicatorsStackedWidget.h \
-    src/Indicators/GLIndicator.h
+    src/Indicators/GLIndicator.h \
+    src/ControlPanel.h \
+    src/Indicators/TOIndicator.h \
+    src/Indicators/SAIndicator.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -46,4 +52,6 @@ FORMS += \
     ui/MonitoringLeftPanel.ui \
     ui/SettingRightPanel.ui \
     src/Indicators/ui/ShPIndicator.ui \
-    src/Indicators/ui/GLIndicator.ui
+    src/Indicators/ui/GLIndicator.ui \
+    src/Indicators/ui/TOIndicator.ui \
+    src/Indicators/ui/SAIndicator.ui

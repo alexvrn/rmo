@@ -1,5 +1,5 @@
-#ifndef GLINDICATOR_H
-#define GLINDICATOR_H
+#ifndef GLIndicator_H
+#define GLIndicator_H
 
 // Qt
 #include <QWidget>
@@ -22,4 +22,4 @@ class GLIndicator : public QWidget
     Ui::GLIndicator *ui;
 };
 
-#endif // GLINDICATOR_H
+#endif // GLIndicator_H

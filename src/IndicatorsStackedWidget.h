@@ -5,8 +5,10 @@
 #include <QStackedWidget>
 
 // Local
-#include "ShPIndicator.h"
-#include "GLIndicator.h"
+class ShPIndicator;
+class GLIndicator;
+class TOIndicator;
+class SAIndicator;
 
 
 class IndicatorsStackedWidget : public QStackedWidget
@@ -24,6 +26,8 @@ class IndicatorsStackedWidget : public QStackedWidget
     QWidget *m_nullIndicator;
     GLIndicator *m_glIndicator;
     ShPIndicator *m_shpIndicator;
+    TOIndicator *m_toIndicator;
+    SAIndicator *m_saIndicator;
 };
 
 #endif // INDICATORSSTACKEDWIDGET_H

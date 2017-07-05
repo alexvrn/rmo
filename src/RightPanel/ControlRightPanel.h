@@ -1,12 +1,9 @@
 #ifndef CONTROLRIGHTPANEL_H
 #define CONTROLRIGHTPANEL_H
 
-// Qt
-#include <QMainWindow>
-
 // Local
 class RightPanel;
-class IndicatorsStackedWidget;
+#include "ControlPanel.h"
 
 // Ui
 namespace Ui
@@ -15,7 +12,7 @@ namespace Ui
 }
 
 
-class ControlRightPanel : public QMainWindow
+class ControlRightPanel : public ControlPanel
 {
   Q_OBJECT
 
@@ -33,7 +30,6 @@ class ControlRightPanel : public QMainWindow
     Ui::ControlRightPanel *ui;
 
     RightPanel *m_panel;
-    IndicatorsStackedWidget *m_indicatorsStackedWidget;
 };
 
 #endif // CONTROLRIGHTPANEL_H

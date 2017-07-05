@@ -31,6 +31,9 @@
        <height>40</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Индикатор подсистемы ГЛ</string>
+     </property>
      <property name="text">
       <string>ГЛ</string>
      </property>
@@ -53,6 +56,9 @@
        <height>40</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Индикатор подсистемы ШП</string>
+     </property>
      <property name="text">
       <string>ШП</string>
      </property>
@@ -62,7 +68,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="itoToolButton">
+    <widget class="QToolButton" name="toToolButton">
      <property name="minimumSize">
       <size>
        <width>40</width>
@@ -75,8 +81,11 @@
        <height>40</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Индикатор тактической обстановки</string>
+     </property>
      <property name="text">
-      <string>ИТО</string>
+      <string>ТО</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -96,6 +105,9 @@
        <width>40</width>
        <height>40</height>
       </size>
+     </property>
+     <property name="toolTip">
+      <string>Индикатор спектрального анализа</string>
      </property>
      <property name="text">
       <string>СА</string>
@@ -118,6 +130,9 @@
        <width>40</width>
        <height>40</height>
       </size>
+     </property>
+     <property name="toolTip">
+      <string>Индикатор элементарных каналов антенны</string>
      </property>
      <property name="text">
       <string>АНТ</string>
@@ -166,6 +181,9 @@
        <height>40</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Индикатор подсистемы АТГС</string>
+     </property>
      <property name="text">
       <string>АТГС</string>
      </property>
@@ -188,6 +206,9 @@
        <height>40</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Индикатор прогнозирования (оценки) эффективности с учетом гидрологии</string>
+     </property>
      <property name="text">
       <string>ОЭ</string>
      </property>
@@ -209,6 +230,9 @@
        <width>40</width>
        <height>40</height>
       </size>
+     </property>
+     <property name="toolTip">
+      <string>Панель функциональной диагностики комплекса</string>
      </property>
      <property name="text">
       <string>АСТД</string>
