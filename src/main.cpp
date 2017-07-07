@@ -1,6 +1,7 @@
 // Local
 #include "ControlLeftPanel.h"
 #include "ControlRightPanel.h"
+#include "Client.h"
 
 // Qt
 #include <QApplication>
@@ -54,6 +55,11 @@ int main(int argc, char *argv[])
     controlRightPanel.setGeometry(screens[window2 - 1]->geometry());
     controlRightPanel.setWindowState(Qt::WindowFullScreen);
   }
+
+  // Подключение к серверу
+  Client client;
+  client.connectToHost(settings.value("Server/endpoint", "127.0.0.1").toString(),
+                       settings.value("Server/port", 0).toInt());
 
   return app.exec();
 }

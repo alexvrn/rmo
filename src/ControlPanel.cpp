@@ -20,6 +20,12 @@ ControlPanel::~ControlPanel()
 }
 
 
+void ControlPanel::setConnectState(bool connect)
+{
+
+}
+
+
 void ControlPanel::closeEvent(QCloseEvent *e)
 {
   e->ignore();

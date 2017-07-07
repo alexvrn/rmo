@@ -16,6 +16,9 @@ class ControlPanel : public QMainWindow
     explicit ControlPanel(QWidget *parent = Q_NULLPTR);
     virtual ~ControlPanel();
 
+    // Изменение внешнего вида окна при подключении\отключении сервера
+    void setConnectState(bool connect);
+
   protected:
     void closeEvent(QCloseEvent *e);
 

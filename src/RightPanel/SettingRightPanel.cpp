@@ -29,5 +29,5 @@ void SettingRightPanel::on_exitToolButton_clicked()
 {
   if (QMessageBox::Yes == QMessageBox::question(this, tr("РМО"), tr("Вы действительно хотите закрыть приложение РМО?"),
                           QMessageBox::Yes | QMessageBox::No))
-     qApp->quit();
+    qApp->quit();
 }

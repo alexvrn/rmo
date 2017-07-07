@@ -4,14 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = rmo
 TEMPLATE = app
 
-INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/
 
 SOURCES += src/main.cpp\
     src/LeftPanel/ControlLeftPanel.cpp \
@@ -26,7 +26,8 @@ SOURCES += src/main.cpp\
     src/Indicators/GLIndicator.cpp \
     src/ControlPanel.cpp \
     src/Indicators/TOIndicator.cpp \
-    src/Indicators/SAIndicator.cpp
+    src/Indicators/SAIndicator.cpp \
+    src/Client/Client.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -41,7 +42,8 @@ HEADERS += \
     src/Indicators/GLIndicator.h \
     src/ControlPanel.h \
     src/Indicators/TOIndicator.h \
-    src/Indicators/SAIndicator.h
+    src/Indicators/SAIndicator.h \
+    src/Client/Client.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
