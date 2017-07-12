@@ -23,6 +23,8 @@ class ControlLeftPanel : public ControlPanel
     explicit ControlLeftPanel(QWidget *parent = Q_NULLPTR);
     ~ControlLeftPanel();
 
+    void setConfiguration(const QString& type) Q_DECL_OVERRIDE;
+
   signals:
     void indicatorChecked(const QString& type, bool checked);
 

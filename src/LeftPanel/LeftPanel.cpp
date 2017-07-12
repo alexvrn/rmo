@@ -35,3 +35,9 @@ void LeftPanel::indicatorCheck(const QString& type, bool checked)
 }
 
 
+void LeftPanel::setConfiguration(const QString& type)
+{
+  m_group->setConfiguration(type);
+}
+
+

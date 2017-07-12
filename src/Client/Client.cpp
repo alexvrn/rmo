@@ -19,7 +19,7 @@ Client::~Client()
 
 bool Client::connectToHost(const QString& host, int port)
 {
-  qDebug() << qPrintable(QString("Подключение к серверу %1:%2").arg(host).arg(port));
+  qDebug() << qPrintable(QString(tr("Подключение к серверу %1:%2")).arg(host).arg(port));
   m_socket->connectToHost(host, port);
 
   return true;

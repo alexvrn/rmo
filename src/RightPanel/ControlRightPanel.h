@@ -20,6 +20,8 @@ class ControlRightPanel : public ControlPanel
     explicit ControlRightPanel(QWidget *parent = Q_NULLPTR);
     ~ControlRightPanel();
 
+    void setConfiguration(const QString& type) Q_DECL_OVERRIDE;
+
   signals:
     void indicatorChecked(const QString& type, bool checked);
 

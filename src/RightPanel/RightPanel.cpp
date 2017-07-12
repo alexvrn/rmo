@@ -43,6 +43,12 @@ void RightPanel::indicatorCheck(const QString& type, bool checked)
 }
 
 
+void RightPanel::setConfiguration(const QString& type)
+{
+  m_group->setConfiguration(type);
+}
+
+
 void RightPanel::timer()
 {
   const QDateTime currentDateTime = QDateTime::currentDateTime();

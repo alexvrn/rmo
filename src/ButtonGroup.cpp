@@ -56,6 +56,12 @@ void ButtonGroup::indicatorCheck(const QString& type, bool checked)
     toolButton.value()->setChecked(false);
 }
 
+void ButtonGroup::setConfiguration(const QString& type)
+{
+  for (auto it = m_map.begin(); it != m_map.end(); ++it)
+    it.value()->setChecked(it.key() == type);
+}
+
 
 void ButtonGroup::clicked(const QString& type)
 {

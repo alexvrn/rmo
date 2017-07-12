@@ -32,6 +32,12 @@ ControlLeftPanel::~ControlLeftPanel()
 }
 
 
+void ControlLeftPanel::setConfiguration(const QString& type)
+{
+  m_panel->setConfiguration(type);
+}
+
+
 void ControlLeftPanel::indicatorCheck(const QString& type, bool checked)
 {
   m_panel->indicatorCheck(type, checked);

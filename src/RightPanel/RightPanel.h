@@ -23,6 +23,7 @@ class RightPanel : public QFrame
     ~RightPanel();
 
     void indicatorCheck(const QString& type, bool checked);
+    void setConfiguration(const QString& type);
 
   signals:
     void indicatorChecked(const QString& type, bool checked);

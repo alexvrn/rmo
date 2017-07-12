@@ -19,6 +19,8 @@ class ControlPanel : public QMainWindow
     // Изменение внешнего вида окна при подключении\отключении сервера
     void setConnectState(bool connect);
 
+    virtual void setConfiguration(const QString& type) = 0;
+
   protected:
     void closeEvent(QCloseEvent *e);
 
