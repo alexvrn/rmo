@@ -12,6 +12,7 @@
 RightPanel::RightPanel(QWidget *parent)
   : QFrame(parent)
   , ui(new Ui::RightPanel)
+  , m_settingPanel(new SettingRightPanel(this))
   , m_group(new ButtonGroup(this))
   , m_dateTimeLabel(new QLabel(this))
   , m_timer(new QTimer(this))
@@ -23,8 +24,7 @@ RightPanel::RightPanel(QWidget *parent)
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
   ui->horizontalLayout->addWidget(m_dateTimeLabel);
 
-  SettingRightPanel *settingPanel = new SettingRightPanel(this);
-  ui->horizontalLayout->addWidget(settingPanel);
+  ui->horizontalLayout->addWidget(m_settingPanel);
 
   connect(m_timer, SIGNAL(timeout()), SLOT(timer()));
   m_timer->start(1000);
@@ -43,9 +43,10 @@ void RightPanel::indicatorCheck(const QString& type, bool checked)
 }
 
 
-void RightPanel::setConfiguration(const QString& type)
+void RightPanel::setConfiguration(const QString& type, const QString& mode)
 {
   m_group->setConfiguration(type);
+  m_settingPanel->setConfiguration(mode);
 }
 
 

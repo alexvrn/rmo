@@ -31,9 +31,10 @@ ControlRightPanel::~ControlRightPanel()
 }
 
 
-void ControlRightPanel::setConfiguration(const QString& type)
+void ControlRightPanel::setConfiguration(const QString& type, const QString& mode)
 {
-  m_panel->setConfiguration(type);
+  m_panel->setConfiguration(type, mode);
+  m_indicatorsStackedWidget->setCurrentIndicator(type, true);
 }
 
 

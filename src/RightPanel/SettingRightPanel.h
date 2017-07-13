@@ -18,7 +18,9 @@ class SettingRightPanel : public QWidget
     explicit SettingRightPanel(QWidget *parent = Q_NULLPTR);
     ~SettingRightPanel();
 
-private slots:
+    void setConfiguration(const QString& mode);
+
+  private slots:
     void on_exitToolButton_clicked();
 
 private:

@@ -8,6 +8,7 @@ class QLabel;
 
 // Local
 class ButtonGroup;
+class SettingRightPanel;
 
 // UI
 namespace Ui {
@@ -23,7 +24,7 @@ class RightPanel : public QFrame
     ~RightPanel();
 
     void indicatorCheck(const QString& type, bool checked);
-    void setConfiguration(const QString& type);
+    void setConfiguration(const QString& type, const QString& mode);
 
   signals:
     void indicatorChecked(const QString& type, bool checked);
@@ -34,6 +35,7 @@ class RightPanel : public QFrame
   private:
     Ui::RightPanel *ui;
 
+    SettingRightPanel *m_settingPanel;
     ButtonGroup *m_group;
     QLabel *m_dateTimeLabel;
     QTimer *m_timer;

@@ -5,6 +5,7 @@
 // Qt
 #include <QButtonGroup>
 #include <QMessageBox>
+#include <QDebug>
 
 
 SettingRightPanel::SettingRightPanel(QWidget *parent)
@@ -22,6 +23,17 @@ SettingRightPanel::SettingRightPanel(QWidget *parent)
 SettingRightPanel::~SettingRightPanel()
 {
   delete ui;
+}
+
+
+void SettingRightPanel::setConfiguration(const QString& mode)
+{
+  if (mode.toUpper() == "SUN")
+    ui->sunToolButton->toggle();
+  else if (mode.toUpper() == "NIGHT")
+    ui->nightToolButton->toggle();
+  else
+    qWarning() << "Неизвестный тип для настройки палитры:" << mode;
 }
 
 
