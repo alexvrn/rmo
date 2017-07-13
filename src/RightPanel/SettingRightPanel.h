@@ -20,8 +20,11 @@ class SettingRightPanel : public QWidget
 
     void setConfiguration(const QString& mode);
 
+  signals:
+
   private slots:
     void on_exitToolButton_clicked();
+    void modeChecked(const QString& mode);
 
 private:
     Ui::SettingRightPanel *ui;

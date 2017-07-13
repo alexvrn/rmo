@@ -31,6 +31,8 @@ class RightPanel : public QFrame
 
   private slots:
     void timer();
+    // Сохранение настроек окна
+    void settingsSave(const QString& type, bool checked);
 
   private:
     Ui::RightPanel *ui;

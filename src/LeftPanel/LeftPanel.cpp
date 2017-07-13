@@ -6,6 +6,7 @@
 
 // Qt
 #include <QDebug>
+#include <QSettings>
 
 LeftPanel::LeftPanel(QWidget *parent)
   : QFrame(parent)
@@ -15,6 +16,8 @@ LeftPanel::LeftPanel(QWidget *parent)
   ui->setupUi(this);
 
   connect(m_group, &ButtonGroup::indicatorChecked, this, &LeftPanel::indicatorChecked);
+  connect(m_group, &ButtonGroup::indicatorChecked, this, &LeftPanel::settingsSave);
+
   ui->horizontalLayout->addWidget(m_group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
 
@@ -26,6 +29,13 @@ LeftPanel::LeftPanel(QWidget *parent)
 LeftPanel::~LeftPanel()
 {
   delete ui;
+}
+
+
+void LeftPanel::settingsSave(const QString& type, bool checked)
+{
+  QSettings settings("SAMI DVO RAN", "rmo");
+  settings.setValue("Left/indicator", checked ? type : QString());
 }
 
 

@@ -6,6 +6,8 @@
 #include <QButtonGroup>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSignalMapper>
+#include <QSettings>
 
 
 SettingRightPanel::SettingRightPanel(QWidget *parent)
@@ -17,6 +19,13 @@ SettingRightPanel::SettingRightPanel(QWidget *parent)
   QButtonGroup* group = new QButtonGroup(this);
   group->addButton(ui->sunToolButton);
   group->addButton(ui->nightToolButton);
+
+  QSignalMapper* signalMapper = new QSignalMapper(this);
+  connect(ui->sunToolButton, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  connect(ui->nightToolButton, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  signalMapper->setMapping(ui->sunToolButton, "SUN");
+  signalMapper->setMapping(ui->nightToolButton, "NIGHT");
+  connect(signalMapper, SIGNAL(mapped(QString)), this, SLOT(modeChecked(QString)));
 }
 
 
@@ -34,6 +43,13 @@ void SettingRightPanel::setConfiguration(const QString& mode)
     ui->nightToolButton->toggle();
   else
     qWarning() << "Неизвестный тип для настройки палитры:" << mode;
+}
+
+
+void SettingRightPanel::modeChecked(const QString& mode)
+{
+  QSettings settings("SAMI DVO RAN", "rmo");
+  settings.setValue("Mode", mode);
 }
 
 

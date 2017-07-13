@@ -56,6 +56,14 @@ int main(int argc, char *argv[])
     controlRightPanel.setWindowState(Qt::WindowFullScreen);
   }
 
+  // Сохранённые настройки приложения
+  QString indicatorRight = settings.value("Right/indicator", "ГЛ").toString();
+  QString indicatorLeft = settings.value("Left/indicator", "ГЛ").toString();
+  QString mode = settings.value("Mode", "SUN").toString();
+
+  controlLeftPanel.setConfiguration(indicatorLeft);
+  controlRightPanel.setConfiguration(indicatorRight, mode);
+
   // Подключение к серверу
   Client client;
   client.connectToHost(settings.value("Server/endpoint", "127.0.0.1").toString(),

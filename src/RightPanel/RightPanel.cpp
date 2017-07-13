@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QLabel>
+#include <QSettings>
 
 RightPanel::RightPanel(QWidget *parent)
   : QFrame(parent)
@@ -20,6 +21,8 @@ RightPanel::RightPanel(QWidget *parent)
   ui->setupUi(this);
 
   connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::indicatorChecked);
+  connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::settingsSave);
+
   ui->horizontalLayout->addWidget(m_group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
   ui->horizontalLayout->addWidget(m_dateTimeLabel);
@@ -34,6 +37,13 @@ RightPanel::RightPanel(QWidget *parent)
 RightPanel::~RightPanel()
 {
   delete ui;
+}
+
+
+void RightPanel::settingsSave(const QString& type, bool checked)
+{
+  QSettings settings("SAMI DVO RAN", "rmo");
+  settings.setValue("Right/indicator", checked ? type : QString());
 }
 
 

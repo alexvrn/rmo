@@ -28,6 +28,8 @@ class LeftPanel : public QFrame
     void indicatorChecked(const QString& type, bool checked);
 
   private slots:
+    // Сохранение настроек окна
+    void settingsSave(const QString& type, bool checked);
 
   private:
     Ui::LeftPanel *ui;
