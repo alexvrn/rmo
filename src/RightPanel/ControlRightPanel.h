@@ -5,6 +5,9 @@
 class RightPanel;
 #include "ControlPanel.h"
 
+// Qt
+class QSystemTrayIcon;
+
 // Ui
 namespace Ui
 {
@@ -32,6 +35,7 @@ class ControlRightPanel : public ControlPanel
     Ui::ControlRightPanel *ui;
 
     RightPanel *m_panel;
+    //QSystemTrayIcon *m_trayIcon;
 };
 
 #endif // CONTROLRIGHTPANEL_H

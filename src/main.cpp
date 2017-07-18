@@ -57,17 +57,17 @@ int main(int argc, char *argv[])
   }
 
   // Сохранённые настройки приложения
-  QString indicatorRight = settings.value("Right/indicator", "ГЛ").toString();
-  QString indicatorLeft = settings.value("Left/indicator", "ГЛ").toString();
-  QString mode = settings.value("Mode", "SUN").toString();
+  QString indicatorRight = settings.value("right/indicator", QObject::tr("ГЛ")).toString();
+  QString indicatorLeft = settings.value("left/indicator", QObject::tr("ГЛ")).toString();
+  QString mode = settings.value("mode", "sun").toString();
 
   controlLeftPanel.setConfiguration(indicatorLeft);
   controlRightPanel.setConfiguration(indicatorRight, mode);
 
-  // Подключение к серверу
+  // Подключение к серверуF
   Client client;
-  client.connectToHost(settings.value("Server/endpoint", "127.0.0.1").toString(),
-                       settings.value("Server/port", 0).toInt());
+  client.connectToHost(settings.value("server/endpoint", "127.0.0.1").toString(),
+                       settings.value("server/port", 0).toInt());
 
   return app.exec();
 }

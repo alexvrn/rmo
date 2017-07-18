@@ -23,8 +23,8 @@ SettingRightPanel::SettingRightPanel(QWidget *parent)
   QSignalMapper* signalMapper = new QSignalMapper(this);
   connect(ui->sunToolButton, SIGNAL(clicked()), signalMapper, SLOT(map()));
   connect(ui->nightToolButton, SIGNAL(clicked()), signalMapper, SLOT(map()));
-  signalMapper->setMapping(ui->sunToolButton, "SUN");
-  signalMapper->setMapping(ui->nightToolButton, "NIGHT");
+  signalMapper->setMapping(ui->sunToolButton, "sun");
+  signalMapper->setMapping(ui->nightToolButton, "night");
   connect(signalMapper, SIGNAL(mapped(QString)), this, SLOT(modeChecked(QString)));
 }
 
@@ -37,9 +37,9 @@ SettingRightPanel::~SettingRightPanel()
 
 void SettingRightPanel::setConfiguration(const QString& mode)
 {
-  if (mode.toUpper() == "SUN")
+  if (mode.toLower() == "sun")
     ui->sunToolButton->toggle();
-  else if (mode.toUpper() == "NIGHT")
+  else if (mode.toLower() == "night")
     ui->nightToolButton->toggle();
   else
     qWarning() << "Неизвестный тип для настройки палитры:" << mode;
@@ -49,7 +49,7 @@ void SettingRightPanel::setConfiguration(const QString& mode)
 void SettingRightPanel::modeChecked(const QString& mode)
 {
   QSettings settings("SAMI DVO RAN", "rmo");
-  settings.setValue("Mode", mode);
+  settings.setValue("mode", mode);
 }
 
 

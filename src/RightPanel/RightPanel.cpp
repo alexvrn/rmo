@@ -43,7 +43,7 @@ RightPanel::~RightPanel()
 void RightPanel::settingsSave(const QString& type, bool checked)
 {
   QSettings settings("SAMI DVO RAN", "rmo");
-  settings.setValue("Right/indicator", checked ? type : QString());
+  settings.setValue("right/indicator", checked ? type : QString());
 }
 
 

@@ -35,7 +35,7 @@ LeftPanel::~LeftPanel()
 void LeftPanel::settingsSave(const QString& type, bool checked)
 {
   QSettings settings("SAMI DVO RAN", "rmo");
-  settings.setValue("Left/indicator", checked ? type : QString());
+  settings.setValue("left/indicator", checked ? type : QString());
 }
 
 

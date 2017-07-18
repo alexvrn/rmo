@@ -3,6 +3,8 @@
 
 // Qt
 #include <QCloseEvent>
+#include <QDebug>
+#include <QApplication>
 
 ControlPanel::ControlPanel(QWidget *parent)
   : QMainWindow(parent)
@@ -11,6 +13,8 @@ ControlPanel::ControlPanel(QWidget *parent)
 {
   m_toolBar->setMovable(false);
   addToolBar(Qt::TopToolBarArea, m_toolBar);
+
+  qApp->installEventFilter(this);
 }
 
 
@@ -29,4 +33,21 @@ void ControlPanel::setConnectState(bool connect)
 void ControlPanel::closeEvent(QCloseEvent *e)
 {
   e->ignore();
+}
+
+
+bool ControlPanel::eventFilter(QObject *obj, QEvent *event)
+{
+  if (obj == this && event->type() == QEvent::KeyPress)
+  {
+    //QKeyEvent* e = static_cast<QKeyEvent*>(event);
+    //Qt::KeyboardModifiers keyMod = QApplication::keyboardModifiers();
+    //bool isAlt = keyMod.testFlag(Qt::AltModifier);
+    //if (isAlt)
+    //if (e->modifiers() & Qt::AltModifier)
+    //  qDebug() << "111111";
+    //emit windowDeactivate();
+  }
+
+  return QMainWindow::eventFilter(obj, event);
 }

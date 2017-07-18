@@ -21,8 +21,12 @@ class ControlPanel : public QMainWindow
 
     virtual void setConfiguration(const QString& type, const QString& mode = QString()) = 0;
 
+  signals:
+    void windowDeactivate();
+
   protected:
     void closeEvent(QCloseEvent *e);
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
   protected:
     IndicatorsStackedWidget *m_indicatorsStackedWidget;
