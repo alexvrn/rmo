@@ -23,12 +23,18 @@
          <property name="text">
           <string>ПЧСС</string>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolButton_2">
          <property name="text">
           <string>ПС1</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -37,12 +43,18 @@
          <property name="text">
           <string>ПС2</string>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolButton_4">
          <property name="text">
           <string>ПС2</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -86,24 +98,30 @@
        </item>
        <item row="1" column="2">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>1</number>
+         </property>
          <item>
-          <widget class="QWidget" name="widget_2" native="true">
+          <widget class="PaletteWidget" name="paletteLabel">
            <property name="minimumSize">
             <size>
-             <width>35</width>
+             <width>20</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>35</width>
+             <width>20</width>
              <height>16777215</height>
             </size>
+           </property>
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="verticalSlider">
+          <widget class="QSlider" name="palettelSlider">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -179,7 +197,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="paletteComboBox">
            <item>
             <property name="text">
              <string>Зелёная</string>
@@ -214,6 +232,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PaletteWidget</class>
+   <extends>QLabel</extends>
+   <header location="global">PaletteWidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

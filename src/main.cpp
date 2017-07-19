@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
   controlLeftPanel.setConfiguration(indicatorLeft);
   controlRightPanel.setConfiguration(indicatorRight, mode);
 
-  // Подключение к серверуF
+  // Подключение к серверу
   Client client;
   client.connectToHost(settings.value("server/endpoint", "127.0.0.1").toString(),
                        settings.value("server/port", 0).toInt());

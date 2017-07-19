@@ -29,7 +29,8 @@ SOURCES += src/main.cpp\
     src/ControlPanel.cpp \
     src/Indicators/TOIndicator.cpp \
     src/Indicators/SAIndicator.cpp \
-    src/Client/Client.cpp
+    src/Client/Client.cpp \
+    src/Indicators/PaletteWidget.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -45,7 +46,8 @@ HEADERS += \
     src/ControlPanel.h \
     src/Indicators/TOIndicator.h \
     src/Indicators/SAIndicator.h \
-    src/Client/Client.h
+    src/Client/Client.h \
+    src/Indicators/PaletteWidget.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
