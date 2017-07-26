@@ -6,7 +6,6 @@
 // Qt
 #include <QDebug>
 
-
 ShPIndicator::ShPIndicator(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicator)

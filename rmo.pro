@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network printsupport
 
 CONFIG += c++11
 
@@ -13,7 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rmo
 TEMPLATE = app
 
-INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/
 
 SOURCES += src/main.cpp\
     src/LeftPanel/ControlLeftPanel.cpp \
@@ -30,7 +30,8 @@ SOURCES += src/main.cpp\
     src/Indicators/TOIndicator.cpp \
     src/Indicators/SAIndicator.cpp \
     src/Client/Client.cpp \
-    src/Indicators/PaletteWidget.cpp
+    src/Indicators/PaletteWidget.cpp \
+    src/QCustomPlot/qcustomplot.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -47,7 +48,8 @@ HEADERS += \
     src/Indicators/TOIndicator.h \
     src/Indicators/SAIndicator.h \
     src/Client/Client.h \
-    src/Indicators/PaletteWidget.h
+    src/Indicators/PaletteWidget.h \
+    src/QCustomPlot/qcustomplot.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \

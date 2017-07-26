@@ -87,6 +87,9 @@
          <property name="text">
           <string>TextLabel</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
        <item row="2" column="0">
@@ -130,7 +133,7 @@
         </layout>
        </item>
        <item row="1" column="1">
-        <widget class="QWidget" name="widget" native="true"/>
+        <widget class="QCustomPlot" name="widget" native="true"/>
        </item>
        <item row="0" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -210,6 +213,19 @@
            </item>
           </widget>
          </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
        <item row="1" column="0">
@@ -226,6 +242,9 @@
        <property name="text">
         <string>TextLabel</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
      </item>
     </layout>
@@ -237,6 +256,12 @@
    <class>PaletteWidget</class>
    <extends>QLabel</extends>
    <header location="global">PaletteWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header location="global">qcustomplot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
