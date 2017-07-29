@@ -41,7 +41,12 @@ void LeftPanel::settingsSave(const QString& type, bool checked)
 
 void LeftPanel::indicatorCheck(const QString& type, bool checked)
 {
-  m_group->indicatorCheck(type, checked);
+  if (!checked)
+    return;
+
+  const QString currentType = m_group->indicatorCheck(type, checked);
+  QSettings settings("SAMI DVO RAN", "rmo");
+  settings.setValue("left/indicator", currentType);
 }
 
 

@@ -24,7 +24,7 @@ class ButtonGroup : public QWidget
     explicit ButtonGroup(QWidget *parent = Q_NULLPTR);
     ~ButtonGroup();
 
-    void indicatorCheck(const QString& type, bool checked);
+    QString indicatorCheck(const QString& type, bool checked);
     void setConfiguration(const QString& type);
 
   signals:
@@ -32,6 +32,7 @@ class ButtonGroup : public QWidget
 
   private slots:
     void clicked(const QString& type);
+    QString currentType() const;
 
   private:
     Ui::ButtonGroup *ui;
