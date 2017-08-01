@@ -79,16 +79,22 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_2">
+       <widget class="QToolButton" name="undoToolButton">
         <property name="text">
          <string/>
+        </property>
+        <property name="icon">
+         <iconset theme="edit-undo"/>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_3">
+       <widget class="QToolButton" name="redoToolButton">
         <property name="text">
          <string/>
+        </property>
+        <property name="icon">
+         <iconset theme="edit-redo"/>
         </property>
        </widget>
       </item>
