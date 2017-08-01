@@ -32,7 +32,8 @@ SOURCES += src/main.cpp\
     src/Indicators/PaletteWidget.cpp \
     src/QCustomPlot/qcustomplot.cpp \
     src/Indicators/ShPIndicatorItem.cpp \
-    src/Indicators/ShPIndicator.cpp
+    src/Indicators/ShPIndicator.cpp \
+    src/Indicators/ShPIndicatorWidget.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -51,7 +52,8 @@ HEADERS += \
     src/Indicators/PaletteWidget.h \
     src/QCustomPlot/qcustomplot.h \
     src/Indicators/ShPIndicatorItem.h \
-    src/Indicators/ShPIndicator.h
+    src/Indicators/ShPIndicator.h \
+    src/Indicators/ShPIndicatorWidget.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -65,4 +67,5 @@ FORMS += \
     src/Indicators/ui/TOIndicator.ui \
     src/Indicators/ui/SAIndicator.ui \
     src/Indicators/ui/ShPIndicatorItem.ui \
-    src/Indicators/ui/ShPIndicator.ui
+    src/Indicators/ui/ShPIndicator.ui \
+    src/Indicators/ui/ShPIndicatorWidget.ui
