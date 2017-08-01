@@ -23,7 +23,6 @@ SOURCES += src/main.cpp\
     src/ButtonGroup.cpp \
     src/LeftPanel/MonitoringLeftPanel.cpp \
     src/RightPanel/SettingRightPanel.cpp \
-    src/Indicators/ShPIndicator.cpp \
     src/IndicatorsStackedWidget.cpp \
     src/Indicators/GLIndicator.cpp \
     src/ControlPanel.cpp \
@@ -31,7 +30,9 @@ SOURCES += src/main.cpp\
     src/Indicators/SAIndicator.cpp \
     src/Client/Client.cpp \
     src/Indicators/PaletteWidget.cpp \
-    src/QCustomPlot/qcustomplot.cpp
+    src/QCustomPlot/qcustomplot.cpp \
+    src/Indicators/ShPIndicatorItem.cpp \
+    src/Indicators/ShPIndicator.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -41,7 +42,6 @@ HEADERS += \
     src/ButtonGroup.h \
     src/LeftPanel/MonitoringLeftPanel.h \
     src/RightPanel/SettingRightPanel.h \
-    src/Indicators/ShPIndicator.h \
     src/IndicatorsStackedWidget.h \
     src/Indicators/GLIndicator.h \
     src/ControlPanel.h \
@@ -49,7 +49,9 @@ HEADERS += \
     src/Indicators/SAIndicator.h \
     src/Client/Client.h \
     src/Indicators/PaletteWidget.h \
-    src/QCustomPlot/qcustomplot.h
+    src/QCustomPlot/qcustomplot.h \
+    src/Indicators/ShPIndicatorItem.h \
+    src/Indicators/ShPIndicator.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -59,7 +61,8 @@ FORMS += \
     ui/ButtonGroup.ui \
     ui/MonitoringLeftPanel.ui \
     ui/SettingRightPanel.ui \
-    src/Indicators/ui/ShPIndicator.ui \
     src/Indicators/ui/GLIndicator.ui \
     src/Indicators/ui/TOIndicator.ui \
-    src/Indicators/ui/SAIndicator.ui
+    src/Indicators/ui/SAIndicator.ui \
+    src/Indicators/ui/ShPIndicatorItem.ui \
+    src/Indicators/ui/ShPIndicator.ui

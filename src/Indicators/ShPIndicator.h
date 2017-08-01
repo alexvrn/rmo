@@ -15,7 +15,7 @@ class ShPIndicator : public QWidget
   Q_OBJECT
 
   public:
-    explicit ShPIndicator(QWidget *parent = 0);
+    explicit ShPIndicator(QWidget *parent = Q_NULLPTR);
     ~ShPIndicator();
 
   private:
