@@ -147,7 +147,7 @@
     </widget>
    </item>
    <item>
-    <widget class="ShPIndicatorItem" name="widget" native="true"/>
+    <layout class="QHBoxLayout" name="indicatorsHorizontalLayout"/>
    </item>
    <item>
     <widget class="QLabel" name="label_2">
@@ -164,14 +164,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>ShPIndicatorItem</class>
-   <extends>QWidget</extends>
-   <header location="global">ShPIndicatorItem.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
