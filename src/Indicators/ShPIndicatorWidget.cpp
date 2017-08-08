@@ -16,6 +16,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->toolButton_5->setIcon(QIcon::fromTheme("arrow-minimise-icon"));
 
   ui->customPlot->addGraph();
+
+  ui->customPlot->setBackground(QBrush(QColor(0, 200, 0)));
   ui->customPlot->graph(0)->setPen(QPen(Qt::blue)); // line color blue for first graph
   ui->customPlot->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20))); // first graph will be filled with translucent blue
   ui->customPlot->addGraph();

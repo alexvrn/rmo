@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
   QObject::connect(&controlLeftPanel, &ControlLeftPanel::indicatorChecked, &controlRightPanel, &ControlRightPanel::indicatorCheck);
   QObject::connect(&controlRightPanel, &ControlRightPanel::indicatorChecked, &controlLeftPanel, &ControlLeftPanel::indicatorCheck);
 
-  const bool release = settings.value("release", false).toBool();
+  const bool release = settings.value("release", true).toBool();
   if (!release)
   {
     const auto screen = qApp->primaryScreen();
