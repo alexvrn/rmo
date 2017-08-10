@@ -3,6 +3,7 @@
 
 // Qt
 #include <QWidget>
+#include <QTimer>
 
 // UI
 namespace Ui
@@ -18,8 +19,14 @@ class ShPIndicatorWidget : public QWidget
     explicit ShPIndicatorWidget(QWidget *parent = Q_NULLPTR);
     ~ShPIndicatorWidget();
 
+  private slots:
+    void colorValue(const QColor &color);
+    void realtimeDataSlot();
+
   private:
     Ui::ShPIndicatorWidget *ui;
+
+    QTimer dataTimer;
 };
 
 #endif // SHPINDICATORWIDGET_H
