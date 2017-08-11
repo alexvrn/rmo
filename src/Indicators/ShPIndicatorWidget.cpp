@@ -13,12 +13,14 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->setupUi(this);
 
   connect(ui->paletteComboBox, SIGNAL(activated(int)), ui->paletteWidget, SLOT(setPalette(int)));
-  connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), this, SLOT(colorValue(QColor)));
+  connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
 
   // Иконки
   ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
   ui->brightnessLabel->setPixmap(QIcon(":/icons/sun.png").pixmap(32, 32));
   ui->toolButton_5->setIcon(QIcon::fromTheme("arrow-minimise-icon"));
+
+  connect(ui->brightnessSlider, SIGNAL(valueChanged(int)), SLOT(brightness(int)));
 
 //  ui->customPlot->addGraph();
 
@@ -85,6 +87,13 @@ ShPIndicatorWidget::~ShPIndicatorWidget()
 void ShPIndicatorWidget::colorValue(const QColor &color)
 {
   ui->customPlot->setBackground(QBrush(color));
+}
+
+
+void ShPIndicatorWidget::brightness(int value)
+{
+  QColor col = QColor(0,255,0).lighter(value);
+  ui->customPlot->setBackground(col);
 }
 
 

@@ -23,6 +23,8 @@ class ShPIndicatorWidget : public QWidget
     void colorValue(const QColor &color);
     void realtimeDataSlot();
 
+    void brightness(int value);
+
   private:
     Ui::ShPIndicatorWidget *ui;
 
