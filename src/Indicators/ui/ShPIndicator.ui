@@ -79,7 +79,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton">
+       <widget class="QToolButton" name="checkedToolButton">
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -115,7 +115,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset theme="edit-undo">
+         <iconset>
           <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
@@ -138,7 +138,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset theme="edit-redo">
+         <iconset>
           <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>

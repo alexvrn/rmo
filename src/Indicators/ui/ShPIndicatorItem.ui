@@ -139,7 +139,7 @@
               <item>
                <widget class="QCheckBox" name="checkBox">
                 <property name="text">
-                 <string>CheckBox</string>
+                 <string>ПЧСС</string>
                 </property>
                </widget>
               </item>
@@ -161,7 +161,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton_7">
+           <widget class="QToolButton" name="targetToolButton">
             <property name="minimumSize">
              <size>
               <width>40</width>

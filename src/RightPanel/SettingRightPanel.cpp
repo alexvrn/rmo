@@ -16,6 +16,8 @@ SettingRightPanel::SettingRightPanel(QWidget *parent)
 {
   ui->setupUi(this);
 
+  ui->exitToolButton->setIcon(QIcon(":/icons/exit.png"));
+
   QButtonGroup* group = new QButtonGroup(this);
   group->addButton(ui->sunToolButton);
   group->addButton(ui->nightToolButton);

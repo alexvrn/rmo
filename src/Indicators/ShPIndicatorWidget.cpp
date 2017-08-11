@@ -16,8 +16,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), this, SLOT(colorValue(QColor)));
 
   // Иконки
-  ui->contrastLabel->setPixmap(QIcon::fromTheme("contrast-icon").pixmap(32, 32));
-  ui->brightnessLabel->setPixmap(QIcon::fromTheme("contrast-icon").pixmap(32, 32));
+  ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
+  ui->brightnessLabel->setPixmap(QIcon(":/icons/sun.png").pixmap(32, 32));
   ui->toolButton_5->setIcon(QIcon::fromTheme("arrow-minimise-icon"));
 
 //  ui->customPlot->addGraph();

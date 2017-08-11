@@ -69,3 +69,6 @@ FORMS += \
     src/Indicators/ui/ShPIndicatorItem.ui \
     src/Indicators/ui/ShPIndicator.ui \
     src/Indicators/ui/ShPIndicatorWidget.ui
+
+RESOURCES += \
+    resources.qrc
