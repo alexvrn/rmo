@@ -24,7 +24,7 @@ PaletteWidget::PaletteWidget(QWidget *parent)
   layout->addWidget(m_label);
   layout->addWidget(m_slider);
 
-  connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(valueChanged(int)));
+  connect(m_slider, SIGNAL(valueChanged(int)), SLOT(valueChanged(int)));
 
   setPalette(m_mode);
 }
