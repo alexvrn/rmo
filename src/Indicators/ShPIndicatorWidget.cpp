@@ -87,7 +87,8 @@ ShPIndicatorWidget::~ShPIndicatorWidget()
 
 void ShPIndicatorWidget::colorValue(const QColor &color)
 {
-  ui->customPlot->setBackground(QBrush(color));
+  m_graphColor = color;
+  brightness(ui->brightnessSlider->value());
 }
 
 

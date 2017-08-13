@@ -15,6 +15,9 @@ PaletteWidget::PaletteWidget(QWidget *parent)
 {   
   m_label->setMinimumWidth(20);
 
+  m_slider->setMinimum(0);
+  m_slider->setMaximum(100);
+
   QHBoxLayout * layout = new QHBoxLayout(this);
   layout->setContentsMargins(1, 1, 1, 1);
   layout->setSpacing(1);
@@ -49,5 +52,24 @@ void PaletteWidget::setPalette(int mode)
 
 void PaletteWidget::valueChanged(int value)
 {
-  emit colorValue(QColor(value));
+  value = 100 - value;
+
+  QColor color;
+  if (value <= 25) // Красный => Жёлтый
+  {
+    color = QColor(255,255 * value / 25.,0);
+  }
+  else if (value > 25 && value <= 50) // Жёлтый => Зелёный
+  {
+    color = QColor(255 * (1 - (value - 25.) / 25),255,0);
+  }
+  else if (value > 50 && value <= 75) // Зеленый => Синий
+  {
+    color = QColor(0,255 * (1 - (value - 50) / 25.),255 * (value - 50) / 25.);
+  }
+  else if (value > 75 && value <= 100) // Синий => Фиолетовый
+  {
+    color = QColor(255 * (value - 75) / 25.,0,255);
+  }
+  emit colorValue(color);
 }
