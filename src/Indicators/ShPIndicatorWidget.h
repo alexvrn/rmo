@@ -29,6 +29,7 @@ class ShPIndicatorWidget : public QWidget
     Ui::ShPIndicatorWidget *ui;
 
     QTimer dataTimer;
+    QColor m_graphColor;
 };
 
 #endif // SHPINDICATORWIDGET_H

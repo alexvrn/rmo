@@ -9,6 +9,7 @@
 ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicatorWidget)
+  , m_graphColor(QColor(0,255,0))
 {
   ui->setupUi(this);
 
@@ -58,9 +59,9 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 //  ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
   ui->customPlot->addGraph(); // blue line
-  ui->customPlot->graph(0)->setPen(QPen(QColor(40, 110, 255)));
+  ui->customPlot->graph(0)->setPen(QPen(m_graphColor));
   ui->customPlot->addGraph(); // red line
-  ui->customPlot->graph(1)->setPen(QPen(QColor(255, 110, 40)));
+  ui->customPlot->graph(1)->setPen(QPen(m_graphColor));
 
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
   timeTicker->setTimeFormat("%h:%m:%s");
@@ -92,8 +93,9 @@ void ShPIndicatorWidget::colorValue(const QColor &color)
 
 void ShPIndicatorWidget::brightness(int value)
 {
-  QColor col = QColor(0,255,0).lighter(value);
-  ui->customPlot->setBackground(col);
+  const QColor graphColorLighter = m_graphColor.lighter(value);
+  ui->customPlot->graph(0)->setPen(QPen(graphColorLighter));
+  ui->customPlot->graph(1)->setPen(QPen(graphColorLighter));
 }
 
 
