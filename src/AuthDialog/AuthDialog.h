@@ -1,0 +1,25 @@
+#ifndef AUTHDIALOG_H
+#define AUTHDIALOG_H
+
+// Qt
+#include <QDialog>
+
+// UI
+namespace Ui
+{
+class AuthDialog;
+}
+
+class AuthDialog : public QDialog
+{
+  Q_OBJECT
+
+  public:
+    explicit AuthDialog(QWidget *parent = Q_NULLPTR);
+    ~AuthDialog();
+
+  private:
+    Ui::AuthDialog *ui;
+};
+
+#endif // AUTHDIALOG_H

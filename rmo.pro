@@ -13,7 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rmo
 TEMPLATE = app
 
-INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/
 
 SOURCES += src/main.cpp\
     src/LeftPanel/ControlLeftPanel.cpp \
@@ -33,7 +33,8 @@ SOURCES += src/main.cpp\
     src/QCustomPlot/qcustomplot.cpp \
     src/Indicators/ShPIndicatorItem.cpp \
     src/Indicators/ShPIndicator.cpp \
-    src/Indicators/ShPIndicatorWidget.cpp
+    src/Indicators/ShPIndicatorWidget.cpp \
+    src/AuthDialog/AuthDialog.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -53,7 +54,8 @@ HEADERS += \
     src/QCustomPlot/qcustomplot.h \
     src/Indicators/ShPIndicatorItem.h \
     src/Indicators/ShPIndicator.h \
-    src/Indicators/ShPIndicatorWidget.h
+    src/Indicators/ShPIndicatorWidget.h \
+    src/AuthDialog/AuthDialog.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -68,7 +70,8 @@ FORMS += \
     src/Indicators/ui/SAIndicator.ui \
     src/Indicators/ui/ShPIndicatorItem.ui \
     src/Indicators/ui/ShPIndicator.ui \
-    src/Indicators/ui/ShPIndicatorWidget.ui
+    src/Indicators/ui/ShPIndicatorWidget.ui \
+    ui/AuthDialog.ui
 
 RESOURCES += \
     resources.qrc

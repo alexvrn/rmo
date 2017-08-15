@@ -4,6 +4,7 @@
 // Local
 class RightPanel;
 #include "ControlPanel.h"
+#include "AuthDialog.h"
 
 // Qt
 class QSystemTrayIcon;
@@ -35,6 +36,7 @@ class ControlRightPanel : public ControlPanel
     Ui::ControlRightPanel *ui;
 
     RightPanel *m_panel;
+    AuthDialog m_authDialog;
     //QSystemTrayIcon *m_trayIcon;
 };
 

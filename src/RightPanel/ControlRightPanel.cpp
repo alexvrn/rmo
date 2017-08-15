@@ -34,6 +34,8 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
   //m_trayIcon->show();
 
   setWindowTitle("Панель управления");
+
+  m_authDialog.show();
 }
 
 
