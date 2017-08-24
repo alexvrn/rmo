@@ -15,6 +15,8 @@ TEMPLATE = app
 
 INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/
 
+LIBS += -lX11 -lXss
+
 SOURCES += src/main.cpp\
     src/LeftPanel/ControlLeftPanel.cpp \
     src/RightPanel/ControlRightPanel.cpp \
@@ -34,7 +36,8 @@ SOURCES += src/main.cpp\
     src/Indicators/ShPIndicatorItem.cpp \
     src/Indicators/ShPIndicator.cpp \
     src/Indicators/ShPIndicatorWidget.cpp \
-    src/AuthDialog/AuthDialog.cpp
+    src/AuthDialog/AuthDialog.cpp \
+    src/ScreenSaver.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -55,7 +58,8 @@ HEADERS += \
     src/Indicators/ShPIndicatorItem.h \
     src/Indicators/ShPIndicator.h \
     src/Indicators/ShPIndicatorWidget.h \
-    src/AuthDialog/AuthDialog.h
+    src/AuthDialog/AuthDialog.h \
+    src/ScreenSaver.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \

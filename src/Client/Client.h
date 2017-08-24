@@ -5,6 +5,9 @@
 #include <QObject>
 #include <QTcpSocket>
 
+// Local
+#include "AuthDialog.h"
+
 class Client : public QObject
 {
   Q_OBJECT
@@ -15,8 +18,12 @@ class Client : public QObject
 
     bool connectToHost(const QString& host, int port);
 
+  public slots:
+    void logout();
+
   signals:
     void data(const QByteArray& data);
+    void authentication();
 
   private slots:
     void readyRead();
@@ -25,6 +32,7 @@ class Client : public QObject
 
   private:
     QTcpSocket *m_socket;
+    AuthDialog m_authDialog;
 };
 
 #endif // CLIENT_H

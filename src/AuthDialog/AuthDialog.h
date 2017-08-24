@@ -18,6 +18,9 @@ class AuthDialog : public QDialog
     explicit AuthDialog(QWidget *parent = Q_NULLPTR);
     ~AuthDialog();
 
+  public slots:
+    void accept() Q_DECL_OVERRIDE;
+
   private:
     Ui::AuthDialog *ui;
 };

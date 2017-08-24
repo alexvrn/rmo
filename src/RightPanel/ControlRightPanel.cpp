@@ -7,6 +7,7 @@
 #include <QToolBar>
 #include <QDebug>
 #include <QSystemTrayIcon>
+#include <QTimer>
 
 
 ControlRightPanel::ControlRightPanel(QWidget *parent)
@@ -34,8 +35,6 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
   //m_trayIcon->show();
 
   setWindowTitle("Панель управления");
-
-  m_authDialog.show();
 }
 
 

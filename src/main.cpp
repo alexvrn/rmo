@@ -2,6 +2,7 @@
 #include "ControlLeftPanel.h"
 #include "ControlRightPanel.h"
 #include "Client.h"
+#include "ScreenSaver.h"
 
 // Qt
 #include <QApplication>
@@ -23,14 +24,15 @@ int main(int argc, char *argv[])
   QLocale russianLocale(QLocale::Russian, QLocale::RussianFederation);
   QLocale::setDefault(russianLocale);
 
+  // Не показываем окно, пока не авторизуемся
   ControlLeftPanel controlLeftPanel;
-  controlLeftPanel.show();
 
+  // Не показываем окно, пока не авторизуемся
   ControlRightPanel controlRightPanel;
-  controlRightPanel.show();
 
   QObject::connect(&controlLeftPanel, &ControlLeftPanel::indicatorChecked, &controlRightPanel, &ControlRightPanel::indicatorCheck);
   QObject::connect(&controlRightPanel, &ControlRightPanel::indicatorChecked, &controlLeftPanel, &ControlLeftPanel::indicatorCheck);
+  QObject::connect(&controlRightPanel, &ControlRightPanel::showWindow, &controlLeftPanel, &ControlLeftPanel::setVisible);
 
   const bool release = settings.value("release", true).toBool();
   if (!release)
@@ -68,6 +70,17 @@ int main(int argc, char *argv[])
   Client client;
   client.connectToHost(settings.value("server/endpoint", "127.0.0.1").toString(),
                        settings.value("server/port", 0).toInt());
+
+  QObject::connect(&client, &Client::authentication, &controlLeftPanel, &ControlRightPanel::show);
+  QObject::connect(&client, &Client::authentication, &controlRightPanel, &ControlLeftPanel::show);
+
+  // Проверка бездействия пользователя
+  ScreenSaver& screenSaver = ScreenSaver::instance();
+
+  QObject::connect(&screenSaver, &ScreenSaver::logout, &controlLeftPanel, &ControlLeftPanel::hide);
+  QObject::connect(&screenSaver, &ScreenSaver::logout, &controlRightPanel, &ControlRightPanel::hide);
+  QObject::connect(&screenSaver, &ScreenSaver::logout, &client, &Client::logout);
+  QObject::connect(&client, &Client::authentication, &screenSaver, &ScreenSaver::checkIdle);
 
   return app.exec();
 }
