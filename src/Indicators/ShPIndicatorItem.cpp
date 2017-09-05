@@ -10,7 +10,6 @@ ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
   ui->setupUi(this);
 
   ui->nextRightToolButton->setIcon(QIcon(":/icons/right-arrow.png"));
-  ui->targetToolButton->setIcon(QIcon(":/icons/target.png"));
 
   ui->widgetsVerticalLayout->addWidget(new ShPIndicatorWidget(this));
   ui->widget_2->setBackground(QBrush(QColor(180, 180, 180)));
