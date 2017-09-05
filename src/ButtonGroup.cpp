@@ -21,7 +21,7 @@ ButtonGroup::ButtonGroup(QWidget *parent)
   m_map[tr("СА")  ] = ui->saToolButton;
   m_map[tr("АНТ") ] = ui->antToolButton;
   m_map[tr("ИЗП") ] = ui->izpToolButton;
-  m_map[tr("АТГС")] = ui->atgsToolButton;
+  m_map[tr("ЗПС")] = ui->zpsToolButton;
   m_map[tr("ОЭ")  ] = ui->oeToolButton;
   m_map[tr("АСТД")] = ui->astdToolButton;
 

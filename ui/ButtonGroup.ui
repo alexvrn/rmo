@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
+    <width>498</width>
     <height>58</height>
    </rect>
   </property>
@@ -168,7 +168,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="atgsToolButton">
+    <widget class="QToolButton" name="zpsToolButton">
      <property name="minimumSize">
       <size>
        <width>40</width>
@@ -182,10 +182,10 @@
       </size>
      </property>
      <property name="toolTip">
-      <string>Индикатор подсистемы АТГС</string>
+      <string>Индикатор подсистемы ЗПС</string>
      </property>
      <property name="text">
-      <string>АТГС</string>
+      <string>ЗПС</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
