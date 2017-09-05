@@ -60,7 +60,7 @@
           <item>
            <widget class="QToolButton" name="toolButton_2">
             <property name="text">
-             <string>ПС1</string>
+             <string>ПС1 T1</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -70,7 +70,7 @@
           <item>
            <widget class="QToolButton" name="toolButton_3">
             <property name="text">
-             <string>ПС2</string>
+             <string>ПС2 T1</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -80,10 +80,17 @@
           <item>
            <widget class="QToolButton" name="toolButton_4">
             <property name="text">
-             <string>ПС2</string>
+             <string>ПС1 T2</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButton_7">
+            <property name="text">
+             <string>ПС1 T2</string>
             </property>
            </widget>
           </item>
