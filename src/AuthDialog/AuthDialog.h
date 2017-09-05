@@ -18,8 +18,12 @@ class AuthDialog : public QDialog
     explicit AuthDialog(QWidget *parent = Q_NULLPTR);
     ~AuthDialog();
 
+  signals:
+    void authentication(const QVariantMap& userData);
+
   public slots:
     void accept() Q_DECL_OVERRIDE;
+    int exec() Q_DECL_OVERRIDE;
 
   private:
     Ui::AuthDialog *ui;

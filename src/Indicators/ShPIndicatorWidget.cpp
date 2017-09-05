@@ -58,6 +58,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 //  // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
 //  ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
+  ui->customPlot->setBackground(QBrush(QColor(180, 180, 180)));
   ui->customPlot->addGraph(); // blue line
   ui->customPlot->graph(0)->setPen(QPen(m_graphColor));
   ui->customPlot->addGraph(); // red line

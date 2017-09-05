@@ -20,6 +20,20 @@ AuthDialog::~AuthDialog()
 
 void AuthDialog::accept()
 {
-  //ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-  QDialog::accept();
+  ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+  QVariantMap userData;
+  userData["login"] = ui->loginLineEdit->text();
+  userData["password"] = ui->passwordLineEdit->text();
+  emit authentication(userData);
+}
+
+
+int AuthDialog::exec()
+{
+  ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+  ui->loginLineEdit->clear();
+  ui->passwordLineEdit->clear();
+
+  return QDialog::exec();
 }

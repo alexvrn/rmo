@@ -37,7 +37,8 @@ SOURCES += src/main.cpp\
     src/Indicators/ShPIndicator.cpp \
     src/Indicators/ShPIndicatorWidget.cpp \
     src/AuthDialog/AuthDialog.cpp \
-    src/ScreenSaver.cpp
+    src/ScreenSaver.cpp \
+    src/Client/ResponseReceiver.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -59,7 +60,8 @@ HEADERS += \
     src/Indicators/ShPIndicator.h \
     src/Indicators/ShPIndicatorWidget.h \
     src/AuthDialog/AuthDialog.h \
-    src/ScreenSaver.h
+    src/ScreenSaver.h \
+    src/Client/ResponseReceiver.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \

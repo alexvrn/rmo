@@ -13,7 +13,10 @@ Client::Client(QObject *parent)
   connect(m_socket, &QTcpSocket::disconnected, this, &Client::disconnected);
   connect(m_socket, &QTcpSocket::stateChanged, this, &Client::stateChanged);
 
-   QTimer::singleShot(1000, this, SLOT(logout()));
+  connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
+
+  // Через секунду запрашиваем авторизацию
+  QTimer::singleShot(1000, this, SLOT(logout()));
 }
 
 
@@ -34,15 +37,30 @@ bool Client::connectToHost(const QString& host, int port)
 
 void Client::logout()
 {
-  m_authDialog.exec();
-  if (QDialog::Accepted == m_authDialog.result())
+  if (QDialog::Rejected == m_authDialog.exec())
   {
-    emit authentication();
-  }
-  else
-  {
+    // Выходим из приложения, если пользователь отказаться авторизоваться
     qApp->quit();
   }
+}
+
+
+void Client::authAccess(const QVariantMap& userData)
+{
+  qDebug() << userData;
+  m_authDialog.setResult(QDialog::Accepted);
+  m_authDialog.hide();
+  emit authentication();
+  //! TODO: получение результата по сокету
+//  QByteArray request = Proto::encode("request", method, data);
+
+//  ResponseReceiver receiver(method);
+//  connect(this, SIGNAL(messageReceived(QVariantMap)), &receiver, SLOT(messageReceived(QVariantMap)));
+//  m_socket->write("");
+//  receiver.run();
+
+  //if (receiver.responseData())
+  //{}
 }
 
 
