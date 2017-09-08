@@ -20,6 +20,8 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
 
   connect(m_panel, &RightPanel::indicatorChecked, this, &ControlRightPanel::indicatorChecked);
   connect(m_panel, &RightPanel::indicatorChecked, m_indicatorsStackedWidget, &IndicatorsStackedWidget::setCurrentIndicator);
+  connect(m_panel, &RightPanel::sunMode, this, &RightPanel::sunMode);
+  connect(m_panel, &RightPanel::nightMode, this, &RightPanel::nightMode);
 
   m_toolBar->addWidget(m_panel);
   setCentralWidget(m_indicatorsStackedWidget);

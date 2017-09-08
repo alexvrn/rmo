@@ -22,6 +22,9 @@ RightPanel::RightPanel(QWidget *parent)
 
   connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::indicatorChecked);
   connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::settingsSave);
+  
+  connect(m_settingPanel, &SettingRightPanel::sunMode, this, &RightPanel::sunMode);
+  connect(m_settingPanel, &SettingRightPanel::nightMode, this, &RightPanel::nightMode);
 
   ui->horizontalLayout->addWidget(m_group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));

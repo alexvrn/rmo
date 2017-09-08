@@ -29,6 +29,9 @@ class ControlRightPanel : public ControlPanel
     void indicatorChecked(const QString& type, bool checked);
     void showWindow(bool show);
 
+    void nightMode();
+    void sunMode();
+
   public slots:
     void indicatorCheck(const QString& type, bool checked);
 
