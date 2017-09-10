@@ -23,13 +23,14 @@ class ControlLeftPanel : public ControlPanel
     explicit ControlLeftPanel(QWidget *parent = Q_NULLPTR);
     ~ControlLeftPanel();
 
-    void setConfiguration(const QString& type, const QString& mode = QString()) Q_DECL_OVERRIDE;
+    void setConfiguration(const QString& type, const QString& mode) Q_DECL_OVERRIDE;
 
   signals:
     void indicatorChecked(const QString& type, bool checked);
 
   public slots:
     void indicatorCheck(const QString& type, bool checked);
+    void setLightMode(const QString& mode);
 
   private:
     Ui::ControlLeftPanel *ui;

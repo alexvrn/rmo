@@ -29,11 +29,13 @@ class ControlRightPanel : public ControlPanel
     void indicatorChecked(const QString& type, bool checked);
     void showWindow(bool show);
 
-    void nightMode();
-    void sunMode();
+    void lightMode(const QString& mode);
 
   public slots:
     void indicatorCheck(const QString& type, bool checked);
+
+  private slots:
+    void setLightMode(const QString& mode);
 
   private:
     Ui::ControlRightPanel *ui;

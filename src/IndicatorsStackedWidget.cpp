@@ -69,3 +69,10 @@ void IndicatorsStackedWidget::sync(const QString& type, bool checked)
     }
   }
 }
+
+
+void IndicatorsStackedWidget::setLightMode(const QString& mode)
+{
+  m_shpIndicator->setLightMode(mode);
+}
+

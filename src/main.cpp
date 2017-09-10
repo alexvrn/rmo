@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
   QObject::connect(&controlLeftPanel, &ControlLeftPanel::indicatorChecked, &controlRightPanel, &ControlRightPanel::indicatorCheck);
   QObject::connect(&controlRightPanel, &ControlRightPanel::indicatorChecked, &controlLeftPanel, &ControlLeftPanel::indicatorCheck);
   QObject::connect(&controlRightPanel, &ControlRightPanel::showWindow, &controlLeftPanel, &ControlLeftPanel::setVisible);
+  QObject::connect(&controlRightPanel, &ControlRightPanel::lightMode, &controlLeftPanel, &ControlLeftPanel::setLightMode);
 
   const bool release = settings.value("release", true).toBool();
   if (!release)
@@ -63,7 +64,7 @@ int main(int argc, char *argv[])
   QString indicatorLeft = settings.value("left/indicator", QObject::tr("ГЛ")).toString();
   QString mode = settings.value("mode", "sun").toString();
 
-  controlLeftPanel.setConfiguration(indicatorLeft);
+  controlLeftPanel.setConfiguration(indicatorLeft, mode);
   controlRightPanel.setConfiguration(indicatorRight, mode);
 
   // Подключение к серверу

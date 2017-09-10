@@ -15,7 +15,7 @@ TEMPLATE = app
 
 INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/
 
-LIBS += -lX11 -lXss
+unix:LIBS += -lX11 -lXss
 
 SOURCES += src/main.cpp\
     src/LeftPanel/ControlLeftPanel.cpp \

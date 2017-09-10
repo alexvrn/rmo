@@ -20,8 +20,8 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
 
   connect(m_panel, &RightPanel::indicatorChecked, this, &ControlRightPanel::indicatorChecked);
   connect(m_panel, &RightPanel::indicatorChecked, m_indicatorsStackedWidget, &IndicatorsStackedWidget::setCurrentIndicator);
-  connect(m_panel, &RightPanel::sunMode, this, &RightPanel::sunMode);
-  connect(m_panel, &RightPanel::nightMode, this, &RightPanel::nightMode);
+  connect(m_panel, &RightPanel::lightMode, this, &ControlRightPanel::lightMode);
+  connect(m_panel, &RightPanel::lightMode, this, &ControlRightPanel::setLightMode);
 
   m_toolBar->addWidget(m_panel);
   setCentralWidget(m_indicatorsStackedWidget);
@@ -50,6 +50,7 @@ void ControlRightPanel::setConfiguration(const QString& type, const QString& mod
 {
   m_panel->setConfiguration(type, mode);
   m_indicatorsStackedWidget->setCurrentIndicator(type, true);
+  setLightMode(mode);
 }
 
 
@@ -59,4 +60,10 @@ void ControlRightPanel::indicatorCheck(const QString& type, bool checked)
 
   //! TODO: Сделать красиво.
   m_indicatorsStackedWidget->sync(type, checked);
+}
+
+
+void ControlRightPanel::setLightMode(const QString &mode)
+{
+  m_indicatorsStackedWidget->setLightMode(mode);
 }

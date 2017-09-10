@@ -6,6 +6,8 @@
 ShPIndicator::ShPIndicator(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicator)
+  , indicatorItem1(new ShPIndicatorItem(this))
+  , indicatorItem2(new ShPIndicatorItem(this))
 {
   ui->setupUi(this);
 
@@ -13,12 +15,19 @@ ShPIndicator::ShPIndicator(QWidget *parent)
   ui->redoToolButton->setIcon(QIcon(":/icons/redo-circular-arrow.png"));
   ui->checkedToolButton->setIcon(QIcon(":/icons/checked.png"));
 
-  ui->indicatorsHorizontalLayout->addWidget(new ShPIndicatorItem(this));
-  ui->indicatorsHorizontalLayout->addWidget(new ShPIndicatorItem(this));
+  ui->indicatorsHorizontalLayout->addWidget(indicatorItem1);
+  ui->indicatorsHorizontalLayout->addWidget(indicatorItem2);
 }
 
 
 ShPIndicator::~ShPIndicator()
 {
   delete ui;
+}
+
+
+void ShPIndicator::setLightMode(const QString& mode)
+{
+  indicatorItem1->setLightMode(mode);
+  indicatorItem2->setLightMode(mode);
 }

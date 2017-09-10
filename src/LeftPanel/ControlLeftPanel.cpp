@@ -38,6 +38,7 @@ void ControlLeftPanel::setConfiguration(const QString& type, const QString& mode
 
   m_panel->setConfiguration(type);
   m_indicatorsStackedWidget->setCurrentIndicator(type, true);
+  m_indicatorsStackedWidget->setLightMode(mode);
 }
 
 
@@ -47,4 +48,10 @@ void ControlLeftPanel::indicatorCheck(const QString& type, bool checked)
 
   //! TODO: Сделать красиво.
   m_indicatorsStackedWidget->sync(type, checked);
+}
+
+
+void ControlLeftPanel::setLightMode(const QString& mode)
+{
+  m_indicatorsStackedWidget->setLightMode(mode);
 }

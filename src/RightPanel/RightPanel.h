@@ -29,8 +29,7 @@ class RightPanel : public QFrame
   signals:
     void indicatorChecked(const QString& type, bool checked);
 
-    void nightMode();
-    void sunMode();
+    void lightMode(const QString& mode);
 
   private slots:
     void timer();

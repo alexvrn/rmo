@@ -21,8 +21,7 @@ class SettingRightPanel : public QWidget
     void setConfiguration(const QString& mode);
 
   signals:
-    void nightMode();
-    void sunMode();
+    void lightMode(const QString& mode);
 
   private slots:
     void on_exitToolButton_clicked();

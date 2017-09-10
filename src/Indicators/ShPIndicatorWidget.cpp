@@ -58,7 +58,6 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 //  // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
 //  ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
-  ui->customPlot->setBackground(QBrush(QColor(180, 180, 180)));
   ui->customPlot->addGraph(); // blue line
   ui->customPlot->graph(0)->setPen(QPen(m_graphColor));
   ui->customPlot->addGraph(); // red line
@@ -98,6 +97,15 @@ void ShPIndicatorWidget::brightness(int value)
   const QColor graphColorLighter = m_graphColor.lighter(value);
   ui->customPlot->graph(0)->setPen(QPen(graphColorLighter));
   ui->customPlot->graph(1)->setPen(QPen(graphColorLighter));
+}
+
+
+void ShPIndicatorWidget::setLightMode(const QString& mode)
+{
+  if (mode == "sun")
+    ui->customPlot->setBackground(QBrush(QColor(180, 180, 180)));
+  else if (mode == "night")
+    ui->customPlot->setBackground(QBrush(QColor(130, 130, 130)));
 }
 
 

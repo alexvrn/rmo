@@ -53,9 +53,9 @@ void SettingRightPanel::modeChecked(const QString& mode)
   QSettings settings("SAMI DVO RAN", "rmo");
   settings.setValue("mode", mode);
   if (mode.toLower() == "sun")
-    emit sunMode();
+    emit lightMode("sun");
   else if (mode.toLower() == "night")
-    emit nightMode();
+    emit lightMode("night");
 }
 
 

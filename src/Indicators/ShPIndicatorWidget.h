@@ -19,6 +19,9 @@ class ShPIndicatorWidget : public QWidget
     explicit ShPIndicatorWidget(QWidget *parent = Q_NULLPTR);
     ~ShPIndicatorWidget();
 
+  public slots:
+    void setLightMode(const QString& mode);
+
   private slots:
     void colorValue(const QColor &color);
     void realtimeDataSlot();

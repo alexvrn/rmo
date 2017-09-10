@@ -4,6 +4,9 @@
 // Qt
 #include <QWidget>
 
+// Local
+class ShPIndicatorWidget;
+
 // UI
 namespace Ui
 {
@@ -18,8 +21,13 @@ class ShPIndicatorItem : public QWidget
     explicit ShPIndicatorItem(QWidget *parent = Q_NULLPTR);
     ~ShPIndicatorItem();
 
+  public slots:
+    void setLightMode(const QString& mode);
+
   private:
     Ui::ShPIndicatorItem *ui;
+
+    ShPIndicatorWidget *m_widget;
 };
 
 #endif // SHPINDICATORITEM_H
