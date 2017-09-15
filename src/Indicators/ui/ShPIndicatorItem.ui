@@ -93,25 +93,6 @@
            <number>1</number>
           </property>
           <item>
-           <widget class="QToolButton" name="nextRightToolButton">
-            <property name="minimumSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <property name="spacing">
              <number>2</number>

@@ -10,8 +10,6 @@ ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
 {
   ui->setupUi(this);
 
-  ui->nextRightToolButton->setIcon(QIcon(":/icons/right-arrow.png"));
-
   ui->widgetsVerticalLayout->addWidget(m_widget);
 }
 

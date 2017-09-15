@@ -20,6 +20,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
   ui->brightnessLabel->setPixmap(QIcon(":/icons/sun.png").pixmap(32, 32));
   ui->toolButton_5->setIcon(QIcon::fromTheme("arrow-minimise-icon"));
+  ui->nextRightToolButton->setIcon(QIcon(":/icons/right-arrow.png"));
 
   connect(ui->brightnessSlider, SIGNAL(valueChanged(int)), SLOT(brightness(int)));
 
