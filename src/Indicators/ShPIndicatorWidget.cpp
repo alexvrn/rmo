@@ -4,6 +4,9 @@
 #include "PaletteWidget.h"
 
 // Qt
+#include <QToolButton>
+
+// QCustomPlot
 #include "qcustomplot.h"
 
 ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
@@ -16,11 +19,18 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   connect(ui->paletteComboBox, SIGNAL(activated(int)), ui->paletteWidget, SLOT(setPalette(int)));
   connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
 
+  // Индикаторная картина ШП
+  m_toolButtons << ui->pchToolButton << ui->ps1t1ToolButton << ui->ps2t1ToolButton << ui->ps1t2ToolButton << ui->ps2t2ToolButton;
+  for (auto button : m_toolButtons)
+    connect(button, SIGNAL(clicked(bool)), SLOT(shpIndicatorView()));
+  shpIndicatorView();
+
   // Иконки
   ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
   ui->brightnessLabel->setPixmap(QIcon(":/icons/sun.png").pixmap(32, 32));
-  ui->toolButton_5->setIcon(QIcon::fromTheme("arrow-minimise-icon"));
-  ui->nextRightToolButton->setIcon(QIcon(":/icons/right-arrow.png"));
+  ui->toolButton_8->setIcon(QIcon::fromTheme(":/icons/arrow_close_minimize-20.png"));
+  ui->streamTimeToolButton->setIcon(QIcon(":/icons/inout-32.png"));
+  ui->countToolButton->setIcon(QIcon(":/icons/arrow-double-up-down-32.png"));
 
   connect(ui->brightnessSlider, SIGNAL(valueChanged(int)), SLOT(brightness(int)));
 
@@ -59,16 +69,29 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 //  // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
 //  ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
+
+
   ui->customPlot->addGraph(); // blue line
   ui->customPlot->graph(0)->setPen(QPen(m_graphColor));
   ui->customPlot->addGraph(); // red line
   ui->customPlot->graph(1)->setPen(QPen(m_graphColor));
 
+  // X
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
   timeTicker->setTimeFormat("%h:%m:%s");
   ui->customPlot->xAxis->setTicker(timeTicker);
   ui->customPlot->axisRect()->setupFullAxesBox();
+  QFont xFont = ui->customPlot->xAxis->labelFont();
+  xFont.setBold(true);
+  ui->customPlot->xAxis->setLabelFont(xFont);
+
+  // Y
   ui->customPlot->yAxis->setRange(-1.2, 1.2);
+  ui->customPlot->yAxis->setLabel("Гц");
+  QFont yFont = ui->customPlot->yAxis->labelFont();
+  yFont.setBold(true);
+  ui->customPlot->yAxis->setLabelFont(yFont);
+  ui->customPlot->yAxis->setLabelPadding(-15);
 
   // make left and bottom axes transfer their ranges to right and top axes:
   connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
@@ -77,6 +100,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
   connect(&dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
   dataTimer.start(0); // Interval 0 means to refresh as fast as possible
+
+  ui->paletteWidget->setPalette(0);
 }
 
 
@@ -145,3 +170,16 @@ void ShPIndicatorWidget::realtimeDataSlot()
     frameCount = 0;
   }
 }
+
+
+void ShPIndicatorWidget::shpIndicatorView()
+{
+  QStringList names;
+  for (auto button : m_toolButtons)
+    if (button->isChecked())
+      names << button->text();
+  if (names.isEmpty())
+    names << QString(" ");
+  ui->customPlot->xAxis->setLabel(names.join(", "));
+}
+

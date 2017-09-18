@@ -4,6 +4,7 @@
 // Qt
 #include <QWidget>
 #include <QTimer>
+class QToolButton;
 
 // UI
 namespace Ui
@@ -28,11 +29,15 @@ class ShPIndicatorWidget : public QWidget
 
     void brightness(int value);
 
-  private:
+    void shpIndicatorView();
+
+private:
     Ui::ShPIndicatorWidget *ui;
 
     QTimer dataTimer;
     QColor m_graphColor;
+
+    QList<QToolButton*> m_toolButtons;
 };
 
 #endif // SHPINDICATORWIDGET_H
