@@ -31,3 +31,10 @@ void ShPIndicator::setLightMode(const QString& mode)
   indicatorItem1->setLightMode(mode);
   indicatorItem2->setLightMode(mode);
 }
+
+
+void ShPIndicator::data(double key, double value)
+{
+  indicatorItem1->data(key, value);
+  indicatorItem2->data(key, value);
+}

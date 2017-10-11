@@ -22,10 +22,10 @@ class ShPIndicatorWidget : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
+    void data(double key, double value);
 
   private slots:
     void colorValue(const QColor &color);
-    void realtimeDataSlot();
 
     void brightness(int value);
 
@@ -34,7 +34,6 @@ class ShPIndicatorWidget : public QWidget
 private:
     Ui::ShPIndicatorWidget *ui;
 
-    QTimer dataTimer;
     QColor m_graphColor;
 
     QList<QToolButton*> m_toolButtons;

@@ -23,6 +23,7 @@ class IndicatorsStackedWidget : public QStackedWidget
     void setCurrentIndicator(const QString& type, bool checked);
     void sync(const QString& type, bool checked);
     void setLightMode(const QString& mode);
+    void data(double key, double value);
 
   private:
     QWidget *m_nullIndicator;

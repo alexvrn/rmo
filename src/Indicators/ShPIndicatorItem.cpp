@@ -28,3 +28,9 @@ void ShPIndicatorItem::setLightMode(const QString& mode)
   else if (mode == "night")
     ui->widget_2->setBackground(QBrush(QColor(130, 130, 130)));
 }
+
+
+void ShPIndicatorItem::data(double key, double value)
+{
+  m_widget->data(key, value);
+}

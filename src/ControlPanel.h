@@ -21,6 +21,9 @@ class ControlPanel : public QMainWindow
 
     virtual void setConfiguration(const QString& type, const QString& mode = QString()) = 0;
 
+  public slots:
+    virtual void data(double key, double value);
+
   signals:
     void windowDeactivate();
 

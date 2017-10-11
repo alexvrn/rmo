@@ -3,7 +3,8 @@
 
 // Qt
 #include <QObject>
-#include <QTcpSocket>
+#include <QTimer>
+class QNetworkAccessManager;
 
 // Local
 #include "AuthDialog.h"
@@ -23,22 +24,29 @@ class Client : public QObject
     void logout();
 
   signals:
-    void data(const QByteArray& data);
+    void data(double key, double value);
     void authentication();
     void messageReceived(const QVariantMap& result);
 
   private slots:
     void readyRead();
     void disconnected();
-    void stateChanged(QAbstractSocket::SocketState socketState);
 
     void authAccess(const QVariantMap& userData);
 
+    // FAKE
+    void realtimeDataSlot();
+
   private:
-    QTcpSocket *m_socket;
     AuthDialog m_authDialog;
 
+    //! TODO: надо ли это
     ResponseReceiver* m_responseReceiver;
+
+    QNetworkAccessManager* m_networkManager;
+
+    // FAKE
+    QTimer m_dataTimer;
 };
 
 #endif // CLIENT_H

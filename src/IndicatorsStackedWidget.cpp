@@ -76,3 +76,9 @@ void IndicatorsStackedWidget::setLightMode(const QString& mode)
   m_shpIndicator->setLightMode(mode);
 }
 
+
+void IndicatorsStackedWidget::data(double key, double value)
+{
+  m_shpIndicator->data(key, value);
+}
+

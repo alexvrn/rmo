@@ -4,32 +4,36 @@
 // Qt
 #include <QApplication>
 #include <QTimer>
+#include <QNetworkAccessManager>
+
+// MATH
+#include <QtMath>
 
 Client::Client(QObject *parent)
   : QObject(parent)
-  , m_socket(new QTcpSocket(this))
+  , m_networkManager(new QNetworkAccessManager(this))
 {
-  connect(m_socket, &QTcpSocket::readyRead, this, &Client::readyRead);
-  connect(m_socket, &QTcpSocket::disconnected, this, &Client::disconnected);
-  connect(m_socket, &QTcpSocket::stateChanged, this, &Client::stateChanged);
-
   connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
 
   // Через секунду запрашиваем авторизацию
   QTimer::singleShot(1000, this, SLOT(logout()));
+
+  //! FAKE
+  // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
+  connect(&m_dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
+  m_dataTimer.start(0); // Interval 0 means to refresh as fast as possible
 }
 
 
 Client::~Client()
 {
-  m_socket->disconnectFromHost();
 }
 
 
 bool Client::connectToHost(const QString& host, int port)
 {
   qDebug() << qPrintable(QString(tr("Подключение к серверу %1:%2")).arg(host).arg(port));
-  m_socket->connectToHost(host, port);
+  m_networkManager->connectToHost(host, port);
 
   return true;
 }
@@ -37,6 +41,9 @@ bool Client::connectToHost(const QString& host, int port)
 
 void Client::logout()
 {
+  if (m_authDialog.isVisible())
+    return;
+
   if (QDialog::Rejected == m_authDialog.exec())
   {
     // Выходим из приложения, если пользователь отказаться авторизоваться
@@ -76,14 +83,40 @@ void Client::disconnected()
 }
 
 
-void Client::stateChanged(QAbstractSocket::SocketState socketState)
+void Client::realtimeDataSlot()
 {
-  if (socketState == QAbstractSocket::ConnectedState)
+  static QTime time(QTime::currentTime());
+  // calculate two new data points:
+  double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+  static double lastPointKey = 0;
+  if (key-lastPointKey > 0.002) // at most add point every 2 ms
   {
-
+    // add data to lines:
+    emit data(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
+    //ui->customPlot->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
+    //ui->customPlot->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
+    // rescale value (vertical) axis to fit the current data:
+    //ui->customPlot->graph(0)->rescaleValueAxis();
+    //ui->customPlot->graph(1)->rescaleValueAxis(true);
+    lastPointKey = key;
   }
-  else
+  // make key axis range scroll with the data (at a constant range size of 8):
+  //ui->customPlot->xAxis->setRange(key, 8, Qt::AlignRight);
+  //ui->customPlot->replot();
+
+  // calculate frames per second:
+  static double lastFpsKey;
+  static int frameCount;
+  ++frameCount;
+  if (key-lastFpsKey > 2) // average fps over 2 seconds
   {
-    qDebug() << socketState;
+//    ui->statusBar->showMessage(
+//          QString("%1 FPS, Total Data points: %2")
+//          .arg(frameCount/(key-lastFpsKey), 0, 'f', 0)
+//          .arg(ui->customPlot->graph(0)->data()->size()+ui->customPlot->graph(1)->data()->size())
+//        , 0);
+    lastFpsKey = key;
+    frameCount = 0;
   }
 }
+

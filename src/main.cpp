@@ -75,6 +75,9 @@ int main(int argc, char *argv[])
   QObject::connect(&client, &Client::authentication, &controlLeftPanel, &ControlRightPanel::show);
   QObject::connect(&client, &Client::authentication, &controlRightPanel, &ControlLeftPanel::show);
 
+  QObject::connect(&client, &Client::data, &controlRightPanel, &ControlLeftPanel::data);
+  QObject::connect(&client, &Client::data, &controlLeftPanel, &ControlLeftPanel::data);
+
   // Проверка бездействия пользователя
   ScreenSaver& screenSaver = ScreenSaver::instance();
 

@@ -30,6 +30,12 @@ void ControlPanel::setConnectState(bool connect)
 }
 
 
+void ControlPanel::data(double key, double value)
+{
+  m_indicatorsStackedWidget->data(key, value);
+}
+
+
 void ControlPanel::closeEvent(QCloseEvent *e)
 {
   e->ignore();
