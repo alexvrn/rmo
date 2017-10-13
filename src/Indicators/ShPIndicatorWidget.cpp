@@ -5,6 +5,8 @@
 
 // Qt
 #include <QToolButton>
+#include <QButtonGroup>
+#include <QAbstractButton>
 
 // QCustomPlot
 #include "qcustomplot.h"
@@ -20,10 +22,14 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   //connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
 
   // Индикаторная картина ШП
-  m_toolButtons << ui->pchToolButton << ui->ps1t1ToolButton << ui->ps2t1ToolButton << ui->ps1t2ToolButton << ui->ps2t2ToolButton;
-  for (auto button : m_toolButtons)
-    connect(button, SIGNAL(clicked(bool)), SLOT(shpIndicatorView()));
-  shpIndicatorView();
+  QButtonGroup* buttonGroup = new QButtonGroup(this);
+  buttonGroup->addButton(ui->pchToolButton);
+  buttonGroup->addButton(ui->ps1t1ToolButton);
+  buttonGroup->addButton(ui->ps2t1ToolButton);
+  buttonGroup->addButton(ui->ps1t2ToolButton);
+  buttonGroup->addButton(ui->ps2t2ToolButton);
+  connect(buttonGroup, SIGNAL(buttonToggled(QAbstractButton*,bool)), SLOT(shpIndicatorView(QAbstractButton*,bool)));
+  ui->pchToolButton->setChecked(true);
 
   // Иконки
   ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
@@ -143,14 +149,9 @@ void ShPIndicatorWidget::data(double key, double value)
 }
 
 
-void ShPIndicatorWidget::shpIndicatorView()
+void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 {
-  QStringList names;
-  for (auto button : m_toolButtons)
-    if (button->isChecked())
-      names << button->text();
-  if (names.isEmpty())
-    names << QString(" ");
-  ui->customPlot->xAxis->setLabel(names.join(", "));
+  if (checked)
+    ui->customPlot->xAxis->setLabel(button->text());
 }
 

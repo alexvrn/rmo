@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QTimer>
 class QToolButton;
+class QAbstractButton;
 
 // UI
 namespace Ui
@@ -28,7 +29,7 @@ class ShPIndicatorWidget : public QWidget
     void colorValue(const QColor &color);
     void brightness(int value);
 
-    void shpIndicatorView();
+    void shpIndicatorView(QAbstractButton* button, bool checked);
 
 private:
     Ui::ShPIndicatorWidget *ui;
