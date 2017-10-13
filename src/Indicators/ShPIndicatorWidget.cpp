@@ -17,7 +17,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->setupUi(this);
 
   connect(ui->paletteComboBox, SIGNAL(activated(int)), ui->paletteWidget, SLOT(setPalette(int)));
-  connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
+  //connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
 
   // Индикаторная картина ШП
   m_toolButtons << ui->pchToolButton << ui->ps1t1ToolButton << ui->ps2t1ToolButton << ui->ps1t2ToolButton << ui->ps2t2ToolButton;

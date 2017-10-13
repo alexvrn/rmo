@@ -18,7 +18,6 @@ class PaletteWidget : public QWidget
     void setPalette(int mode);
 
   signals:
-    void colorValue(const QColor& color);
 
   private slots:
     void valueChanged(int value);

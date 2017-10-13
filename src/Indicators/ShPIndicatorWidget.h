@@ -26,7 +26,6 @@ class ShPIndicatorWidget : public QWidget
 
   private slots:
     void colorValue(const QColor &color);
-
     void brightness(int value);
 
     void shpIndicatorView();
