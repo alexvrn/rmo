@@ -25,6 +25,13 @@ class ShPIndicator : public QWidget
     void setLightMode(const QString& mode);
     void data(double key, double value);
 
+  signals:
+    void nowData();
+    void lastData(const QDateTime& dateTime);
+
+  private slots:
+    void checkedDateTime();
+
   private:
     Ui::ShPIndicator *ui;
 

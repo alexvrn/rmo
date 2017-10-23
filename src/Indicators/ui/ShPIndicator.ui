@@ -73,6 +73,9 @@
       </item>
       <item>
        <widget class="QDateTimeEdit" name="dateTimeEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -83,6 +86,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="checkedToolButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -101,7 +107,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="undoToolButton">
+       <widget class="QToolButton" name="nowToolButton">
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -114,17 +120,26 @@
           <height>40</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Текущий момент</string>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
          <iconset>
           <normaloff>.</normaloff>.</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="redoToolButton">
+       <widget class="QToolButton" name="lastToolButton">
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -137,12 +152,18 @@
           <height>40</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Прошлый момент</string>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
          <iconset>
           <normaloff>.</normaloff>.</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -168,5 +189,70 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>nowToolButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkedToolButton</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>675</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>629</x>
+     <y>30</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>nowToolButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dateTimeEdit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>675</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>30</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lastToolButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkedToolButton</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>721</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>629</x>
+     <y>30</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lastToolButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dateTimeEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>721</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>30</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
