@@ -4,7 +4,7 @@
 // Qt
 #include <QObject>
 #include <QTimer>
-class QNetworkAccessManager;
+#include <QLocalSocket>
 
 // Local
 #include "AuthDialog.h"
@@ -18,7 +18,7 @@ class Client : public QObject
     explicit Client(QObject *parent = 0);
     ~Client();
 
-    bool connectToHost(const QString& host, int port);
+    bool connectToServer(const QString& host);
 
   public slots:
     void logout();
@@ -31,6 +31,7 @@ class Client : public QObject
   private slots:
     void readyRead();
     void disconnected();
+    void stateChanged(QLocalSocket::LocalSocketState state);
 
     void authAccess(const QVariantMap& userData);
 
@@ -43,7 +44,7 @@ class Client : public QObject
     //! TODO: надо ли это
     ResponseReceiver* m_responseReceiver;
 
-    QNetworkAccessManager* m_networkManager;
+    QLocalSocket* m_socket;
 
     // FAKE
     QTimer m_dataTimer;

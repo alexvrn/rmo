@@ -3,17 +3,20 @@
 
 // Qt
 #include <QApplication>
+#include <QTime>
 #include <QTimer>
-#include <QNetworkAccessManager>
+#include <QLocalSocket>
 
 // MATH
 #include <QtMath>
 
 Client::Client(QObject *parent)
   : QObject(parent)
-  , m_networkManager(new QNetworkAccessManager(this))
+  , m_socket(new QLocalSocket(this))
 {
   connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
+
+  connect(m_socket, SIGNAL(stateChanged(QLocalSocket::LocalSocketState)), SLOT(stateChanged(QLocalSocket::LocalSocketState)));
 
   // Через секунду запрашиваем авторизацию
   QTimer::singleShot(1000, this, SLOT(logout()));
@@ -30,12 +33,18 @@ Client::~Client()
 }
 
 
-bool Client::connectToHost(const QString& host, int port)
+bool Client::connectToServer(const QString& host)
 {
-  qDebug() << qPrintable(QString(tr("Подключение к серверу %1:%2")).arg(host).arg(port));
-  m_networkManager->connectToHost(host, port);
+  qDebug() << qPrintable(QString(tr("Подключение к серверу %1")).arg(host));
+  m_socket->connectToServer(host);
 
   return true;
+}
+
+
+void Client::stateChanged(QLocalSocket::LocalSocketState state)
+{
+  qDebug() << state;
 }
 
 

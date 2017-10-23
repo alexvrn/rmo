@@ -69,8 +69,8 @@ int main(int argc, char *argv[])
 
   // Подключение к серверу
   Client client;
-  client.connectToHost(settings.value("server/endpoint", "127.0.0.1").toString(),
-                       settings.value("server/port", 0).toInt());
+  //client.connectToServer(settings.value("server/endpoint", "127.0.0.1").toString());
+  client.connectToServer("rmoserver");
 
   QObject::connect(&client, &Client::authentication, &controlLeftPanel, &ControlRightPanel::show);
   QObject::connect(&client, &Client::authentication, &controlRightPanel, &ControlLeftPanel::show);
