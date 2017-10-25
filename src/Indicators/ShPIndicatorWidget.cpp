@@ -2,6 +2,7 @@
 #include "ShPIndicatorWidget.h"
 #include "ui_ShPIndicatorWidget.h"
 #include "PaletteWidget.h"
+#include "Graphic.h"
 
 // Qt
 #include <QToolButton>
@@ -34,7 +35,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   // Иконки
   ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
   ui->brightnessLabel->setPixmap(QIcon(":/icons/sun.png").pixmap(32, 32));
-  ui->toolButton_8->setIcon(QIcon::fromTheme(":/icons/arrow_close_minimize-20.png"));
+  ui->toolButtonGrid->setIcon(QIcon::fromTheme(":/icons/arrow_close_minimize-20.png"));
   ui->streamTimeToolButton->setIcon(QIcon(":/icons/inout-32.png"));
   ui->countToolButton->setIcon(QIcon(":/icons/arrow-double-up-down-32.png"));
 
@@ -77,7 +78,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
 
 
-  ui->customPlot->addGraph(); // blue line
+  /*ui->customPlot->addGraph(); // blue line
   ui->customPlot->graph(0)->setPen(QPen(m_graphColor));
   ui->customPlot->addGraph(); // red line
   ui->customPlot->graph(1)->setPen(QPen(m_graphColor));
@@ -102,6 +103,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   // make left and bottom axes transfer their ranges to right and top axes:
   connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
   connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->yAxis2, SLOT(setRange(QCPRange)));
+  */
 
   ui->paletteWidget->setPalette(0);
 }
@@ -123,35 +125,37 @@ void ShPIndicatorWidget::colorValue(const QColor &color)
 void ShPIndicatorWidget::brightness(int value)
 {
   const QColor graphColorLighter = m_graphColor.lighter(value);
-  ui->customPlot->graph(0)->setPen(QPen(graphColorLighter));
-  ui->customPlot->graph(1)->setPen(QPen(graphColorLighter));
+  //ui->customPlot->graph(0)->setPen(QPen(graphColorLighter));
+  //ui->customPlot->graph(1)->setPen(QPen(graphColorLighter));
 }
 
 
 void ShPIndicatorWidget::setLightMode(const QString& mode)
 {
   if (mode == "sun")
-    ui->customPlot->setBackground(QBrush(QColor(180, 180, 180)));
+    ui->customPlot->setBackgroundColor(QColor(180, 180, 180));
   else if (mode == "night")
-    ui->customPlot->setBackground(QBrush(QColor(130, 130, 130)));
+    ui->customPlot->setBackgroundColor(QColor(130, 130, 130));
 }
 
 
 void ShPIndicatorWidget::data(double key, double value)
 {
+  ui->customPlot->addData(QList<int>());
+  qDebug() << "111111";
   // add data to lines:
-  ui->customPlot->graph(0)->addData(key, value);
-  ui->customPlot->graph(1)->addData(key, value);
+  //ui->customPlot->graph(0)->addData(key, value);
+  //ui->customPlot->graph(1)->addData(key, value);
 
   // make key axis range scroll with the data (at a constant range size of 8):
-  ui->customPlot->xAxis->setRange(key, 8, Qt::AlignRight);
-  ui->customPlot->replot();
+  //ui->customPlot->xAxis->setRange(key, 8, Qt::AlignRight);
+  //ui->customPlot->replot();
 }
 
 
 void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 {
   if (checked)
-    ui->customPlot->xAxis->setLabel(button->text());
+    ui->typeLabel->setText(button->text());
 }
 

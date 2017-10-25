@@ -24,7 +24,7 @@ Client::Client(QObject *parent)
   //! FAKE
   // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
   connect(&m_dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
-  m_dataTimer.start(0); // Interval 0 means to refresh as fast as possible
+  m_dataTimer.start(500); // Interval 0 means to refresh as fast as possible
 }
 
 

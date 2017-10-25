@@ -13,7 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rmo
 TEMPLATE = app
 
-INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics
 
 unix:LIBS += -lX11 -lXss
 
@@ -38,7 +38,8 @@ SOURCES += src/main.cpp\
     src/Indicators/ShPIndicatorWidget.cpp \
     src/AuthDialog/AuthDialog.cpp \
     src/ScreenSaver.cpp \
-    src/Client/ResponseReceiver.cpp
+    src/Client/ResponseReceiver.cpp \
+    src/Graphics/Graphic.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -61,7 +62,8 @@ HEADERS += \
     src/Indicators/ShPIndicatorWidget.h \
     src/AuthDialog/AuthDialog.h \
     src/ScreenSaver.h \
-    src/Client/ResponseReceiver.h
+    src/Client/ResponseReceiver.h \
+    src/Graphics/Graphic.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
