@@ -32,6 +32,7 @@ class Client : public QObject
     void readyRead();
     void disconnected();
     void stateChanged(QLocalSocket::LocalSocketState state);
+    void connectLater();
 
     void authAccess(const QVariantMap& userData);
 
@@ -48,6 +49,8 @@ class Client : public QObject
 
     // FAKE
     QTimer m_dataTimer;
+
+    QString m_host;
 };
 
 #endif // CLIENT_H

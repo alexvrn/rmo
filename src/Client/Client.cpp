@@ -6,6 +6,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QLocalSocket>
+#include <QEventLoop>
 
 // MATH
 #include <QtMath>
@@ -17,14 +18,12 @@ Client::Client(QObject *parent)
   connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
 
   connect(m_socket, SIGNAL(stateChanged(QLocalSocket::LocalSocketState)), SLOT(stateChanged(QLocalSocket::LocalSocketState)));
-
-  // Через секунду запрашиваем авторизацию
-  QTimer::singleShot(1000, this, SLOT(logout()));
+  connect(m_socket, SIGNAL(readyRead()), SLOT(readyRead()));
 
   //! FAKE
   // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
   connect(&m_dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
-  m_dataTimer.start(500); // Interval 0 means to refresh as fast as possible
+  //m_dataTimer.start(500); // Interval 0 means to refresh as fast as possible
 }
 
 
@@ -36,15 +35,41 @@ Client::~Client()
 bool Client::connectToServer(const QString& host)
 {
   qDebug() << qPrintable(QString(tr("Подключение к серверу %1")).arg(host));
-  m_socket->connectToServer(host);
 
-  return true;
+  m_host = host;
+
+  QEventLoop loop;
+  connect(m_socket, &QLocalSocket::stateChanged, &loop, &QEventLoop::quit);
+  QTimer::singleShot(500, this, SLOT(connectLater()));
+  loop.exec();
+
+  return m_socket->state() == QLocalSocket::ConnectedState;
+}
+
+
+void Client::connectLater()
+{
+  m_socket->connectToServer(m_host);
 }
 
 
 void Client::stateChanged(QLocalSocket::LocalSocketState state)
 {
-  qDebug() << state;
+  switch (state)
+  {
+    case QLocalSocket::ConnectedState:
+      qDebug() << tr("Подключение к локальному серверу сбора данных");
+
+      // Через секунду запрашиваем авторизацию
+      QTimer::singleShot(1000, this, SLOT(logout()));
+      break;
+    case QLocalSocket::UnconnectedState:
+      qWarning() << tr("Не удаётся подключиться к локальному серверу");
+      //! TODO: разобраться с подключением к серверу
+      //qApp->quit();
+      break;
+    default: {}
+  }
 }
 
 
@@ -82,7 +107,8 @@ void Client::authAccess(const QVariantMap& userData)
 
 void Client::readyRead()
 {
-
+  qDebug() << m_socket->readAll();
+  emit data(1, 1);
 }
 
 
@@ -93,7 +119,7 @@ void Client::disconnected()
 
 
 void Client::realtimeDataSlot()
-{
+{  
   static QTime time(QTime::currentTime());
   // calculate two new data points:
   double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds

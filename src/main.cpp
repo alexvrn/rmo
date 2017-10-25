@@ -9,6 +9,7 @@
 #include <QSettings>
 #include <QDebug>
 #include <QScreen>
+#include <QMessageBox>
 
 
 int main(int argc, char *argv[])
@@ -70,7 +71,12 @@ int main(int argc, char *argv[])
   // Подключение к серверу
   Client client;
   //client.connectToServer(settings.value("server/endpoint", "127.0.0.1").toString());
-  client.connectToServer("rmoserver");
+  if (!client.connectToServer("rmoserverr"))
+  {
+    QMessageBox::critical(0, QObject::tr("Подключение к локальному серверу"),
+                             QObject::tr("Не удаётся подключиться к серверу."));
+    return 0;
+  }
 
   QObject::connect(&client, &Client::authentication, &controlLeftPanel, &ControlRightPanel::show);
   QObject::connect(&client, &Client::authentication, &controlRightPanel, &ControlLeftPanel::show);

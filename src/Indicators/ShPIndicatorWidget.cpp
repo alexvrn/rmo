@@ -142,7 +142,7 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
 void ShPIndicatorWidget::data(double key, double value)
 {
   ui->customPlot->addData(QList<int>());
-  qDebug() << "111111";
+  //qDebug() << "111111";
   // add data to lines:
   //ui->customPlot->graph(0)->addData(key, value);
   //ui->customPlot->graph(1)->addData(key, value);

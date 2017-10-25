@@ -44,7 +44,7 @@ void Graphic::paintEvent(QPaintEvent *event)
   for (int i = 0; i < m_currentDataLength; ++i)
   {
     int h = height() - i;
-    painter.setPen(QColor(255, 255, 255 - i));
+    painter.setPen(QColor(255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX));
     painter.drawLine(QPoint(0, h), QPoint(width(), h));
   }
 }
