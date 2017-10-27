@@ -22,7 +22,7 @@ Client::Client(QObject *parent)
 
   //! FAKE
   // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
-  connect(&m_dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
+  //connect(&m_dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
   //m_dataTimer.start(500); // Interval 0 means to refresh as fast as possible
 }
 
@@ -107,7 +107,7 @@ void Client::authAccess(const QVariantMap& userData)
 
 void Client::readyRead()
 {
-  qDebug() << m_socket->readAll();
+  qDebug() << "data localserver" << m_socket->readAll();
   emit data(1, 1);
 }
 

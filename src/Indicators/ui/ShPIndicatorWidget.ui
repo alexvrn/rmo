@@ -209,7 +209,7 @@
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="streamTimeToolButton">
+                  <widget class="QToolButton" name="orientationToolButton">
                    <property name="minimumSize">
                     <size>
                      <width>32</width>

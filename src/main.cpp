@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
   // Подключение к серверу
   Client client;
   //client.connectToServer(settings.value("server/endpoint", "127.0.0.1").toString());
-  if (!client.connectToServer("rmoserverr"))
+  if (!client.connectToServer("rmoserver"))
   {
     QMessageBox::critical(0, QObject::tr("Подключение к локальному серверу"),
                              QObject::tr("Не удаётся подключиться к серверу."));

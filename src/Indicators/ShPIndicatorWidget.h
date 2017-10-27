@@ -7,6 +7,9 @@
 class QToolButton;
 class QAbstractButton;
 
+// Local
+class Graphic;
+
 // UI
 namespace Ui
 {
@@ -31,8 +34,12 @@ class ShPIndicatorWidget : public QWidget
 
     void shpIndicatorView(QAbstractButton* button, bool checked);
 
+    void on_orientationToolButton_clicked();
+
 private:
     Ui::ShPIndicatorWidget *ui;
+
+    Graphic* m_graphic;
 
     QColor m_graphColor;
 

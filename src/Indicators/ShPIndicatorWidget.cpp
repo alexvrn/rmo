@@ -36,7 +36,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
   ui->brightnessLabel->setPixmap(QIcon(":/icons/sun.png").pixmap(32, 32));
   ui->toolButtonGrid->setIcon(QIcon::fromTheme(":/icons/arrow_close_minimize-20.png"));
-  ui->streamTimeToolButton->setIcon(QIcon(":/icons/inout-32.png"));
+  ui->orientationToolButton->setIcon(QIcon(":/icons/inout-32.png"));
   ui->countToolButton->setIcon(QIcon(":/icons/arrow-double-up-down-32.png"));
 
   connect(ui->brightnessSlider, SIGNAL(valueChanged(int)), SLOT(brightness(int)));
@@ -159,3 +159,8 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
     ui->typeLabel->setText(button->text());
 }
 
+
+void ShPIndicatorWidget::on_orientationToolButton_clicked()
+{
+  ui->customPlot->setOrientation(!ui->customPlot->orientation());
+}
