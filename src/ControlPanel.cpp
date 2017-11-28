@@ -30,9 +30,9 @@ void ControlPanel::setConnectState(bool connect)
 }
 
 
-void ControlPanel::data(double key, double value)
+void ControlPanel::data(CommandType::Command cmd, const QByteArray& value)
 {
-  m_indicatorsStackedWidget->data(key, value);
+  m_indicatorsStackedWidget->data(cmd, value);
 }
 
 

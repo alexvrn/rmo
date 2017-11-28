@@ -23,7 +23,7 @@ class ShPIndicatorItem : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(double key, double value);
+    void data(int cmd, const QByteArray& value = QByteArray());
 
   private:
     Ui::ShPIndicatorItem *ui;

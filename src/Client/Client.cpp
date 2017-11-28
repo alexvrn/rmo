@@ -27,8 +27,29 @@ Client::Client(QObject *parent)
 }
 
 
+Client& Client::instance(QObject *parent)
+{
+  static Client clientInstance(parent);
+  return clientInstance;
+}
+
+
 Client::~Client()
 {
+}
+
+
+void Client::sendCommand(CommandType::Command cmd, const QVariantMap& value)
+{
+  switch (cmd)
+  {
+    case CommandType::CMD_RequestData_DateTime:
+      qDebug() << value["datetime"];
+      break;
+    default:
+      qWarning() << "Неизвестный тип команды" << cmd;
+  }
+  //m_socket->write("");
 }
 
 
@@ -108,7 +129,7 @@ void Client::authAccess(const QVariantMap& userData)
 void Client::readyRead()
 {
   qDebug() << "data localserver" << m_socket->readAll();
-  emit data(1, 1);
+  emit data(CommandType::CMD_PGAS_Data);
 }
 
 
@@ -120,38 +141,6 @@ void Client::disconnected()
 
 void Client::realtimeDataSlot()
 {  
-  static QTime time(QTime::currentTime());
-  // calculate two new data points:
-  double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
-  static double lastPointKey = 0;
-  if (key-lastPointKey > 0.002) // at most add point every 2 ms
-  {
-    // add data to lines:
-    emit data(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
-    //ui->customPlot->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
-    //ui->customPlot->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
-    // rescale value (vertical) axis to fit the current data:
-    //ui->customPlot->graph(0)->rescaleValueAxis();
-    //ui->customPlot->graph(1)->rescaleValueAxis(true);
-    lastPointKey = key;
-  }
-  // make key axis range scroll with the data (at a constant range size of 8):
-  //ui->customPlot->xAxis->setRange(key, 8, Qt::AlignRight);
-  //ui->customPlot->replot();
-
-  // calculate frames per second:
-  static double lastFpsKey;
-  static int frameCount;
-  ++frameCount;
-  if (key-lastFpsKey > 2) // average fps over 2 seconds
-  {
-//    ui->statusBar->showMessage(
-//          QString("%1 FPS, Total Data points: %2")
-//          .arg(frameCount/(key-lastFpsKey), 0, 'f', 0)
-//          .arg(ui->customPlot->graph(0)->data()->size()+ui->customPlot->graph(1)->data()->size())
-//        , 0);
-    lastFpsKey = key;
-    frameCount = 0;
-  }
+  emit data(CommandType::CMD_PGAS_Data);
 }
 

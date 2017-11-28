@@ -6,6 +6,7 @@
 
 // Local
 class ShPIndicatorItem;
+#include <types.h>
 
 // UI
 namespace Ui
@@ -23,16 +24,14 @@ class ShPIndicator : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(double key, double value);
-
-  signals:
-    void nowData();
-    void lastData(const QDateTime& dateTime);
+    void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
 
   private slots:
     void checkedDateTime();
 
-  private:
+    void on_spinBox_valueChanged(int value);
+
+private:
     Ui::ShPIndicator *ui;
 
     ShPIndicatorItem *indicatorItem1;

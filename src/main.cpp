@@ -69,9 +69,8 @@ int main(int argc, char *argv[])
   controlRightPanel.setConfiguration(indicatorRight, mode);
 
   // Подключение к серверу
-  Client client;
-  //client.connectToServer(settings.value("server/endpoint", "127.0.0.1").toString());
-  if (!client.connectToServer("rmoserver"))
+  Client& client = Client::instance();
+  if (!client.connectToServer(settings.value("rmoServerName1", "rmoserver1").toString()))
   {
     QMessageBox::critical(0, QObject::tr("Подключение к локальному серверу"),
                              QObject::tr("Не удаётся подключиться к серверу."));
@@ -81,7 +80,7 @@ int main(int argc, char *argv[])
   QObject::connect(&client, &Client::authentication, &controlLeftPanel, &ControlRightPanel::show);
   QObject::connect(&client, &Client::authentication, &controlRightPanel, &ControlLeftPanel::show);
 
-  QObject::connect(&client, &Client::data, &controlRightPanel, &ControlLeftPanel::data);
+  QObject::connect(&client, &Client::data, &controlRightPanel, &ControlRightPanel::data);
   QObject::connect(&client, &Client::data, &controlLeftPanel, &ControlLeftPanel::data);
 
   // Проверка бездействия пользователя

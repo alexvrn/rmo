@@ -63,7 +63,8 @@ HEADERS += \
     src/AuthDialog/AuthDialog.h \
     src/ScreenSaver.h \
     src/Client/ResponseReceiver.h \
-    src/Graphics/Graphic.h
+    src/Graphics/Graphic.h \
+    src/types.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \

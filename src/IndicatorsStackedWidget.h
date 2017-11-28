@@ -9,6 +9,7 @@ class ShPIndicator;
 class GLIndicator;
 class TOIndicator;
 class SAIndicator;
+#include <types.h>
 
 
 class IndicatorsStackedWidget : public QStackedWidget
@@ -23,7 +24,7 @@ class IndicatorsStackedWidget : public QStackedWidget
     void setCurrentIndicator(const QString& type, bool checked);
     void sync(const QString& type, bool checked);
     void setLightMode(const QString& mode);
-    void data(double key, double value);
+    void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
 
   private:
     QWidget *m_nullIndicator;

@@ -7,6 +7,7 @@
 
 // Local
 #include "IndicatorsStackedWidget.h"
+#include <types.h>
 
 class ControlPanel : public QMainWindow
 {
@@ -22,7 +23,7 @@ class ControlPanel : public QMainWindow
     virtual void setConfiguration(const QString& type, const QString& mode = QString()) = 0;
 
   public slots:
-    virtual void data(double key, double value);
+    virtual void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
 
   signals:
     void windowDeactivate();

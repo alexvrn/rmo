@@ -3,28 +3,36 @@
 
 // Qt
 #include <QObject>
-#include <QTimer>
 #include <QLocalSocket>
+//#include <QTimer>
 
 // Local
 #include "AuthDialog.h"
 #include "ResponseReceiver.h"
+#include <types.h>
 
 class Client : public QObject
 {
   Q_OBJECT
 
   public:
-    explicit Client(QObject *parent = 0);
+    static Client& instance(QObject *parent = Q_NULLPTR);
     ~Client();
 
     bool connectToServer(const QString& host);
+
+    // Отправка команды(или запроса) локальному серверу
+    void sendCommand(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
+
+  private:
+    Client(QObject *parent = Q_NULLPTR);
+    Client& operator=(const Client&);
 
   public slots:
     void logout();
 
   signals:
-    void data(double key, double value);
+    void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
     void authentication();
     void messageReceived(const QVariantMap& result);
 
@@ -48,7 +56,7 @@ class Client : public QObject
     QLocalSocket* m_socket;
 
     // FAKE
-    QTimer m_dataTimer;
+    //QTimer m_dataTimer;
 
     QString m_host;
 };

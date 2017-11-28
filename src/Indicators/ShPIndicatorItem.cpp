@@ -30,7 +30,7 @@ void ShPIndicatorItem::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicatorItem::data(double key, double value)
+void ShPIndicatorItem::data(int cmd, const QByteArray& value)
 {
-  m_widget->data(key, value);
+  m_widget->data(cmd, value);
 }

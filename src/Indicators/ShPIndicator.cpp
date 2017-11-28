@@ -2,6 +2,7 @@
 #include "ShPIndicator.h"
 #include "ui_ShPIndicator.h"
 #include "ShPIndicatorItem.h"
+#include "Client.h"
 
 // Qt
 #include <QButtonGroup>
@@ -24,7 +25,6 @@ ShPIndicator::ShPIndicator(QWidget *parent)
   buttonGroup->addButton(ui->lastToolButton);
   buttonGroup->addButton(ui->nowToolButton);
 
-  connect(ui->nowToolButton, SIGNAL(clicked(bool)), SIGNAL(nowData()));
   connect(ui->checkedToolButton, SIGNAL(clicked(bool)), SLOT(checkedDateTime()));
 
   ui->indicatorsHorizontalLayout->addWidget(indicatorItem1);
@@ -40,7 +40,12 @@ ShPIndicator::~ShPIndicator()
 
 void ShPIndicator::checkedDateTime()
 {
-  emit lastData(ui->dateTimeEdit->dateTime());
+  // Запрашиваем данные по выбранному времени
+  QVariantMap v;
+  v["datetime"] = ui->dateTimeEdit->dateTime();
+
+  // Посылаем команду(запрос в данном случае)
+  Client::instance().sendCommand(CommandType::CMD_RequestData_DateTime, v);
 }
 
 
@@ -51,8 +56,35 @@ void ShPIndicator::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicator::data(double key, double value)
+void ShPIndicator::data(CommandType::Command cmd, const QByteArray& value)
 {
-  indicatorItem1->data(key, value);
-  indicatorItem2->data(key, value);
+  // Если текущие данные ПГАС
+  if (cmd == CommandType::CMD_PGAS_Data)
+  {
+    // Если смотрим на текущие данные (иначе не игнорим, данные записались в файлы)
+    if (!ui->lastToolButton->isChecked())
+    {
+      indicatorItem1->data(cmd, value);
+      indicatorItem2->data(cmd, value);
+    }
+  }
+  // Ответ на запрос данных на определённое время
+  else if (cmd == CommandType::CMD_RequestData_DateTime)
+  {
+    if (ui->lastToolButton->isChecked())
+    {
+      // bla bla bla
+    }
+  }
+}
+
+
+void ShPIndicator::on_spinBox_valueChanged(int value)
+{
+  // Запрашиваем данные по выбранному времени
+  //QVariantMap v;
+  //v["datetime"] = ui->dateTimeEdit->dateTime();
+
+  // Посылаем команду(запрос в данном случае)
+  //Client::instance().sendCommand(1, v);
 }
