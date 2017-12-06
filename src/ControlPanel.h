@@ -7,7 +7,7 @@
 
 // Local
 #include "IndicatorsStackedWidget.h"
-#include <types.h>
+#include <commandType.h>
 
 class ControlPanel : public QMainWindow
 {

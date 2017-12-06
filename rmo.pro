@@ -64,7 +64,7 @@ HEADERS += \
     src/ScreenSaver.h \
     src/Client/ResponseReceiver.h \
     src/Graphics/Graphic.h \
-    src/types.h
+    src/commandType.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \

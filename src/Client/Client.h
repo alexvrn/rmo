@@ -9,13 +9,21 @@
 // Local
 #include "AuthDialog.h"
 #include "ResponseReceiver.h"
-#include <types.h>
+#include <commandType.h>
 
 class Client : public QObject
 {
   Q_OBJECT
 
   public:
+    enum WaitState
+    {
+      WaitingId,
+      WaitingMessageType,
+      WaitingLength,
+      WaitingMessage
+    };
+
     static Client& instance(QObject *parent = Q_NULLPTR);
     ~Client();
 
@@ -48,6 +56,8 @@ class Client : public QObject
     void realtimeDataSlot();
 
   private:
+    void init();
+
     AuthDialog m_authDialog;
 
     //! TODO: надо ли это
@@ -59,6 +69,10 @@ class Client : public QObject
     //QTimer m_dataTimer;
 
     QString m_host;
+
+    WaitState m_waitState;
+    quint16 m_messageType;
+    quint32 m_messageLength;
 };
 
 #endif // CLIENT_H

@@ -9,7 +9,7 @@ class ShPIndicator;
 class GLIndicator;
 class TOIndicator;
 class SAIndicator;
-#include <types.h>
+#include <commandType.h>
 
 
 class IndicatorsStackedWidget : public QStackedWidget

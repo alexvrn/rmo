@@ -6,7 +6,7 @@
 
 // Local
 class ShPIndicatorItem;
-#include <types.h>
+#include <commandType.h>
 
 // UI
 namespace Ui
