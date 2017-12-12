@@ -17,7 +17,7 @@ Client::Client(QObject *parent)
   : QObject(parent)
   , m_socket(new QLocalSocket(this))
   , m_waitState(WaitingId)
-  , m_messageType(-1)
+  , m_command(CommandType::CommandNull)
   , m_messageLength(0)
 {
   connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
@@ -148,7 +148,7 @@ void Client::authAccess(const QVariantMap& userData)
 
 void Client::init()
 {
-  m_messageType = -1;
+  m_command = CommandType::CommandNull;
   m_messageLength = 0;
   m_waitState = WaitingId;
 }
@@ -192,7 +192,10 @@ void Client::readyRead()
     QDataStream dataStream(&data, QIODevice::ReadOnly);
     dataStream.setVersion(QDataStream::Qt_5_9);
     //! TODO: dataStream.setByteOrder(QDataStream::LittleEndian);
-    dataStream >> m_messageType;
+
+    quint16 command;
+    dataStream >> command;
+    m_command = static_cast<CommandType::Command>(command);
 
     m_waitState = WaitingLength;
   }
@@ -219,7 +222,20 @@ void Client::readyRead()
       return;
 
     QByteArray message = m_socket->read(m_messageLength);
-    qDebug() << tr("Тип") << m_messageType << message.length() << message;
+    qDebug() << tr("Тип") << m_command << message.length() << message;
+    if (m_command >= CommandType::Stream_1 && m_command <= CommandType::Stream_22)
+    {
+      QVariant v = QVariant::fromValue(message);
+      if (v.canConvert<QVariantMap>())
+      {
+        QVariantMap vm = v.value<QVariantMap>();
+        qDebug() << vm;
+      }
+      else
+      {
+        qWarning() << tr("Невозможно преобразовать данные");
+      }
+    }
     init();
   }
 }

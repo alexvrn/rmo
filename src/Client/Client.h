@@ -71,7 +71,7 @@ class Client : public QObject
     QString m_host;
 
     WaitState m_waitState;
-    quint16 m_messageType;
+    CommandType::Command m_command;
     quint32 m_messageLength;
 };
 
