@@ -8,8 +8,10 @@
 #include <QLocalSocket>
 #include <QEventLoop>
 
-// MATH
-#include <QtMath>
+// CBOR
+#include <cbor.h>
+#include <cmd_data_packer.h>
+
 
 const quint16 idMessage = 0xCAFE;
 
@@ -17,7 +19,6 @@ Client::Client(QObject *parent)
   : QObject(parent)
   , m_socket(new QLocalSocket(this))
   , m_waitState(WaitingId)
-  , m_command(CommandType::CommandNull)
   , m_messageLength(0)
 {
   connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
@@ -148,9 +149,156 @@ void Client::authAccess(const QVariantMap& userData)
 
 void Client::init()
 {
-  m_command = CommandType::CommandNull;
   m_messageLength = 0;
   m_waitState = WaitingId;
+}
+
+
+QVariantMap Client::parseData(CommandType::Command cmd, const QByteArray& data) const
+{
+  QByteArray _d = data; //! TODO
+  size_t offset = 0;
+  cbor_stream_t cborStream = {reinterpret_cast<unsigned char*>(_d.data()), static_cast<size_t>(data.length()), 0};
+  switch (cmd)
+  {
+    case CommandType::Stream_1:
+    {
+      cmd_data86_t cmdData;
+      cmd_data86_unpack(&cborStream, &offset, &cmdData);
+      return QVariantMap();
+    }
+//    case CommandType::Stream_2:
+//    {
+//      cmd_data89_t cmdData;
+//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_3:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_4:
+//    {
+//      cmd_data86_t cmdData;
+//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_5:
+//    {
+//      cmd_data89_t cmdData;
+//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_6:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_7:
+//    {
+//      cmd_data86_t cmdData;
+//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_8:
+//    {
+//      cmd_data89_t cmdData;
+//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_9:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//     return QVariantMap();
+//    }
+//    case CommandType::Stream_10:
+//    {
+//      cmd_data86_t cmdData;
+//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_11:
+//    {
+//      cmd_data89_t cmdData;
+//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_12:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_13:
+//    {
+//      cmd_data86_t cmdData;
+//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_14:
+//    {
+//      cmd_data89_t cmdData;
+//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_15:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_16:
+//    {
+//      cmd_data86_t cmdData;
+//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_17:
+//    {
+//      cmd_data89_t cmdData;
+//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
+//     return QVariantMap();
+//    }
+//    case CommandType::Stream_18:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_19:
+//    {
+//      cmd_data86_t cmdData;
+//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_20:
+//    {
+//      cmd_data89_t cmdData;
+//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_21:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+//    case CommandType::Stream_22:
+//    {
+//      cmd_data92_t cmdData;
+//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+//      return QVariantMap();
+//    }
+    default:
+    {
+      //qWarning() << tr("Неизвестный номер потока") << cmd;
+      return QVariantMap();
+    }
+  }
 }
 
 
@@ -222,19 +370,19 @@ void Client::readyRead()
       return;
 
     QByteArray message = m_socket->read(m_messageLength);
-    qDebug() << tr("Тип") << m_command << message.length() << message;
+    //qDebug() << tr("Тип") << m_command << message.length() << message;
     if (m_command >= CommandType::Stream_1 && m_command <= CommandType::Stream_22)
     {
-      QVariant v = QVariant::fromValue(message);
-      if (v.canConvert<QVariantMap>())
-      {
-        QVariantMap vm = v.value<QVariantMap>();
-        qDebug() << vm;
-      }
-      else
-      {
-        qWarning() << tr("Невозможно преобразовать данные");
-      }
+      QVariantMap parseData(m_command, message);
+//      QJsonObject jobject = QJsonDocument::fromJson(message).object();
+//      if (!jobject.isEmpty())
+//      {
+//        qDebug() << jobject.keys();
+//      }
+//      else
+//      {
+//        qWarning() << tr("Невозможно преобразовать данные");
+//      }
     }
     init();
   }

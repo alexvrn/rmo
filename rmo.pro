@@ -13,8 +13,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rmo
 TEMPLATE = app
 
-INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics
-
 unix:LIBS += -lX11 -lXss
 
 SOURCES += src/main.cpp\
@@ -39,7 +37,10 @@ SOURCES += src/main.cpp\
     src/AuthDialog/AuthDialog.cpp \
     src/ScreenSaver.cpp \
     src/Client/ResponseReceiver.cpp \
-    src/Graphics/Graphic.cpp
+    src/Graphics/Graphic.cpp \
+    riot_os_cbor/cbor.c \
+    structs/cmd_data_packer.c \
+    structs/cmd_data_debug.c
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -64,7 +65,10 @@ HEADERS += \
     src/ScreenSaver.h \
     src/Client/ResponseReceiver.h \
     src/Graphics/Graphic.h \
-    src/commandType.h
+    src/commandType.h \
+    riot_os_cbor/cbor.h \
+    structs/cmd_data_packer.h \
+    structs/cmd_data_debug.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -84,3 +88,7 @@ FORMS += \
 
 RESOURCES += \
     resources.qrc
+
+
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics \
+              riot_os_cbor/ structs/

@@ -57,6 +57,7 @@ class Client : public QObject
 
   private:
     void init();
+    QVariantMap parseData(CommandType::Command cmd, const QByteArray& data) const;
 
     AuthDialog m_authDialog;
 
