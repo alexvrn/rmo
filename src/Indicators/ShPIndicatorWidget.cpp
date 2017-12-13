@@ -106,12 +106,27 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   */
 
   ui->paletteWidget->setPalette(0);
+
+  setHasSwitch(false);
+  connect(ui->countToolButton, SIGNAL(clicked(bool)), this, SIGNAL(countWidget()));
 }
 
 
 ShPIndicatorWidget::~ShPIndicatorWidget()
 {
   delete ui;
+}
+
+
+void ShPIndicatorWidget::setHasSwitch(bool hasSwitch)
+{
+  ui->countToolButton->setVisible(hasSwitch);
+}
+
+
+bool ShPIndicatorWidget::hasSwitch() const
+{
+  return ui->countToolButton->isVisible();
 }
 
 

@@ -24,9 +24,15 @@ class ShPIndicatorWidget : public QWidget
     explicit ShPIndicatorWidget(QWidget *parent = Q_NULLPTR);
     ~ShPIndicatorWidget();
 
+    void setHasSwitch(bool hasSwitch);
+    bool hasSwitch() const;
+
   public slots:
     void setLightMode(const QString& mode);
     void data(int cmd, const QByteArray& value = QByteArray());
+
+  signals:
+    void countWidget();
 
   private slots:
     void colorValue(const QColor &color);

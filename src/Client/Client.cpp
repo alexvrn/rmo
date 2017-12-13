@@ -373,7 +373,7 @@ void Client::readyRead()
     //qDebug() << tr("Тип") << m_command << message.length() << message;
     if (m_command >= CommandType::Stream_1 && m_command <= CommandType::Stream_22)
     {
-      QVariantMap parseData(m_command, message);
+      QVariantMap vm = parseData(m_command, message);
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
 //      if (!jobject.isEmpty())
 //      {

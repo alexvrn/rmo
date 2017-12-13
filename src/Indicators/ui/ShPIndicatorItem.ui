@@ -57,7 +57,7 @@
          <item>
           <layout class="QVBoxLayout" name="widgetsVerticalLayout">
            <property name="spacing">
-            <number>0</number>
+            <number>1</number>
            </property>
           </layout>
          </item>

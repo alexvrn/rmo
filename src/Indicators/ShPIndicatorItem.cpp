@@ -6,11 +6,14 @@
 ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicatorItem)
-  , m_widget(new ShPIndicatorWidget(this))
+  , m_upWidget(new ShPIndicatorWidget(this))
+  , m_downWidget(nullptr)
 {
   ui->setupUi(this);
 
-  ui->widgetsVerticalLayout->addWidget(m_widget);
+  m_upWidget->setHasSwitch(true);
+  ui->widgetsVerticalLayout->addWidget(m_upWidget);
+  connect(m_upWidget, SIGNAL(countWidget()), SLOT(countWidget()));
 }
 
 
@@ -22,7 +25,10 @@ ShPIndicatorItem::~ShPIndicatorItem()
 
 void ShPIndicatorItem::setLightMode(const QString& mode)
 {
-  m_widget->setLightMode(mode);
+  m_upWidget->setLightMode(mode);
+  if (m_downWidget)
+    m_downWidget->setLightMode(mode);
+
   if (mode == "sun")
     ui->widget_2->setBackground(QBrush(QColor(180, 180, 180)));
   else if (mode == "night")
@@ -30,7 +36,37 @@ void ShPIndicatorItem::setLightMode(const QString& mode)
 }
 
 
+void ShPIndicatorItem::insertDownWidget()
+{
+  Q_ASSERT(!m_downWidget);
+
+  m_downWidget = new ShPIndicatorWidget(this);
+  ui->widgetsVerticalLayout->addWidget(m_downWidget);
+}
+
+
+void ShPIndicatorItem::deleteDownWidget()
+{
+  Q_ASSERT(m_downWidget);
+
+  ui->widgetsVerticalLayout->removeWidget(m_downWidget);
+  delete m_downWidget;
+  m_downWidget = nullptr;
+}
+
+
+void ShPIndicatorItem::countWidget()
+{
+  if (m_downWidget)
+    deleteDownWidget();
+  else
+    insertDownWidget();
+}
+
+
 void ShPIndicatorItem::data(int cmd, const QByteArray& value)
 {
-  m_widget->data(cmd, value);
+  m_upWidget->data(cmd, value);
+  if (m_downWidget)
+    m_downWidget->data(cmd, value);
 }

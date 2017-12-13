@@ -25,10 +25,16 @@ class ShPIndicatorItem : public QWidget
     void setLightMode(const QString& mode);
     void data(int cmd, const QByteArray& value = QByteArray());
 
+  private slots:
+    void deleteDownWidget();
+    void insertDownWidget();
+    void countWidget();
+
   private:
     Ui::ShPIndicatorItem *ui;
 
-    ShPIndicatorWidget *m_widget;
+    ShPIndicatorWidget *m_upWidget;
+    ShPIndicatorWidget *m_downWidget;
 };
 
 #endif // SHPINDICATORITEM_H
