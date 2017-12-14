@@ -61,58 +61,101 @@
       <item row="0" column="0">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
-         <number>4</number>
+         <number>1</number>
         </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QToolButton" name="pchToolButton">
-            <property name="text">
-             <string>ПЧСС</string>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
             </property>
-           </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>50</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
-           <widget class="QToolButton" name="ps1t1ToolButton">
-            <property name="text">
-             <string>ПС1 T1</string>
+           <widget class="QFrame" name="frame_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>40</height>
+             </size>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="ps2t1ToolButton">
-            <property name="text">
-             <string>ПС2 T1</string>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(200,200,200);</string>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="ps1t2ToolButton">
-            <property name="text">
-             <string>ПС1 T2</string>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="ps2t2ToolButton">
-            <property name="text">
-             <string>ПС2 T2</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QToolButton" name="pchToolButton">
+               <property name="text">
+                <string>ПЧСС</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="ps1t1ToolButton">
+               <property name="text">
+                <string>ПС1 T1</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="ps2t1ToolButton">
+               <property name="text">
+                <string>ПС2 T1</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="ps1t2ToolButton">
+               <property name="text">
+                <string>ПС1 T2</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="ps2t2ToolButton">
+               <property name="text">
+                <string>ПС2 T2</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -132,14 +175,14 @@
            <widget class="QToolButton" name="countToolButton">
             <property name="minimumSize">
              <size>
-              <width>30</width>
-              <height>30</height>
+              <width>22</width>
+              <height>22</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>30</width>
-              <height>30</height>
+              <width>22</width>
+              <height>22</height>
              </size>
             </property>
             <property name="toolTip">
@@ -153,19 +196,15 @@
          </layout>
         </item>
         <item>
-         <widget class="Line" name="line">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QGridLayout" name="gridLayout">
           <property name="horizontalSpacing">
            <number>1</number>
           </property>
           <item row="0" column="0">
            <widget class="QWidget" name="panel" native="true">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <layout class="QGridLayout" name="gridLayout_6">
              <property name="leftMargin">
               <number>1</number>
@@ -212,14 +251,14 @@
                   <widget class="QToolButton" name="orientationToolButton">
                    <property name="minimumSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>22</width>
+                     <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>22</width>
+                     <height>22</height>
                     </size>
                    </property>
                    <property name="toolTip">
@@ -282,6 +321,9 @@
                    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0">
                     <property name="spacing">
                      <number>1</number>
+                    </property>
+                    <property name="sizeConstraint">
+                     <enum>QLayout::SetDefaultConstraint</enum>
                     </property>
                     <item>
                      <spacer name="horizontalSpacer_10">
@@ -395,14 +437,14 @@
                      <widget class="QLabel" name="brightnessLabel">
                       <property name="minimumSize">
                        <size>
-                        <width>32</width>
-                        <height>32</height>
+                        <width>25</width>
+                        <height>25</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>32</width>
-                        <height>32</height>
+                        <width>25</width>
+                        <height>25</height>
                        </size>
                       </property>
                       <property name="text">
@@ -475,7 +517,7 @@
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QLabel" name="label_5">
+                <widget class="QLabel" name="labelY">
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -578,7 +620,7 @@
                 </layout>
                </item>
                <item row="2" column="1">
-                <widget class="QLabel" name="label_6">
+                <widget class="QLabel" name="labelX">
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>

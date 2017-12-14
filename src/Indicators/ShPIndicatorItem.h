@@ -3,6 +3,7 @@
 
 // Qt
 #include <QWidget>
+#include <QSplitter>
 
 // Local
 class ShPIndicatorWidget;

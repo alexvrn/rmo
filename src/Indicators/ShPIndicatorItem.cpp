@@ -3,6 +3,8 @@
 #include "ui_ShPIndicatorItem.h"
 #include "ShPIndicatorWidget.h"
 
+#include <QSplitter>
+
 ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicatorItem)
@@ -12,7 +14,7 @@ ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
   ui->setupUi(this);
 
   m_upWidget->setHasSwitch(true);
-  ui->widgetsVerticalLayout->addWidget(m_upWidget);
+  ui->splitter->addWidget(m_upWidget);
   connect(m_upWidget, SIGNAL(countWidget()), SLOT(countWidget()));
 }
 
@@ -30,9 +32,9 @@ void ShPIndicatorItem::setLightMode(const QString& mode)
     m_downWidget->setLightMode(mode);
 
   if (mode == "sun")
-    ui->widget_2->setBackground(QBrush(QColor(180, 180, 180)));
+    ui->graphic->setBackground(QBrush(QColor(180, 180, 180)));
   else if (mode == "night")
-    ui->widget_2->setBackground(QBrush(QColor(130, 130, 130)));
+    ui->graphic->setBackground(QBrush(QColor(130, 130, 130)));
 }
 
 
@@ -41,7 +43,7 @@ void ShPIndicatorItem::insertDownWidget()
   Q_ASSERT(!m_downWidget);
 
   m_downWidget = new ShPIndicatorWidget(this);
-  ui->widgetsVerticalLayout->addWidget(m_downWidget);
+  ui->splitter->addWidget(m_downWidget);
 }
 
 
@@ -49,7 +51,6 @@ void ShPIndicatorItem::deleteDownWidget()
 {
   Q_ASSERT(m_downWidget);
 
-  ui->widgetsVerticalLayout->removeWidget(m_downWidget);
   delete m_downWidget;
   m_downWidget = nullptr;
 }

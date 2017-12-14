@@ -13,6 +13,7 @@ ControlPanel::ControlPanel(QWidget *parent)
 {
   m_toolBar->setMovable(false);
   addToolBar(Qt::TopToolBarArea, m_toolBar);
+  m_toolBar->setMovable(true);
 
   qApp->installEventFilter(this);
 }

@@ -8,6 +8,7 @@
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QAbstractButton>
+#include <QPalette>
 
 // QCustomPlot
 #include "qcustomplot.h"
@@ -109,6 +110,24 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
   setHasSwitch(false);
   connect(ui->countToolButton, SIGNAL(clicked(bool)), this, SIGNAL(countWidget()));
+
+  QPalette pal(ui->panel->palette());
+
+  // устанавливаем цвет фона
+  pal.setColor(QPalette::Background, QColor(200, 200, 200));
+  ui->panel->setAutoFillBackground(true);
+  ui->panel->setPalette(pal);
+
+  const QString style = "background-color: rgb(200,200,200, 20);";
+  ui->labelX->setStyleSheet(style);
+  ui->labelY->setStyleSheet(style);
+  ui->typeLabel->setStyleSheet(style);
+  ui->contrastLabel->setStyleSheet(style);
+  ui->brightnessLabel->setStyleSheet(style);
+
+  // Подцветка
+  QSettings settings("SAMI DVO RAN", "rmo");
+  setLightMode(settings.value("mode", "sun").toString());
 }
 
 
