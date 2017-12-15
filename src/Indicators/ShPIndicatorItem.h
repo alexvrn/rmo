@@ -4,9 +4,11 @@
 // Qt
 #include <QWidget>
 #include <QSplitter>
+#include <QVariantMap>
 
 // Local
 class ShPIndicatorWidget;
+#include <commandType.h>
 
 // UI
 namespace Ui
@@ -24,7 +26,8 @@ class ShPIndicatorItem : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(int cmd, const QByteArray& value = QByteArray());
+    void data(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
+    void setCurrentPgasNumber(int pgasNumber);
 
   private slots:
     void deleteDownWidget();

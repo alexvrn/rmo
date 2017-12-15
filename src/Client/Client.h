@@ -4,6 +4,7 @@
 // Qt
 #include <QObject>
 #include <QLocalSocket>
+#include <QVariantMap>
 //#include <QTimer>
 
 // Local
@@ -40,7 +41,7 @@ class Client : public QObject
     void logout();
 
   signals:
-    void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
+    void data(CommandType::Command cmd, const QVariantMap& data = QVariantMap());
     void authentication();
     void messageReceived(const QVariantMap& result);
 

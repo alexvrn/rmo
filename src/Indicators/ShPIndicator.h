@@ -3,6 +3,7 @@
 
 // Qt
 #include <QWidget>
+#include <QVariantMap>
 
 // Local
 class ShPIndicatorItem;
@@ -24,7 +25,7 @@ class ShPIndicator : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
+    void data(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
 
   private slots:
     void checkedDateTime();
@@ -34,8 +35,8 @@ class ShPIndicator : public QWidget
 private:
     Ui::ShPIndicator *ui;
 
-    ShPIndicatorItem *indicatorItem1;
-    ShPIndicatorItem *indicatorItem2;
+    ShPIndicatorItem *m_indicatorItem1;
+    ShPIndicatorItem *m_indicatorItem2;
 };
 
 #endif // SHPINDICATOR_H

@@ -65,9 +65,17 @@ void ShPIndicatorItem::countWidget()
 }
 
 
-void ShPIndicatorItem::data(int cmd, const QByteArray& value)
+void ShPIndicatorItem::data(CommandType::Command cmd, const QVariantMap& value)
 {
   m_upWidget->data(cmd, value);
   if (m_downWidget)
     m_downWidget->data(cmd, value);
+}
+
+
+void ShPIndicatorItem::setCurrentPgasNumber(int pgasNumber)
+{
+  m_upWidget->setCurrentPgasNumber(pgasNumber);
+  if (m_downWidget)
+    m_downWidget->setCurrentPgasNumber(pgasNumber);
 }

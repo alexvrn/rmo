@@ -3,6 +3,7 @@
 
 // Qt
 #include <QStackedWidget>
+#include <QVariantMap>
 
 // Local
 class ShPIndicator;
@@ -24,7 +25,7 @@ class IndicatorsStackedWidget : public QStackedWidget
     void setCurrentIndicator(const QString& type, bool checked);
     void sync(const QString& type, bool checked);
     void setLightMode(const QString& mode);
-    void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
+    void data(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
 
   private:
     QWidget *m_nullIndicator;

@@ -17,6 +17,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicatorWidget)
   , m_graphColor(QColor(0,255,0))
+  , m_pgasNumber(1)
 {
   ui->setupUi(this);
 
@@ -173,17 +174,34 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicatorWidget::data(int cmd, const QByteArray& value)
+void ShPIndicatorWidget::data(CommandType::Command cmd, const QVariantMap& value)
 {
-  ui->customPlot->addData(QList<int>());
-  //qDebug() << "111111";
-  // add data to lines:
-  //ui->customPlot->graph(0)->addData(key, value);
-  //ui->customPlot->graph(1)->addData(key, value);
+  Q_UNUSED(cmd);
 
-  // make key axis range scroll with the data (at a constant range size of 8):
-  //ui->customPlot->xAxis->setRange(key, 8, Qt::AlignRight);
-  //ui->customPlot->replot();
+  // Номер ПГАС
+  int stationId = value["stationId"].toInt();
+  if (stationId <= 0)
+  {
+    qWarning() << tr("Неверный номер ПГАС:") << stationId;
+    return;
+  }
+
+  if (m_pgasData.contains(stationId))
+    m_pgasData[stationId].append(value);
+  else
+    m_pgasData.insert(stationId, QList<QVariantMap>() << value);
+
+  // Отображаем данные по текущему номеру ПГАС
+  ui->customPlot->addData(m_pgasData[m_pgasNumber]);
+}
+
+
+void ShPIndicatorWidget::setCurrentPgasNumber(int pgasNumber)
+{
+  m_pgasNumber = pgasNumber;
+
+  // Отображаем данные по текущему номеру ПГАС
+  ui->customPlot->addData(m_pgasData[m_pgasNumber]);
 }
 
 

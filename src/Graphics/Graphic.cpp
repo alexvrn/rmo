@@ -54,19 +54,26 @@ void Graphic::slotAlarmTimer()
   //m_graphicsScene->setSceneRect(0, 0, width, height);
   m_graphicsScene->setSceneRect(0, 0, width, height);
 
-  for (int i = 0; i < m_listData.length(); ++i)
+  for (int i = 0; i < m_data.length(); ++i)
   {
     int h = m_up ? height - i : i;
-    m_group1->addToGroup(m_graphicsScene->addLine(QLineF(QPoint(0, h), QPoint(width, h)), m_listData[i]));
+    QColor color = QColor(255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX);
+    m_group1->addToGroup(m_graphicsScene->addLine(QLineF(QPoint(0, h), QPoint(width, h)), color));
   }
+//  for (int i = 0; i < m_listData.length(); ++i)
+//  {
+//    int h = m_up ? height - i : i;
+//    m_group1->addToGroup(m_graphicsScene->addLine(QLineF(QPoint(0, h), QPoint(width, h)), m_listData[i]));
+//  }
 }
 
 
-void Graphic::addData(const QList<int>& data)
+void Graphic::addData(const QList<QVariantMap>& data)
 {
-  QColor color = QColor(255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX);
-  m_listData.push_front(color);
-  m_currentDataLength++;
+  m_data = data;
+  //QColor color = QColor(255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX);
+  //m_listData.push_front(color);
+  m_currentDataLength = m_data.length();
 
   QTimer::singleShot(50, this, SLOT(slotAlarmTimer()));
 }

@@ -23,7 +23,7 @@ class ControlPanel : public QMainWindow
     virtual void setConfiguration(const QString& type, const QString& mode = QString()) = 0;
 
   public slots:
-    virtual void data(CommandType::Command cmd, const QByteArray& value = QByteArray());
+    virtual void data(CommandType::Command cmd, const QVariantMap& value);
 
   signals:
     void windowDeactivate();

@@ -11,7 +11,7 @@
 // CBOR
 #include <cbor.h>
 #include <cmd_data_packer.h>
-
+#include <cmd_data_debug.h>
 
 const quint16 idMessage = 0xCAFE;
 
@@ -165,7 +165,18 @@ QVariantMap Client::parseData(CommandType::Command cmd, const QByteArray& data) 
     {
       cmd_data86_t cmdData;
       cmd_data86_unpack(&cborStream, &offset, &cmdData);
-      return QVariantMap();
+      QVariantMap vm;
+      vm["streamId"]    = cmdData.streamId;
+      vm["timestamp"]   = cmdData.timestamp;
+      vm["coefCount"]   = cmdData.coefCount;
+      vm["elemCount"]   = cmdData.elemCount;
+      vm["lowFreq"]     = cmdData.lowFreq;
+      vm["highFreq"]    = cmdData.highFreq;
+      vm["heading"]     = cmdData.heading;
+      vm["data"]        = cmdData.data;
+      vm["stationId"]   = cmdData.stationId;
+      vm["serviceData"] = QByteArray(cmdData.serviceData.data);
+      return vm;
     }
 //    case CommandType::Stream_2:
 //    {
@@ -173,18 +184,24 @@ QVariantMap Client::parseData(CommandType::Command cmd, const QByteArray& data) 
 //      cmd_data89_unpack(&cborStream, &offset, &cmdData);
 //      return QVariantMap();
 //    }
-//    case CommandType::Stream_3:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_4:
-//    {
-//      cmd_data86_t cmdData;
-//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
+    case CommandType::Stream_3:
+    case CommandType::Stream_4:
+    {
+      cmd_data92_t cmdData;
+      cmd_data92_unpack(&cborStream, &offset, &cmdData);
+      QVariantMap vm;
+      vm["streamId"]    = cmdData.streamId;
+      vm["timestamp"]   = cmdData.timestamp;
+      vm["beamCount"]   = cmdData.beamCount;
+      vm["lowFreq"]     = cmdData.lowFreq;
+      vm["highFreq"]    = cmdData.highFreq;
+      vm["heading"]     = cmdData.heading;
+      vm["headingStd"]  = cmdData.headingStd;
+      vm["data"]        = cmdData.data;
+      vm["stationId"]   = cmdData.stationId;
+      vm["serviceData"] = QByteArray(cmdData.serviceData.data);
+      return vm;
+    }
 //    case CommandType::Stream_5:
 //    {
 //      cmd_data89_t cmdData;
@@ -374,6 +391,7 @@ void Client::readyRead()
     if (m_command >= CommandType::Stream_1 && m_command <= CommandType::Stream_22)
     {
       QVariantMap vm = parseData(m_command, message);
+      emit data(m_command, vm);
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
 //      if (!jobject.isEmpty())
 //      {
@@ -397,6 +415,6 @@ void Client::disconnected()
 
 void Client::realtimeDataSlot()
 {  
-  emit data(CommandType::CMD_PGAS_Data);
+  //emit data(CommandType::CMD_PGAS_Data);
 }
 

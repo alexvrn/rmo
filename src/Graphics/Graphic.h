@@ -16,7 +16,7 @@ class Graphic : public QGraphicsView
     ~Graphic();
 
     void setBackgroundColor(const QColor& color);
-    void addData(const QList<int>& data);
+    void addData(const QList<QVariantMap>& data);
 
     bool orientation() const;
 
@@ -44,7 +44,7 @@ class Graphic : public QGraphicsView
 
     QTimer* m_resizeTimer;
 
-    QList<QColor> m_listData;
+    QList<QVariantMap> m_data;
 };
 
 #endif // GRAPHIC_H

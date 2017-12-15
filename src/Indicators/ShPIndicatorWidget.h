@@ -4,11 +4,13 @@
 // Qt
 #include <QWidget>
 #include <QTimer>
+#include <QVariantMap>
 class QToolButton;
 class QAbstractButton;
 
 // Local
 class Graphic;
+#include <commandType.h>
 
 // UI
 namespace Ui
@@ -29,7 +31,8 @@ class ShPIndicatorWidget : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(int cmd, const QByteArray& value = QByteArray());
+    void data(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
+    void setCurrentPgasNumber(int pgasNumber);
 
   signals:
     void countWidget();
@@ -50,6 +53,9 @@ private:
     QColor m_graphColor;
 
     QList<QToolButton*> m_toolButtons;
+
+    QMap<int, QList<QVariantMap> > m_pgasData;
+    int m_pgasNumber;
 };
 
 #endif // SHPINDICATORWIDGET_H
