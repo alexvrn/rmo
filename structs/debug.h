@@ -1,7 +1,7 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#define DEBUG
+//#define DEBUG
 #define TRACE {printf("%s:%d: trace\n", __func__, __LINE__);}
 #define ERROR {printf("%s:%d: error\n", __func__,__LINE__);}
 void print_hex(const unsigned char* const ptr, int size);

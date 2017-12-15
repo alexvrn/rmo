@@ -1,6 +1,6 @@
 /*
  * GENERATED AUTOMATICALLY DO NOT FIX
- * 2017-12-13 16:19:47
+ * 2017-12-15 16:04:08
  */
 
 
@@ -38,7 +38,7 @@ cmd_data0_print(cmd_data0_t* cmd_data) {
 		return -1;
 	}
 	printf("cmd_data0:\n");
-	for(int i=0; i<1024;++i)
+	for(int i=0; i<32;++i)
 		printf("data: %d\n", cmd_data->data[i]);
 
 	return 0;
@@ -572,7 +572,7 @@ cmd_data92_print(cmd_data92_t* cmd_data) {
 	printf("highFreq: %f\n", cmd_data->highFreq);
 	printf("heading: %f\n", cmd_data->heading);
 	printf("headingStd: %f\n", cmd_data->headingStd);
-	printf("data: %d\n", cmd_data->data);
+	printf("data: %f\n", cmd_data->data);
 	cmd_data0_print(&cmd_data->serviceData);
 	printf("stationId: %d\n", cmd_data->stationId);
 

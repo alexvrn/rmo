@@ -1,6 +1,6 @@
 /*
  * GENERATED AUTOMATICALLY DO NOT FIX
- * 2017-12-13 16:19:47
+ * 2017-12-15 16:04:08
  */
 
 
@@ -50,6 +50,12 @@ handler_post_control_reboot(const char* param, cbor_stream_t *stream_in, cbor_st
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_post_control_reboot(param, (void*)&cmd_data2, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -73,6 +79,12 @@ handler_post_control_resurface(const char* param, cbor_stream_t *stream_in, cbor
 	}
 	ret = cmd_data5_unpack(stream_in, &offset, &cmd_data5);
 	if(ret == 0) {
+		goto fail;
+	}
+
+	/* command worker */
+	ret = worker_post_control_resurface(param, (void*)&cmd_data5, NULL);
+	if(ret != 0) {
 		goto fail;
 	}
 
@@ -102,6 +114,12 @@ handler_post_control_self_test(const char* param, cbor_stream_t *stream_in, cbor
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_post_control_self_test(param, (void*)&cmd_data8, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -128,6 +146,12 @@ handler_post_firmware_burn(const char* param, cbor_stream_t *stream_in, cbor_str
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_post_firmware_burn(param, (void*)&cmd_data12, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -143,6 +167,12 @@ handler_get_firmware_sha1(const char* param, cbor_stream_t *stream_in, cbor_stre
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_firmware_sha1(param, NULL, (void*)&cmd_data16);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data16_pack(stream_out, (void*)&cmd_data16);
@@ -163,6 +193,12 @@ handler_get_rtc(const char* param, cbor_stream_t *stream_in, cbor_stream_t *stre
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_rtc(param, NULL, (void*)&cmd_data19);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data19_pack(stream_out, (void*)&cmd_data19);
@@ -194,6 +230,12 @@ handler_post_rtc(const char* param, cbor_stream_t *stream_in, cbor_stream_t *str
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_post_rtc(param, (void*)&cmd_data19, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -220,6 +262,12 @@ handler_put_antenna_defective_columns(const char* param, cbor_stream_t *stream_i
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_put_antenna_defective_columns(param, (void*)&cmd_data24, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -235,6 +283,12 @@ handler_get_antenna_defective_columns(const char* param, cbor_stream_t *stream_i
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_antenna_defective_columns(param, NULL, (void*)&cmd_data28);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data28_pack(stream_out, (void*)&cmd_data28);
@@ -266,6 +320,12 @@ handler_put_env_params(const char* param, cbor_stream_t *stream_in, cbor_stream_
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_put_env_params(param, (void*)&cmd_data30, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -281,6 +341,12 @@ handler_get_env_params(const char* param, cbor_stream_t *stream_in, cbor_stream_
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_env_params(param, NULL, (void*)&cmd_data36);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data36_pack(stream_out, (void*)&cmd_data36);
@@ -312,6 +378,12 @@ handler_patch_active_schedule(const char* param, cbor_stream_t *stream_in, cbor_
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_patch_active_schedule(param, (void*)&cmd_data38, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -338,6 +410,12 @@ handler_put_active_schedule(const char* param, cbor_stream_t *stream_in, cbor_st
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_put_active_schedule(param, (void*)&cmd_data43, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -353,6 +431,12 @@ handler_get_active_schedule(const char* param, cbor_stream_t *stream_in, cbor_st
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_active_schedule(param, NULL, (void*)&cmd_data47);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data47_pack(stream_out, (void*)&cmd_data47);
@@ -384,6 +468,12 @@ handler_patch_utcs_transmit_schedule(const char* param, cbor_stream_t *stream_in
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_patch_utcs_transmit_schedule(param, (void*)&cmd_data49, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -410,6 +500,12 @@ handler_put_utcs_transmit_schedule(const char* param, cbor_stream_t *stream_in, 
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_put_utcs_transmit_schedule(param, (void*)&cmd_data54, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -425,6 +521,12 @@ handler_get_utcs_transmit_schedule(const char* param, cbor_stream_t *stream_in, 
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_utcs_transmit_schedule(param, NULL, (void*)&cmd_data58);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data58_pack(stream_out, (void*)&cmd_data58);
@@ -456,6 +558,12 @@ handler_patch_satcom_schedule(const char* param, cbor_stream_t *stream_in, cbor_
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_patch_satcom_schedule(param, (void*)&cmd_data60, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -482,6 +590,12 @@ handler_patch_satcom_scheduleFIX(const char* param, cbor_stream_t *stream_in, cb
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_patch_satcom_scheduleFIX(param, (void*)&cmd_data65, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -497,6 +611,12 @@ handler_get_satcom_schedule(const char* param, cbor_stream_t *stream_in, cbor_st
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_satcom_schedule(param, NULL, (void*)&cmd_data69);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data69_pack(stream_out, (void*)&cmd_data69);
@@ -528,6 +648,12 @@ handler_put_passive_processing_parameters(const char* param, cbor_stream_t *stre
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_put_passive_processing_parameters(param, (void*)&cmd_data71, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -554,6 +680,12 @@ handler_patch_passive_processing_parameters(const char* param, cbor_stream_t *st
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_patch_passive_processing_parameters(param, (void*)&cmd_data71, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -569,6 +701,12 @@ handler_get_passive_processing_parameters(const char* param, cbor_stream_t *stre
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_passive_processing_parameters(param, NULL, (void*)&cmd_data71);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data71_pack(stream_out, (void*)&cmd_data71);
@@ -600,6 +738,12 @@ handler_post_att_1(const char* param, cbor_stream_t *stream_in, cbor_stream_t *s
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_post_att_1(param, (void*)&cmd_data78, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -616,6 +760,12 @@ handler_get_att_1(const char* param, cbor_stream_t *stream_in, cbor_stream_t *st
 	if(param)
 		printf("param: %s\n", param);
 
+	/* command worker */
+	ret = worker_get_att_1(param, NULL, (void*)&cmd_data82);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	ret = cmd_data82_pack(stream_out, (void*)&cmd_data82);
 	if(ret == 0) {
@@ -631,14 +781,23 @@ fail:
 /* 26 Отмена АСЦ */
 int
 handler_delete_att_1(const char* param, cbor_stream_t *stream_in, cbor_stream_t *stream_out) {
+	int ret = 0;
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_delete_att_1(param, NULL, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
 	return 200;
+fail:
+	return 400;
 }
 
 /* 31 Запрос первичных отметок режима ШП */
@@ -648,6 +807,12 @@ handler_get_passive_marks(const char* param, cbor_stream_t *stream_in, cbor_stre
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_passive_marks(param, NULL, (void*)&cmd_data101);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data101_pack(stream_out, (void*)&cmd_data101);
@@ -669,6 +834,12 @@ handler_get_active_GET_ANGLE_ID_marks(const char* param, cbor_stream_t *stream_i
 	if(param)
 		printf("param: %s\n", param);
 
+	/* command worker */
+	ret = worker_get_active_GET_ANGLE_ID_marks(param, NULL, (void*)&cmd_data129);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	ret = cmd_data129_pack(stream_out, (void*)&cmd_data129);
 	if(ret == 0) {
@@ -688,6 +859,12 @@ handler_get_utcs_inbox(const char* param, cbor_stream_t *stream_in, cbor_stream_
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_utcs_inbox(param, NULL, (void*)&cmd_data142);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data142_pack(stream_out, (void*)&cmd_data142);
@@ -709,6 +886,12 @@ handler_get_passive_targets(const char* param, cbor_stream_t *stream_in, cbor_st
 	if(param)
 		printf("param: %s\n", param);
 
+	/* command worker */
+	ret = worker_get_passive_targets(param, NULL, (void*)&cmd_data151);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	ret = cmd_data151_pack(stream_out, (void*)&cmd_data151);
 	if(ret == 0) {
@@ -728,6 +911,12 @@ handler_get_active_targets(const char* param, cbor_stream_t *stream_in, cbor_str
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_active_targets(param, NULL, (void*)&cmd_data160);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data160_pack(stream_out, (void*)&cmd_data160);
@@ -759,6 +948,12 @@ handler_patch_streams(const char* param, cbor_stream_t *stream_in, cbor_stream_t
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_patch_streams(param, (void*)&cmd_data163, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -785,6 +980,12 @@ handler_put_streams(const char* param, cbor_stream_t *stream_in, cbor_stream_t *
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_put_streams(param, (void*)&cmd_data168, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -800,6 +1001,12 @@ handler_get_streams(const char* param, cbor_stream_t *stream_in, cbor_stream_t *
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_streams(param, NULL, (void*)&cmd_data172);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data172_pack(stream_out, (void*)&cmd_data172);
@@ -820,6 +1027,12 @@ handler_get_self_diagnosis(const char* param, cbor_stream_t *stream_in, cbor_str
 
 	if(param)
 		printf("param: %s\n", param);
+
+	/* command worker */
+	ret = worker_get_self_diagnosis(param, NULL, (void*)&cmd_data187);
+	if(ret != 0) {
+		goto fail;
+	}
 
 	/* Output data */
 	ret = cmd_data187_pack(stream_out, (void*)&cmd_data187);
@@ -851,6 +1064,12 @@ handler_post_control_set_mode(const char* param, cbor_stream_t *stream_in, cbor_
 		goto fail;
 	}
 
+	/* command worker */
+	ret = worker_post_control_set_mode(param, (void*)&cmd_data194, NULL);
+	if(ret != 0) {
+		goto fail;
+	}
+
 	/* Output data */
 	printf("RESPONSE DATA : %lu byte\n", stream_out->pos);
 
@@ -875,6 +1094,12 @@ handler_post_do_measurements(const char* param, cbor_stream_t *stream_in, cbor_s
 	}
 	ret = cmd_data189_unpack(stream_in, &offset, &cmd_data189);
 	if(ret == 0) {
+		goto fail;
+	}
+
+	/* command worker */
+	ret = worker_post_do_measurements(param, (void*)&cmd_data189, NULL);
+	if(ret != 0) {
 		goto fail;
 	}
 

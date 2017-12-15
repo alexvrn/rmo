@@ -1,6 +1,6 @@
 /*
  * GENERATED AUTOMATICALLY DO NOT FIX
- * 2017-12-13 16:19:47
+ * 2017-12-15 16:04:08
  */
 
 
@@ -37,7 +37,7 @@ cmd_data0_rnd(cmd_data0_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	for(int i=0; i<1024;++i)
+	for(int i=0; i<32;++i)
 		RANDOM(&cmd_data->data[i], sizeof(char));
 
 	return 0;
@@ -97,7 +97,7 @@ cmd_data10_rnd(cmd_data10_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	cmd_data175_rnd(&cmd_data->diagData);
 	cmd_data0_rnd(&cmd_data->serviceData);
 	RANDOM(&cmd_data->stationId, sizeof(char));
@@ -488,7 +488,7 @@ cmd_data86_rnd(cmd_data86_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->coefCount, sizeof(unsigned));
 	RANDOM(&cmd_data->elemCount, sizeof(unsigned));
 	RANDOM(&cmd_data->lowFreq, sizeof(float));
@@ -510,7 +510,7 @@ cmd_data89_rnd(cmd_data89_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->coefCount, sizeof(unsigned));
 	RANDOM(&cmd_data->beamCount, sizeof(unsigned));
 	RANDOM(&cmd_data->lowFreq, sizeof(float));
@@ -532,13 +532,13 @@ cmd_data92_rnd(cmd_data92_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->beamCount, sizeof(unsigned));
 	RANDOM(&cmd_data->lowFreq, sizeof(float));
 	RANDOM(&cmd_data->highFreq, sizeof(float));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
-	RANDOM(&cmd_data->data, sizeof(char));
+	RANDOM(&cmd_data->data, sizeof(float));
 	cmd_data0_rnd(&cmd_data->serviceData);
 	RANDOM(&cmd_data->stationId, sizeof(char));
 
@@ -553,7 +553,7 @@ cmd_data95_rnd(cmd_data95_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->lowFreq, sizeof(float));
 	RANDOM(&cmd_data->highFreq, sizeof(float));
 	RANDOM(&cmd_data->heading, sizeof(float));
@@ -615,7 +615,7 @@ cmd_data102_rnd(cmd_data102_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
 	for(int i=0; i<UNDEFINED_SIZE;++i)
@@ -632,7 +632,7 @@ cmd_data104_rnd(cmd_data104_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->sampleCount, sizeof(unsigned));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
@@ -653,7 +653,7 @@ cmd_data107_rnd(cmd_data107_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->coefCount, sizeof(unsigned));
 	RANDOM(&cmd_data->lowFreq, sizeof(float));
 	RANDOM(&cmd_data->highFreq, sizeof(float));
@@ -676,7 +676,7 @@ cmd_data110_rnd(cmd_data110_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
 	for(int i=0; i<UNDEFINED_SIZE;++i)
@@ -710,7 +710,7 @@ cmd_data114_rnd(cmd_data114_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->sampleCount, sizeof(unsigned));
 	RANDOM(&cmd_data->minShift, sizeof(float));
 	RANDOM(&cmd_data->maxShift, sizeof(float));
@@ -733,7 +733,7 @@ cmd_data117_rnd(cmd_data117_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
 	for(int i=0; i<UNDEFINED_SIZE;++i)
@@ -767,7 +767,7 @@ cmd_data121_rnd(cmd_data121_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	for(int i=0; i<32;++i)
 		RANDOM(&cmd_data->sweepId[i], sizeof(char));
 	RANDOM(&cmd_data->dopplerAltCount, sizeof(unsigned));
@@ -787,7 +787,7 @@ cmd_data124_rnd(cmd_data124_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	for(int i=0; i<32;++i)
 		RANDOM(&cmd_data->sweepId[i], sizeof(char));
 	RANDOM(&cmd_data->heading, sizeof(float));
@@ -837,7 +837,7 @@ cmd_data130_rnd(cmd_data130_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	for(int i=0; i<32;++i)
 		RANDOM(&cmd_data->sweepId[i], sizeof(char));
 	RANDOM(&cmd_data->heading, sizeof(float));
@@ -856,7 +856,7 @@ cmd_data132_rnd(cmd_data132_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->beamCount, sizeof(unsigned));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
@@ -875,7 +875,7 @@ cmd_data135_rnd(cmd_data135_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
 	cmd_data136_rnd(&cmd_data->data);
@@ -938,7 +938,7 @@ cmd_data143_rnd(cmd_data143_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
 	cmd_data136_rnd(&cmd_data->data);
@@ -954,7 +954,7 @@ cmd_data145_rnd(cmd_data145_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->targetId, sizeof(char));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
@@ -1035,7 +1035,7 @@ cmd_data152_rnd(cmd_data152_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->targetId, sizeof(char));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
@@ -1052,7 +1052,7 @@ cmd_data154_rnd(cmd_data154_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->targetId, sizeof(char));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
@@ -1128,7 +1128,7 @@ cmd_data161_rnd(cmd_data161_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	RANDOM(&cmd_data->targetId, sizeof(char));
 	RANDOM(&cmd_data->heading, sizeof(float));
 	RANDOM(&cmd_data->headingStd, sizeof(float));
@@ -1200,7 +1200,7 @@ cmd_data174_rnd(cmd_data174_t* cmd_data) {
 		return -1;
 	}
 	RANDOM(&cmd_data->streamId, sizeof(unsigned));
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	cmd_data175_rnd(&cmd_data->data);
 	cmd_data0_rnd(&cmd_data->serviceData);
 	RANDOM(&cmd_data->stationId, sizeof(char));
@@ -1353,7 +1353,7 @@ cmd_data187_rnd(cmd_data187_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	cmd_data175_rnd(&cmd_data->data);
 
 	return 0;
@@ -1380,7 +1380,7 @@ cmd_data191_rnd(cmd_data191_t* cmd_data) {
 		printf("%s:%d: ERROR: NULL data in use.\n", __func__, __LINE__);
 		return -1;
 	}
-	RANDOM(&cmd_data->timestamp, sizeof(float));
+	RANDOM(&cmd_data->timestamp, sizeof(unsigned));
 	for(int i=0; i<UNDEFINED_SIZE;++i)
 		cmd_data192_rnd(&cmd_data->data[i]);
 	cmd_data0_rnd(&cmd_data->serviceData);

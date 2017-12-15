@@ -22,7 +22,7 @@ pgas_http_put_create(char* url, char* data, size_t size) {
 	curl_easy_setopt(curl_handler, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 	curl_easy_setopt(curl_handler, CURLOPT_URL, url);
 	curl_easy_setopt(curl_handler, CURLOPT_TIMEOUT, 1L);
-	curl_easy_setopt(curl_handler, CURLOPT_VERBOSE, 1L);
+	//curl_easy_setopt(curl_handler, CURLOPT_VERBOSE, 1L);
 	curl_easy_setopt(curl_handler, CURLOPT_POSTFIELDS, data);
 	curl_easy_setopt(curl_handler, CURLOPT_POSTFIELDSIZE, (long)size);
 
@@ -167,7 +167,7 @@ pgas_stream_proc(pgas_stream_t* stream) {
 		st->last_timestamp = now;
 	}
 
-	sleep(1);
+	sleep(2);
 fail:
 	return ret;
 }

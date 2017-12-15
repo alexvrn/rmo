@@ -1,6 +1,6 @@
 /*
  * GENERATED AUTOMATICALLY DO NOT FIX
- * 2017-12-13 16:19:47
+ * 2017-12-15 16:04:08
  */
 
 
@@ -44,7 +44,7 @@ cmd_data0_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_byte_stringl(stream, cmd_data->data, 1024);
+	cbor_serialize_byte_stringl(stream, cmd_data->data, 32);
 
 #ifdef DEBUG
 	cmd_data0_print(cmd_data);
@@ -60,7 +60,7 @@ cmd_data0_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
-	if(tmp_len > 1024) {
+	if(tmp_len > 32) {
 		return 0;
 	}
 	memcpy(cmd_data->data, tmp_ptr, tmp_len);
@@ -204,7 +204,7 @@ cmd_data10_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cmd_data175_pack(stream, (void*)&cmd_data->diagData);
 	cmd_data0_pack(stream, (void*)&cmd_data->serviceData);
 	cbor_serialize_byte_stringl(stream, &cmd_data->stationId, 1);
@@ -222,7 +222,7 @@ cmd_data10_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	if(0 == cmd_data175_unpack(stream, offset, &cmd_data->diagData)) {
 		 return 0;
 	}
@@ -1381,7 +1381,7 @@ cmd_data86_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_int(stream, (int)cmd_data->coefCount);
 	cbor_serialize_int(stream, (int)cmd_data->elemCount);
 	cbor_serialize_float(stream, cmd_data->lowFreq);
@@ -1406,7 +1406,7 @@ cmd_data86_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->coefCount);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->elemCount);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->lowFreq);
@@ -1441,7 +1441,7 @@ cmd_data89_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_int(stream, (int)cmd_data->coefCount);
 	cbor_serialize_int(stream, (int)cmd_data->beamCount);
 	cbor_serialize_float(stream, cmd_data->lowFreq);
@@ -1466,7 +1466,7 @@ cmd_data89_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->coefCount);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->beamCount);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->lowFreq);
@@ -1501,13 +1501,13 @@ cmd_data92_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_int(stream, (int)cmd_data->beamCount);
 	cbor_serialize_float(stream, cmd_data->lowFreq);
 	cbor_serialize_float(stream, cmd_data->highFreq);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
-	cbor_serialize_byte_stringl(stream, &cmd_data->data, 1);
+	cbor_serialize_float(stream, cmd_data->data);
 	cmd_data0_pack(stream, (void*)&cmd_data->serviceData);
 	cbor_serialize_byte_stringl(stream, &cmd_data->stationId, 1);
 
@@ -1525,17 +1525,13 @@ cmd_data92_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->beamCount);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->lowFreq);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->highFreq);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
-	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
-	if(tmp_len > 1) {
-		return 0;
-	}
-	memcpy(&cmd_data->data, tmp_ptr, tmp_len);
+	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->data);
 	if(0 == cmd_data0_unpack(stream, offset, &cmd_data->serviceData)) {
 		 return 0;
 	}
@@ -1559,7 +1555,7 @@ cmd_data95_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_float(stream, cmd_data->lowFreq);
 	cbor_serialize_float(stream, cmd_data->highFreq);
 	cbor_serialize_float(stream, cmd_data->heading);
@@ -1587,7 +1583,7 @@ cmd_data95_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->lowFreq);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->highFreq);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
@@ -1742,7 +1738,7 @@ cmd_data102_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
 	cbor_serialize_array_indefinite(stream);
@@ -1765,7 +1761,7 @@ cmd_data102_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
 	*offset += cbor_deserialize_array_indefinite(stream, *offset);
@@ -1793,7 +1789,7 @@ cmd_data104_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_int(stream, (int)cmd_data->sampleCount);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -1817,7 +1813,7 @@ cmd_data104_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->sampleCount);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
@@ -1851,7 +1847,7 @@ cmd_data107_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_int(stream, (int)cmd_data->coefCount);
 	cbor_serialize_float(stream, cmd_data->lowFreq);
 	cbor_serialize_float(stream, cmd_data->highFreq);
@@ -1877,7 +1873,7 @@ cmd_data107_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->coefCount);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->lowFreq);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->highFreq);
@@ -1913,7 +1909,7 @@ cmd_data110_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
 	cbor_serialize_array_indefinite(stream);
@@ -1941,7 +1937,7 @@ cmd_data110_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
 	*offset += cbor_deserialize_array_indefinite(stream, *offset);
@@ -2011,7 +2007,7 @@ cmd_data114_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_int(stream, (int)cmd_data->sampleCount);
 	cbor_serialize_float(stream, cmd_data->minShift);
 	cbor_serialize_float(stream, cmd_data->maxShift);
@@ -2037,7 +2033,7 @@ cmd_data114_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->sampleCount);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->minShift);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->maxShift);
@@ -2073,7 +2069,7 @@ cmd_data117_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
 	cbor_serialize_array_indefinite(stream);
@@ -2101,7 +2097,7 @@ cmd_data117_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
 	*offset += cbor_deserialize_array_indefinite(stream, *offset);
@@ -2171,7 +2167,7 @@ cmd_data121_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_byte_stringl(stream, cmd_data->sweepId, 32);
 	cbor_serialize_int(stream, (int)cmd_data->dopplerAltCount);
 	cbor_serialize_int(stream, (int)cmd_data->beamCount);
@@ -2193,7 +2189,7 @@ cmd_data121_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
 	if(tmp_len > 32) {
 		return 0;
@@ -2219,7 +2215,7 @@ cmd_data124_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_byte_stringl(stream, cmd_data->sweepId, 32);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -2246,7 +2242,7 @@ cmd_data124_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
 	if(tmp_len > 32) {
 		return 0;
@@ -2374,7 +2370,7 @@ cmd_data130_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_byte_stringl(stream, cmd_data->sweepId, 32);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -2398,7 +2394,7 @@ cmd_data130_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
 	if(tmp_len > 32) {
 		return 0;
@@ -2431,7 +2427,7 @@ cmd_data132_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_int(stream, (int)cmd_data->beamCount);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -2453,7 +2449,7 @@ cmd_data132_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->beamCount);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
@@ -2485,7 +2481,7 @@ cmd_data135_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
 	cmd_data136_pack(stream, (void*)&cmd_data->data);
@@ -2506,7 +2502,7 @@ cmd_data135_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
 	if(0 == cmd_data136_unpack(stream, offset, &cmd_data->data)) {
@@ -2660,7 +2656,7 @@ cmd_data143_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
 	cmd_data136_pack(stream, (void*)&cmd_data->data);
@@ -2678,7 +2674,7 @@ cmd_data143_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->heading);
 	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->headingStd);
 	if(0 == cmd_data136_unpack(stream, offset, &cmd_data->data)) {
@@ -2699,7 +2695,7 @@ cmd_data145_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_byte_stringl(stream, &cmd_data->targetId, 1);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -2721,7 +2717,7 @@ cmd_data145_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
 	if(tmp_len > 1) {
 		return 0;
@@ -2962,7 +2958,7 @@ cmd_data152_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_byte_stringl(stream, &cmd_data->targetId, 1);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -2981,7 +2977,7 @@ cmd_data152_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
 	if(tmp_len > 1) {
 		return 0;
@@ -3007,7 +3003,7 @@ cmd_data154_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_byte_stringl(stream, &cmd_data->targetId, 1);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -3029,7 +3025,7 @@ cmd_data154_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
 	if(tmp_len > 1) {
 		return 0;
@@ -3212,7 +3208,7 @@ cmd_data161_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_byte_stringl(stream, &cmd_data->targetId, 1);
 	cbor_serialize_float(stream, cmd_data->heading);
 	cbor_serialize_float(stream, cmd_data->headingStd);
@@ -3231,7 +3227,7 @@ cmd_data161_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_byte_string_no_copy(stream, *offset, &tmp_ptr, &tmp_len);
 	if(tmp_len > 1) {
 		return 0;
@@ -3433,7 +3429,7 @@ cmd_data174_pack(cbor_stream_t* stream, void* data) {
 	}
 
 	cbor_serialize_int(stream, (int)cmd_data->streamId);
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cmd_data175_pack(stream, (void*)&cmd_data->data);
 	cmd_data0_pack(stream, (void*)&cmd_data->serviceData);
 	cbor_serialize_byte_stringl(stream, &cmd_data->stationId, 1);
@@ -3452,7 +3448,7 @@ cmd_data174_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 		return 0;
 	}
 	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->streamId);
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	if(0 == cmd_data175_unpack(stream, offset, &cmd_data->data)) {
 		 return 0;
 	}
@@ -3876,7 +3872,7 @@ cmd_data187_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cmd_data175_pack(stream, (void*)&cmd_data->data);
 
 #ifdef DEBUG
@@ -3892,7 +3888,7 @@ cmd_data187_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	if(0 == cmd_data175_unpack(stream, offset, &cmd_data->data)) {
 		 return 0;
 	}
@@ -3946,7 +3942,7 @@ cmd_data191_pack(cbor_stream_t* stream, void* data) {
 		return 0;
 	}
 
-	cbor_serialize_float(stream, cmd_data->timestamp);
+	cbor_serialize_int(stream, (int)cmd_data->timestamp);
 	cbor_serialize_array_indefinite(stream);
 	for(int i=0; i<UNDEFINED_SIZE;++i)
 		cmd_data192_pack(stream, (void*)&cmd_data->data[i]);
@@ -3969,7 +3965,7 @@ cmd_data191_unpack(cbor_stream_t* stream, size_t* offset, void* data) {
 	if(!stream) {
 		return 0;
 	}
-	*offset += cbor_deserialize_float(stream, *offset, &cmd_data->timestamp);
+	*offset += cbor_deserialize_int(stream, *offset, (int*)&cmd_data->timestamp);
 	*offset += cbor_deserialize_array_indefinite(stream, *offset);
 	i = 0;
 	while (!cbor_at_break(stream, *offset)) {

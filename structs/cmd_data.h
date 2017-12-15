@@ -1,6 +1,6 @@
 /*
  * GENERATED AUTOMATICALLY DO NOT FIX
- * 2017-12-13 16:19:47
+ * 2017-12-15 16:04:08
  */
 
 #ifndef CMD_DATA_H
@@ -41,7 +41,7 @@ extern "C" {
 #define PGA_COUNT_MAX	2
 #define IGA_COUNT_MAX	2
 typedef struct cmd_data0_t {
-	char	data[1024];
+	char	data[32];
 } cmd_data0_t;
 
 typedef struct cmd_data2_t {
@@ -121,7 +121,7 @@ typedef struct cmd_data175_t {
 } cmd_data175_t;
 
 typedef struct cmd_data10_t {
-	float	timestamp;
+	unsigned	timestamp;
 	cmd_data175_t	diagData;
 	cmd_data0_t	serviceData;
 	char	stationId;
@@ -273,7 +273,7 @@ typedef struct cmd_data82_t {
 
 typedef struct cmd_data86_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	unsigned	coefCount;
 	unsigned	elemCount;
 	float	lowFreq;
@@ -287,7 +287,7 @@ typedef struct cmd_data86_t {
 
 typedef struct cmd_data89_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	unsigned	coefCount;
 	unsigned	beamCount;
 	float	lowFreq;
@@ -301,13 +301,13 @@ typedef struct cmd_data89_t {
 
 typedef struct cmd_data92_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	unsigned	beamCount;
 	float	lowFreq;
 	float	highFreq;
 	float	heading;
 	float	headingStd;
-	char	data;
+	float	data;
 	cmd_data0_t	serviceData;
 	char	stationId;
 } cmd_data92_t;
@@ -322,7 +322,7 @@ typedef struct cmd_data96_t {
 
 typedef struct cmd_data95_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	float	lowFreq;
 	float	highFreq;
 	float	heading;
@@ -338,7 +338,7 @@ typedef struct cmd_data99_t {
 } cmd_data99_t;
 
 typedef struct cmd_data102_t {
-	float	timestamp;
+	unsigned	timestamp;
 	float	heading;
 	float	headingStd;
 	cmd_data96_t	data[UNDEFINED_SIZE];
@@ -350,7 +350,7 @@ typedef struct cmd_data101_t {
 
 typedef struct cmd_data104_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	unsigned	sampleCount;
 	float	heading;
 	float	headingStd;
@@ -363,7 +363,7 @@ typedef struct cmd_data104_t {
 
 typedef struct cmd_data107_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	unsigned	coefCount;
 	float	lowFreq;
 	float	highFreq;
@@ -383,7 +383,7 @@ typedef struct cmd_data111_t {
 
 typedef struct cmd_data110_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	float	heading;
 	float	headingStd;
 	cmd_data111_t	data[UNDEFINED_SIZE];
@@ -395,7 +395,7 @@ typedef struct cmd_data110_t {
 
 typedef struct cmd_data114_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	unsigned	sampleCount;
 	float	minShift;
 	float	maxShift;
@@ -415,7 +415,7 @@ typedef struct cmd_data118_t {
 
 typedef struct cmd_data117_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	float	heading;
 	float	headingStd;
 	cmd_data118_t	data[UNDEFINED_SIZE];
@@ -427,7 +427,7 @@ typedef struct cmd_data117_t {
 
 typedef struct cmd_data121_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	char	sweepId[32];
 	unsigned	dopplerAltCount;
 	unsigned	beamCount;
@@ -447,7 +447,7 @@ typedef struct cmd_data125_t {
 
 typedef struct cmd_data124_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	char	sweepId[32];
 	float	heading;
 	float	headingStd;
@@ -457,7 +457,7 @@ typedef struct cmd_data124_t {
 } cmd_data124_t;
 
 typedef struct cmd_data130_t {
-	float	timestamp;
+	unsigned	timestamp;
 	char	sweepId[32];
 	float	heading;
 	float	headingStd;
@@ -470,7 +470,7 @@ typedef struct cmd_data129_t {
 
 typedef struct cmd_data132_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	unsigned	beamCount;
 	float	heading;
 	float	headingStd;
@@ -493,7 +493,7 @@ typedef struct cmd_data136_t {
 
 typedef struct cmd_data135_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	float	heading;
 	float	headingStd;
 	cmd_data136_t	data;
@@ -507,7 +507,7 @@ typedef struct cmd_data140_t {
 } cmd_data140_t;
 
 typedef struct cmd_data143_t {
-	float	timestamp;
+	unsigned	timestamp;
 	float	heading;
 	float	headingStd;
 	cmd_data136_t	data;
@@ -548,7 +548,7 @@ typedef struct cmd_data146_t {
 
 typedef struct cmd_data145_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	char	targetId;
 	float	heading;
 	float	headingStd;
@@ -558,7 +558,7 @@ typedef struct cmd_data145_t {
 } cmd_data145_t;
 
 typedef struct cmd_data152_t {
-	float	timestamp;
+	unsigned	timestamp;
 	char	targetId;
 	float	heading;
 	float	headingStd;
@@ -599,7 +599,7 @@ typedef struct cmd_data155_t {
 
 typedef struct cmd_data154_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	char	targetId;
 	float	heading;
 	float	headingStd;
@@ -609,7 +609,7 @@ typedef struct cmd_data154_t {
 } cmd_data154_t;
 
 typedef struct cmd_data161_t {
-	float	timestamp;
+	unsigned	timestamp;
 	char	targetId;
 	float	heading;
 	float	headingStd;
@@ -641,14 +641,14 @@ typedef struct cmd_data172_t {
 
 typedef struct cmd_data174_t {
 	unsigned	streamId;
-	float	timestamp;
+	unsigned	timestamp;
 	cmd_data175_t	data;
 	cmd_data0_t	serviceData;
 	char	stationId;
 } cmd_data174_t;
 
 typedef struct cmd_data187_t {
-	float	timestamp;
+	unsigned	timestamp;
 	cmd_data175_t	data;
 } cmd_data187_t;
 
@@ -665,7 +665,7 @@ typedef struct cmd_data192_t {
 } cmd_data192_t;
 
 typedef struct cmd_data191_t {
-	float	timestamp;
+	unsigned	timestamp;
 	cmd_data192_t	data[UNDEFINED_SIZE];
 	cmd_data0_t	serviceData;
 	char	stationId;

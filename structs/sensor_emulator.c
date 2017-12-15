@@ -5,7 +5,7 @@
 
 void*
 sensor_emulator(void* ptr) {
-	sensor_data_t* sensor_data;
+	sensor_data_t sensor_data;
 
 	if(!ptr) {
 		printf("%s:%d: bad emulator pointer\n", __func__, __LINE__);
@@ -15,9 +15,9 @@ sensor_emulator(void* ptr) {
 	sensor_emulator_t* emu = (sensor_emulator_t*)ptr;
 
 	while(0 == emu->emulator(emu->emulator_data, &sensor_data)) {
-		emu->handler(emu->handler_data, sensor_data);
+		emu->handler(emu->handler_data, &sensor_data);
 		pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-		sleep(1/emu->freq);
+		usleep(1000000/emu->freq);
 		pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
 	}
 	//printf("%s: %d: EMULATE freq=%d ...\n", __func__, __LINE__, emu->freq);
@@ -27,7 +27,7 @@ exit:
 }
 
 sensor_emulator_t*
-sensor_emulator_start(	float freq,
+sensor_emulator_start(	unsigned freq,
 			SENSOR_EMULATOR emulator,
 			void* emulator_data,
 			SENSOR_HANDLER handler,
@@ -35,9 +35,9 @@ sensor_emulator_start(	float freq,
 	sensor_emulator_t* emu = NULL;
 
 	//check parameters
-	if(freq == 0.0 || !emulator || !handler) {
+	if(freq == 0 || !emulator || !handler) {
 		printf("%s:%d: bad parameters:"
-			" freq = %f, emulator = %p, handler = %p",
+			" freq = %d, emulator = %p, handler = %p",
 			__func__, __LINE__, freq, emulator, handler);
 
 		goto fail;

@@ -11,7 +11,7 @@ typedef struct sensor_data_t {
 
 typedef int (*SENSOR_EMULATOR)(
 	void* emulator_data,
-	sensor_data_t** sensor_data);
+	sensor_data_t* sensor_data);
 
 typedef int (*SENSOR_HANDLER)(
 	void* handler_data,
@@ -19,7 +19,7 @@ typedef int (*SENSOR_HANDLER)(
 
 typedef struct sensor_emulator_t {
 	pthread_t thread;
-	float freq;
+	unsigned freq;
 	SENSOR_EMULATOR emulator;
 	void* emulator_data;
 	SENSOR_HANDLER handler;
@@ -27,7 +27,7 @@ typedef struct sensor_emulator_t {
 } sensor_emulator_t;
 
 sensor_emulator_t*
-sensor_emulator_start(  float freq,
+sensor_emulator_start(  unsigned freq,
                         SENSOR_EMULATOR emulator,
                         void* emulator_data,
                         SENSOR_HANDLER handler,
