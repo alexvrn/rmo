@@ -391,7 +391,20 @@ void Client::readyRead()
     if (m_command >= CommandType::Stream_1 && m_command <= CommandType::Stream_22)
     {
       QVariantMap vm = parseData(m_command, message);
-      emit data(m_command, vm);
+
+      // Номер ПГАС
+      int stationId = vm["stationId"].toInt();
+      if (stationId <= 0)
+      {
+        qWarning() << tr("Неверный номер ПГАС:") << stationId;;
+      }
+      else
+      {
+        if (m_pgasData.contains(stationId))
+          m_pgasData[stationId].append(vm);
+        else
+          m_pgasData.insert(stationId, QList<QVariantMap>() << vm);
+        emit data(m_command, m_pgasData);
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
 //      if (!jobject.isEmpty())
 //      {
@@ -401,6 +414,7 @@ void Client::readyRead()
 //      {
 //        qWarning() << tr("Невозможно преобразовать данные");
 //      }
+      }
     }
     init();
   }

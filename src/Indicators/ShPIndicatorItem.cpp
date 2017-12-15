@@ -43,6 +43,10 @@ void ShPIndicatorItem::insertDownWidget()
   Q_ASSERT(!m_downWidget);
 
   m_downWidget = new ShPIndicatorWidget(this);
+
+  m_downWidget->setData(m_upWidget->data());
+  m_downWidget->setCurrentPgasNumber(7);
+
   ui->splitter->addWidget(m_downWidget);
 }
 
@@ -65,7 +69,7 @@ void ShPIndicatorItem::countWidget()
 }
 
 
-void ShPIndicatorItem::data(CommandType::Command cmd, const QVariantMap& value)
+void ShPIndicatorItem::data(CommandType::Command cmd, const PgasData& value)
 {
   m_upWidget->data(cmd, value);
   if (m_downWidget)

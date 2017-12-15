@@ -1,6 +1,11 @@
 #ifndef COMMANDTYPE_H
 #define COMMANDTYPE_H
 
+#include <QMap>
+#include <QVariantMap>
+
+typedef QMap<int, QList<QVariantMap> > PgasData;
+
 namespace CommandType
 {
   enum Command

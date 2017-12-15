@@ -41,7 +41,7 @@ class Client : public QObject
     void logout();
 
   signals:
-    void data(CommandType::Command cmd, const QVariantMap& data = QVariantMap());
+    void data(CommandType::Command cmd, const PgasData& data = PgasData());
     void authentication();
     void messageReceived(const QVariantMap& result);
 
@@ -75,6 +75,8 @@ class Client : public QObject
     WaitState m_waitState;
     CommandType::Command m_command;
     quint32 m_messageLength;
+
+    PgasData m_pgasData;
 };
 
 #endif // CLIENT_H

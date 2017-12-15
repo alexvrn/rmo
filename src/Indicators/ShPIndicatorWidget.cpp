@@ -174,25 +174,13 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicatorWidget::data(CommandType::Command cmd, const QVariantMap& value)
+void ShPIndicatorWidget::data(CommandType::Command cmd, const PgasData& value)
 {
   Q_UNUSED(cmd);
 
-  // Номер ПГАС
-  int stationId = value["stationId"].toInt();
-  if (stationId <= 0)
-  {
-    qWarning() << tr("Неверный номер ПГАС:") << stationId;
-    return;
-  }
+  setData(value);
 
-  if (m_pgasData.contains(stationId))
-    m_pgasData[stationId].append(value);
-  else
-    m_pgasData.insert(stationId, QList<QVariantMap>() << value);
-
-  // Отображаем данные по текущему номеру ПГАС
-  ui->customPlot->addData(m_pgasData[m_pgasNumber]);
+  setCurrentPgasNumber(m_pgasNumber);
 }
 
 
@@ -202,6 +190,18 @@ void ShPIndicatorWidget::setCurrentPgasNumber(int pgasNumber)
 
   // Отображаем данные по текущему номеру ПГАС
   ui->customPlot->addData(m_pgasData[m_pgasNumber]);
+}
+
+
+void ShPIndicatorWidget::setData(const PgasData& data)
+{
+  m_pgasData = data;
+}
+
+
+PgasData ShPIndicatorWidget::data() const
+{
+  return m_pgasData;
 }
 
 

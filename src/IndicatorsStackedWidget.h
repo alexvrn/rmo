@@ -25,7 +25,7 @@ class IndicatorsStackedWidget : public QStackedWidget
     void setCurrentIndicator(const QString& type, bool checked);
     void sync(const QString& type, bool checked);
     void setLightMode(const QString& mode);
-    void data(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
+    void data(CommandType::Command cmd, const PgasData& value = PgasData());
 
   private:
     QWidget *m_nullIndicator;

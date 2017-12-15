@@ -56,7 +56,7 @@ void ShPIndicator::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicator::data(CommandType::Command cmd, const QVariantMap& value)
+void ShPIndicator::data(CommandType::Command cmd, const PgasData& value)
 {
   // Если текущие данные ПГАС
   if (cmd >= CommandType::Stream_1 && cmd <= CommandType::Stream_22)
