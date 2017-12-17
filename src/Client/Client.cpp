@@ -401,9 +401,19 @@ void Client::readyRead()
       else
       {
         if (m_pgasData.contains(stationId))
-          m_pgasData[stationId].append(vm);
+        {
+          auto map = m_pgasData[stationId];
+          if (map.contains(m_command))
+            m_pgasData[stationId][m_command].append(vm);
+          else
+            m_pgasData[stationId][m_command] = QList<QVariantMap>() << vm;
+        }
         else
-          m_pgasData.insert(stationId, QList<QVariantMap>() << vm);
+        {
+          QMap<CommandType::Command, QList<QVariantMap> > cvm;
+          cvm.insert(m_command, QList<QVariantMap>() << vm);
+          m_pgasData.insert(stationId, cvm);
+        }
         emit data(m_command, m_pgasData);
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
 //      if (!jobject.isEmpty())

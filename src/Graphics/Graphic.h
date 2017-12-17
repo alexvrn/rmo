@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QGraphicsItemGroup>
 
+#include <commandType.h>
+
 class Graphic : public QGraphicsView
 {
   Q_OBJECT
@@ -16,7 +18,7 @@ class Graphic : public QGraphicsView
     ~Graphic();
 
     void setBackgroundColor(const QColor& color);
-    void addData(const QList<QVariantMap>& data);
+    void addData(const QMap<CommandType::Command, QList<QVariantMap> >& data);
 
     bool orientation() const;
 
@@ -44,7 +46,7 @@ class Graphic : public QGraphicsView
 
     QTimer* m_resizeTimer;
 
-    QList<QVariantMap> m_data;
+    QMap<CommandType::Command, QList<QVariantMap> > m_data;
 };
 
 #endif // GRAPHIC_H

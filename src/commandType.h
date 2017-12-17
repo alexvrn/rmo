@@ -4,8 +4,6 @@
 #include <QMap>
 #include <QVariantMap>
 
-typedef QMap<int, QList<QVariantMap> > PgasData;
-
 namespace CommandType
 {
   enum Command
@@ -39,5 +37,7 @@ namespace CommandType
     CMD_PGAS_Data = 51
   };
 }
+
+typedef QMap<int, QMap<CommandType::Command, QList<QVariantMap> > > PgasData;
 
 #endif // COMMANDTYPE_H

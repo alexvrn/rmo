@@ -57,7 +57,7 @@ private:
 
     QList<QToolButton*> m_toolButtons;
 
-    QMap<int, QList<QVariantMap> > m_pgasData;
+    PgasData m_pgasData;
     int m_pgasNumber;
 };
 
