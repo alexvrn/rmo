@@ -15,11 +15,11 @@
 int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
-  app.setOrganizationName("SAMI DVO RAN");
+  app.setOrganizationName("SAMI_DVO_RAN");
   app.setOrganizationDomain("skbsami.ru");
   app.setApplicationName("rmo");
 
-  QSettings settings("SAMI DVO RAN", "rmo");
+  QSettings settings("SAMI_DVO_RAN", "rmo");
 
   // Установка локали по умолчанию
   QLocale russianLocale(QLocale::Russian, QLocale::RussianFederation);
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 
   // Подключение к серверу
   Client& client = Client::instance();
-  if (!client.connectToServer(settings.value("rmoServerName1", "rmoServer").toString()))
+  if (!client.connectToServer(settings.value("rmoServerName", "rmoserver").toString()))
   {
     QMessageBox::critical(0, QObject::tr("Подключение к локальному серверу"),
                              QObject::tr("Не удаётся подключиться к серверу."));

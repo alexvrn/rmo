@@ -74,7 +74,8 @@ void Graphic::addData(const QMap<CommandType::Command, QList<QVariantMap> >& dat
   m_data = data;
   //QColor color = QColor(255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX);
   //m_listData.push_front(color);
-  m_currentDataLength = m_data.length();
+
+  //m_currentDataLength = m_data.length();
 
   QTimer::singleShot(50, this, SLOT(slotAlarmTimer()));
 }

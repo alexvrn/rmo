@@ -44,7 +44,7 @@ RightPanel::~RightPanel()
 
 void RightPanel::settingsSave(const QString& type, bool checked)
 {
-  QSettings settings("SAMI DVO RAN", "rmo");
+  QSettings settings("SAMI_DVO_RAN", "rmo");
   settings.setValue("right/indicator", checked ? type : QString());
 }
 
@@ -55,7 +55,7 @@ void RightPanel::indicatorCheck(const QString& type, bool checked)
     return;
 
   const QString currentType = m_group->indicatorCheck(type, checked);
-  QSettings settings("SAMI DVO RAN", "rmo");
+  QSettings settings("SAMI_DVO_RAN", "rmo");
   settings.setValue("right/indicator", currentType);
 }
 

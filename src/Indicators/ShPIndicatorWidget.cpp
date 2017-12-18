@@ -127,7 +127,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->brightnessLabel->setStyleSheet(style);
 
   // Подцветка
-  QSettings settings("SAMI DVO RAN", "rmo");
+  QSettings settings("SAMI_DVO_RAN", "rmo");
   setLightMode(settings.value("mode", "sun").toString());
 }
 
