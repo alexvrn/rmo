@@ -274,12 +274,12 @@ void ShPIndicatorWidget::data(CommandType::Command cmd, const PgasData& value)
   }
 
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
-  m_colorMap->rescaleDataRange();
+  //m_colorMap->rescaleDataRange();
 
   // rescale the key (x) and value (y) axes so the whole color map is visible:
   ui->widget_2->rescaleAxes();
 
-  ui->widget_2->update();
+  ui->widget_2->replot();
 }
 
 
@@ -312,7 +312,6 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
     ui->widget_2->xAxis->setLabel(button->text());
     ui->widget_2->replot();
   }
-
 }
 
 
