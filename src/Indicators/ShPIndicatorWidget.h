@@ -12,6 +12,9 @@ class QAbstractButton;
 class Graphic;
 #include <commandType.h>
 
+// QCustomPlot
+#include "qcustomplot.h"
+
 // UI
 namespace Ui
 {
@@ -59,6 +62,7 @@ private:
 
     PgasData m_pgasData;
     int m_pgasNumber;
+    QCPColorMap *m_colorMap;
 };
 
 #endif // SHPINDICATORWIDGET_H

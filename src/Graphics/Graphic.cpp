@@ -26,7 +26,7 @@ Graphic::Graphic(QWidget *parent)
   connect(m_resizeTimer, SIGNAL(timeout()), SLOT(slotAlarmTimer()));
   //m_resizeTimer->setSingleShot(true);
   //m_resizeTimer->start(50);
-  QTimer::singleShot(50, this, SLOT(slotAlarmTimer()));
+  //QTimer::singleShot(50, this, SLOT(slotAlarmTimer()));
 }
 
 
@@ -77,7 +77,7 @@ void Graphic::addData(const QMap<CommandType::Command, QList<QVariantMap> >& dat
 
   //m_currentDataLength = m_data.length();
 
-  QTimer::singleShot(50, this, SLOT(slotAlarmTimer()));
+  //QTimer::singleShot(50, this, SLOT(slotAlarmTimer()));
 }
 
 

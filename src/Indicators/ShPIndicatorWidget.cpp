@@ -10,9 +10,6 @@
 #include <QAbstractButton>
 #include <QPalette>
 
-// QCustomPlot
-#include "qcustomplot.h"
-
 ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicatorWidget)
@@ -107,6 +104,34 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->yAxis2, SLOT(setRange(QCPRange)));
   */
 
+  // http://www.qcustomplot.com/index.php/demos/colormapdemo
+  // configure axis rect:
+  ui->widget_2->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom); // this will also allow rescaling the color scale by dragging/zooming
+  ui->widget_2->axisRect()->setupFullAxesBox(true);
+  ui->widget_2->xAxis->setLabel("");
+  ui->widget_2->yAxis->setLabel("Гц");
+
+  // set up the QCPColorMap:
+  m_colorMap = new QCPColorMap(ui->widget_2->xAxis, ui->widget_2->yAxis);
+  // add a color scale:
+  QCPColorScale *colorScale = new QCPColorScale(ui->widget_2);
+  ui->widget_2->plotLayout()->addElement(0, 1, colorScale); // add it to the right of the main axis rect
+  colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
+  m_colorMap->setColorScale(colorScale); // associate the color map with the color scale
+  //colorScale->axis()->setLabel("Magnetic Field Strength");
+
+  // set the color gradient of the color map to one of the presets:
+  m_colorMap->setGradient(QCPColorGradient::gpPolar);
+  // we could have also created a QCPColorGradient instance and added own colors to
+  // the gradient, see the documentation of QCPColorGradient for what's possible.
+
+
+  // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
+  QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->widget_2);
+  ui->widget_2->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
+  colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
+
+
   ui->paletteWidget->setPalette(0);
 
   setHasSwitch(false);
@@ -120,8 +145,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->panel->setPalette(pal);
 
   const QString style = "background-color: rgb(200,200,200, 20);";
-  ui->labelX->setStyleSheet(style);
-  ui->labelY->setStyleSheet(style);
+  //ui->labelX->setStyleSheet(style);
+  //ui->labelY->setStyleSheet(style);
   ui->typeLabel->setStyleSheet(style);
   ui->contrastLabel->setStyleSheet(style);
   ui->brightnessLabel->setStyleSheet(style);
@@ -129,6 +154,12 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   // Подцветка
   QSettings settings("SAMI_DVO_RAN", "rmo");
   setLightMode(settings.value("mode", "sun").toString());
+
+  ui->customPlot->hide();
+  ui->paletteWidget->hide();
+  //ui->labelY->hide();
+  //ui->labelX->hide();
+  ui->typeLabel->hide();
 }
 
 
@@ -178,9 +209,77 @@ void ShPIndicatorWidget::data(CommandType::Command cmd, const PgasData& value)
 {
   Q_UNUSED(cmd);
 
-  setData(value);
+  //setData(value);
 
-  setCurrentPgasNumber(m_pgasNumber);
+  //setCurrentPgasNumber(m_pgasNumber);
+
+  auto data = value[m_pgasNumber][CommandType::Stream_3];
+
+  if (data.length() == 0)
+    return;
+
+  int nx = 128;
+  int ny = 100;//(data.length() - indexBegin) / 128;
+
+  m_colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
+  m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
+  // now we assign some data, by accessing the QCPColorMapData instance of the color map:
+//  double x, y, z;
+//  for (int xIndex=0; xIndex<nx; ++xIndex)
+//  {
+//    for (int yIndex=0; yIndex<ny; ++yIndex)
+//    {
+//      //colorMap->data()->cellToCoord(xIndex, yIndex, &x, &y);
+//      //double r = 3*qSqrt(x*x+y*y)+1e-2;
+//      //z = 2*x*(qCos(r+2)/r-qSin(r+2)/r); // the B field strength of dipole radiation (modulo physical constants)
+//      if (yIndex % 2 == 0)
+//      {
+//        if (xIndex >= 60)
+//          m_colorMap->data()->setCell(xIndex, yIndex, -0.1);
+//        //else
+//        //  colorMap->data()->setCell(xIndex, yIndex, 1.0);
+//      }
+//      //else
+//      //  colorMap->data()->setCell(xIndex, yIndex, -0.5);
+//    }
+//  }
+
+//  int l = data.length();
+//  if (l <= 100)
+//  {
+//    for (int i = 0; i < 128; ++i)
+//      colorMap->data()->setCell(i, l, 0.7);
+//  }
+
+  int yIndex = 0;
+  //QVector<double> v(128, 0);
+  for (int index = 0; index < data.length(); index++)
+  {
+    const int xIndex = data[index]["beamCount"].toInt();
+    m_colorMap->data()->setCell(xIndex, yIndex, data[index]["data"].toDouble());
+    //v[xIndex] = data[index]["data"].toDouble();
+    //qDebug() << xIndex;
+    if (xIndex == 127)
+    {
+      //for (int i = 0; i < 128; i++)
+      //  colorMap->data()->setCell(i, yIndex, v[i]);
+      //qDebug() << v;
+      //v.fill(0);
+      yIndex++;
+      //qDebug() << "New" << yIndex;
+      //qDebug() << "Строка" << yIndex << data.length() << index;
+      //for (int i = 0; i < 128; ++i)
+      //  m_colorMap->data()->setCell(i, yIndex, 0.7);
+    }
+  }
+
+  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
+  m_colorMap->rescaleDataRange();
+
+  // rescale the key (x) and value (y) axes so the whole color map is visible:
+  ui->widget_2->rescaleAxes();
+
+  ui->widget_2->update();
 }
 
 
@@ -208,7 +307,12 @@ PgasData ShPIndicatorWidget::data() const
 void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 {
   if (checked)
-    ui->typeLabel->setText(button->text());
+  {
+    //ui->typeLabel->setText(button->text());
+    ui->widget_2->xAxis->setLabel(button->text());
+    ui->widget_2->replot();
+  }
+
 }
 
 

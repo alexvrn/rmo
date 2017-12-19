@@ -200,6 +200,8 @@ QVariantMap Client::parseData(CommandType::Command cmd, const QByteArray& data) 
       vm["data"]        = cmdData.data;
       vm["stationId"]   = cmdData.stationId;
       vm["serviceData"] = QByteArray(cmdData.serviceData.data);
+      //if (cmd == CommandType::Stream_4)
+      //  qDebug() << vm;
       return vm;
     }
 //    case CommandType::Stream_5:
@@ -406,7 +408,7 @@ void Client::readyRead()
           if (map.contains(m_command))
             m_pgasData[stationId][m_command].append(vm);
           else
-            m_pgasData[stationId][m_command] = QList<QVariantMap>() << vm;
+            m_pgasData[stationId].insert(m_command, QList<QVariantMap>() << vm);
         }
         else
         {
@@ -415,6 +417,7 @@ void Client::readyRead()
           m_pgasData.insert(stationId, cvm);
         }
         emit data(m_command, m_pgasData);
+
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
 //      if (!jobject.isEmpty())
 //      {
