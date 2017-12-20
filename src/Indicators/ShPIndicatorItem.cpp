@@ -3,6 +3,7 @@
 #include "ui_ShPIndicatorItem.h"
 #include "ShPIndicatorWidget.h"
 
+// Qt
 #include <QSplitter>
 
 ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
@@ -43,9 +44,7 @@ void ShPIndicatorItem::insertDownWidget()
   Q_ASSERT(!m_downWidget);
 
   m_downWidget = new ShPIndicatorWidget(this);
-
-  m_downWidget->setData(m_upWidget->data());
-  m_downWidget->setCurrentPgasNumber(7);
+  m_downWidget->setCurrentPgasNumber(m_upWidget->currentPgasNumber());
 
   ui->splitter->addWidget(m_downWidget);
 }
@@ -69,11 +68,11 @@ void ShPIndicatorItem::countWidget()
 }
 
 
-void ShPIndicatorItem::data(CommandType::Command cmd, const PgasData& value)
+void ShPIndicatorItem::newData()
 {
-  m_upWidget->data(cmd, value);
+  m_upWidget->newData();
   if (m_downWidget)
-    m_downWidget->data(cmd, value);
+    m_downWidget->newData();
 }
 
 

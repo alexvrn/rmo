@@ -25,7 +25,7 @@ class ShPIndicator : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(CommandType::Command cmd, const PgasData& value = PgasData());
+    void newData(CommandType::Command cmd, const QVariant& value = QVariant());
 
   private slots:
     void checkedDateTime();

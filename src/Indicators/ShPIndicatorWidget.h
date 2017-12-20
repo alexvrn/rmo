@@ -34,11 +34,9 @@ class ShPIndicatorWidget : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(CommandType::Command cmd, const PgasData& value = PgasData());
+    void newData();
     void setCurrentPgasNumber(int pgasNumber);
-
-    void setData(const PgasData& data);
-    PgasData data() const;
+    int currentPgasNumber() const;
 
   signals:
     void countWidget();
@@ -51,7 +49,12 @@ class ShPIndicatorWidget : public QWidget
 
     void on_orientationToolButton_clicked();
 
+    void vertScrollBarChanged(int value);
+    void yAxisChanged(QCPRange range);
+
 private:
+    void dataRepaint();
+
     Ui::ShPIndicatorWidget *ui;
 
     Graphic* m_graphic;
@@ -60,8 +63,9 @@ private:
 
     QList<QToolButton*> m_toolButtons;
 
-    PgasData m_pgasData;
     int m_pgasNumber;
+    QButtonGroup* m_buttonGroup;
+
     QCPColorMap *m_colorMap;
 };
 

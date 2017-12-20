@@ -77,8 +77,8 @@ void IndicatorsStackedWidget::setLightMode(const QString& mode)
 }
 
 
-void IndicatorsStackedWidget::data(CommandType::Command cmd, const PgasData& value)
+void IndicatorsStackedWidget::newData(CommandType::Command cmd, const QVariant& value)
 {
-  m_shpIndicator->data(cmd, value);
+  m_shpIndicator->newData(cmd, value);
 }
 

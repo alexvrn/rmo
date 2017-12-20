@@ -26,7 +26,7 @@ class ShPIndicatorItem : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void data(CommandType::Command cmd, const PgasData& value = PgasData());
+    void newData();
     void setCurrentPgasNumber(int pgasNumber);
 
   private slots:

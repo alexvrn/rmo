@@ -3,18 +3,21 @@
 #include "ui_ShPIndicatorWidget.h"
 #include "PaletteWidget.h"
 #include "Graphic.h"
+#include "Client.h"
 
 // Qt
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QAbstractButton>
 #include <QPalette>
+#include <QScrollBar>
 
 ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ShPIndicatorWidget)
   , m_graphColor(QColor(0,255,0))
   , m_pgasNumber(1)
+  , m_buttonGroup(new QButtonGroup(this))
 {
   ui->setupUi(this);
 
@@ -22,14 +25,12 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   //connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
 
   // Индикаторная картина ШП
-  QButtonGroup* buttonGroup = new QButtonGroup(this);
-  buttonGroup->addButton(ui->pchToolButton);
-  buttonGroup->addButton(ui->ps1t1ToolButton);
-  buttonGroup->addButton(ui->ps2t1ToolButton);
-  buttonGroup->addButton(ui->ps1t2ToolButton);
-  buttonGroup->addButton(ui->ps2t2ToolButton);
-  connect(buttonGroup, SIGNAL(buttonToggled(QAbstractButton*,bool)), SLOT(shpIndicatorView(QAbstractButton*,bool)));
-  ui->pchToolButton->setChecked(true);
+  m_buttonGroup->addButton(ui->pchToolButton);
+  m_buttonGroup->addButton(ui->ps1t1ToolButton, CommandType::Stream_3);
+  m_buttonGroup->addButton(ui->ps2t1ToolButton, CommandType::Stream_4);
+  m_buttonGroup->addButton(ui->ps1t2ToolButton);
+  m_buttonGroup->addButton(ui->ps2t2ToolButton);
+  connect(m_buttonGroup, SIGNAL(buttonToggled(QAbstractButton*,bool)), SLOT(shpIndicatorView(QAbstractButton*,bool)));
 
   // Иконки
   ui->contrastLabel->setPixmap(QIcon(":/icons/contrast.png").pixmap(25, 25));
@@ -40,76 +41,15 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
   connect(ui->brightnessSlider, SIGNAL(valueChanged(int)), SLOT(brightness(int)));
 
-//  ui->customPlot->addGraph();
-
-//  ui->customPlot->setBackground(QBrush(QColor(0, 200, 0)));
-//  ui->customPlot->graph(0)->setPen(QPen(Qt::blue)); // line color blue for first graph
-//  ui->customPlot->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20))); // first graph will be filled with translucent blue
-//  ui->customPlot->addGraph();
-//  ui->customPlot->graph(1)->setPen(QPen(Qt::red)); // line color red for second graph
-//  // generate some points of data (y0 for first, y1 for second graph):
-//  QVector<double> x(251), y0(251), y1(251);
-//  for (int i=0; i<251; ++i)
-//  {
-//    x[i] = i;
-//    y0[i] = qExp(-i/150.0)*qCos(i/10.0); // exponentially decaying cosine
-//    y1[i] = qExp(-i/150.0);              // exponential envelope
-//  }
-//  // configure right and top axis to show ticks but no labels:
-//  // (see QCPAxisRect::setupFullAxesBox for a quicker method to do this)
-//  ui->customPlot->xAxis2->setVisible(true);
-//  ui->customPlot->xAxis2->setTickLabels(false);
-//  ui->customPlot->yAxis2->setVisible(true);
-//  ui->customPlot->yAxis2->setTickLabels(false);
-//  // make left and bottom axes always transfer their ranges to right and top axes:
-//  connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
-//  connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->yAxis2, SLOT(setRange(QCPRange)));
-//  // pass data points to graphs:
-//  ui->customPlot->graph(0)->setData(x, y0);
-//  ui->customPlot->graph(1)->setData(x, y1);
-//  // let the ranges scale themselves so graph 0 fits perfectly in the visible area:
-//  ui->customPlot->graph(0)->rescaleAxes();
-//  // same thing for graph 1, but only enlarge ranges (in case graph 1 is smaller than graph 0):
-//  ui->customPlot->graph(1)->rescaleAxes(true);
-//  // Note: we could have also just called customPlot->rescaleAxes(); instead
-//  // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
-//  ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
-
-
-
-  /*ui->customPlot->addGraph(); // blue line
-  ui->customPlot->graph(0)->setPen(QPen(m_graphColor));
-  ui->customPlot->addGraph(); // red line
-  ui->customPlot->graph(1)->setPen(QPen(m_graphColor));
-
-  // X
-  QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-  timeTicker->setTimeFormat("%h:%m:%s");
-  ui->customPlot->xAxis->setTicker(timeTicker);
-  ui->customPlot->axisRect()->setupFullAxesBox();
-  QFont xFont = ui->customPlot->xAxis->labelFont();
-  xFont.setBold(true);
-  ui->customPlot->xAxis->setLabelFont(xFont);
-
-  // Y
-  ui->customPlot->yAxis->setRange(-1.2, 1.2);
-  ui->customPlot->yAxis->setLabel("Гц");
-  QFont yFont = ui->customPlot->yAxis->labelFont();
-  yFont.setBold(true);
-  ui->customPlot->yAxis->setLabelFont(yFont);
-  ui->customPlot->yAxis->setLabelPadding(-15);
-
-  // make left and bottom axes transfer their ranges to right and top axes:
-  connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
-  connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->yAxis2, SLOT(setRange(QCPRange)));
-  */
 
   // http://www.qcustomplot.com/index.php/demos/colormapdemo
   // configure axis rect:
-  ui->widget_2->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom); // this will also allow rescaling the color scale by dragging/zooming
+  //ui->widget_2->setInteractions(QCP::iSelectPlottables|QCP::iSelectItems); // this will also allow rescaling the color scale by dragging/zooming
   ui->widget_2->axisRect()->setupFullAxesBox(true);
   ui->widget_2->xAxis->setLabel("");
   ui->widget_2->yAxis->setLabel("Гц");
+
+  ui->widget_2->yAxis->setRangeUpper(50);
 
   // set up the QCPColorMap:
   m_colorMap = new QCPColorMap(ui->widget_2->xAxis, ui->widget_2->yAxis);
@@ -131,11 +71,14 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->widget_2->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
   colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
 
-
   ui->paletteWidget->setPalette(0);
 
   setHasSwitch(false);
   connect(ui->countToolButton, SIGNAL(clicked(bool)), this, SIGNAL(countWidget()));
+
+  ui->verticalScrollBar->setRange(-500, 500);
+  connect(ui->verticalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(vertScrollBarChanged(int)));
+  connect(ui->widget_2->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(yAxisChanged(QCPRange)));
 
   QPalette pal(ui->panel->palette());
 
@@ -160,6 +103,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   //ui->labelY->hide();
   //ui->labelX->hide();
   ui->typeLabel->hide();
+
+  ui->pchToolButton->setChecked(true);
 }
 
 
@@ -205,51 +150,55 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicatorWidget::data(CommandType::Command cmd, const PgasData& value)
+void ShPIndicatorWidget::dataRepaint()
 {
-  Q_UNUSED(cmd);
-
-  //setData(value);
-
-  //setCurrentPgasNumber(m_pgasNumber);
-
-  auto data = value[m_pgasNumber][CommandType::Stream_3];
-
-  if (data.length() == 0)
+  if (m_buttonGroup->checkedId() == -1)
+  {
+    m_colorMap->data()->clear();
     return;
+  }
+
+  auto pgasData = Client::instance().pgasData();
+  auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
+  if (data.isEmpty())
+  {
+    m_colorMap->data()->clear();
+    return;
+  }
 
   int nx = 128;
   int ny = 100;//(data.length() - indexBegin) / 128;
 
   m_colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
   m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
-  // now we assign some data, by accessing the QCPColorMapData instance of the color map:
-//  double x, y, z;
-//  for (int xIndex=0; xIndex<nx; ++xIndex)
-//  {
-//    for (int yIndex=0; yIndex<ny; ++yIndex)
-//    {
-//      //colorMap->data()->cellToCoord(xIndex, yIndex, &x, &y);
-//      //double r = 3*qSqrt(x*x+y*y)+1e-2;
-//      //z = 2*x*(qCos(r+2)/r-qSin(r+2)/r); // the B field strength of dipole radiation (modulo physical constants)
-//      if (yIndex % 2 == 0)
-//      {
-//        if (xIndex >= 60)
-//          m_colorMap->data()->setCell(xIndex, yIndex, -0.1);
-//        //else
-//        //  colorMap->data()->setCell(xIndex, yIndex, 1.0);
-//      }
-//      //else
-//      //  colorMap->data()->setCell(xIndex, yIndex, -0.5);
-//    }
-//  }
 
-//  int l = data.length();
-//  if (l <= 100)
-//  {
-//    for (int i = 0; i < 128; ++i)
-//      colorMap->data()->setCell(i, l, 0.7);
-//  }
+  // now we assign some data, by accessing the QCPColorMapData instance of the color map:
+  //  double x, y, z;
+  //  for (int xIndex=0; xIndex<nx; ++xIndex)
+  //  {
+  //    for (int yIndex=0; yIndex<ny; ++yIndex)
+  //    {
+  //      //colorMap->data()->cellToCoord(xIndex, yIndex, &x, &y);
+  //      //double r = 3*qSqrt(x*x+y*y)+1e-2;
+  //      //z = 2*x*(qCos(r+2)/r-qSin(r+2)/r); // the B field strength of dipole radiation (modulo physical constants)
+  //      if (yIndex % 2 == 0)
+  //      {
+  //        if (xIndex >= 60)
+  //          m_colorMap->data()->setCell(xIndex, yIndex, -0.1);
+  //        //else
+  //        //  colorMap->data()->setCell(xIndex, yIndex, 1.0);
+  //      }
+  //      //else
+  //      //  colorMap->data()->setCell(xIndex, yIndex, -0.5);
+  //    }
+  //  }
+
+  //  int l = data.length();
+  //  if (l <= 100)
+  //  {
+  //    for (int i = 0; i < 128; ++i)
+  //      colorMap->data()->setCell(i, l, 0.7);
+  //  }
 
   int yIndex = 0;
   //QVector<double> v(128, 0);
@@ -283,24 +232,22 @@ void ShPIndicatorWidget::data(CommandType::Command cmd, const PgasData& value)
 }
 
 
+void ShPIndicatorWidget::newData()
+{
+  dataRepaint();
+}
+
+
 void ShPIndicatorWidget::setCurrentPgasNumber(int pgasNumber)
 {
   m_pgasNumber = pgasNumber;
-
-  // Отображаем данные по текущему номеру ПГАС
-  ui->customPlot->addData(m_pgasData[m_pgasNumber]);
+  dataRepaint();
 }
 
 
-void ShPIndicatorWidget::setData(const PgasData& data)
+int ShPIndicatorWidget::currentPgasNumber() const
 {
-  m_pgasData = data;
-}
-
-
-PgasData ShPIndicatorWidget::data() const
-{
-  return m_pgasData;
+  return m_pgasNumber;
 }
 
 
@@ -312,10 +259,29 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
     ui->widget_2->xAxis->setLabel(button->text());
     ui->widget_2->replot();
   }
+
+  dataRepaint();
 }
 
 
 void ShPIndicatorWidget::on_orientationToolButton_clicked()
 {
   ui->customPlot->setOrientation(!ui->customPlot->orientation());
+}
+
+
+void ShPIndicatorWidget::vertScrollBarChanged(int value)
+{
+  if (qAbs(ui->widget_2->yAxis->range().center()+value/100.0) > 0.01) // if user is dragging plot, we don't want to replot twice
+  {
+    ui->widget_2->yAxis->setRange(-value/100.0, ui->widget_2->yAxis->range().size(), Qt::AlignCenter);
+    ui->widget_2->replot();
+  }
+}
+
+
+void ShPIndicatorWidget::yAxisChanged(QCPRange range)
+{
+  ui->verticalScrollBar->setValue(qRound(-range.center()*100.0)); // adjust position of scroll bar slider
+  ui->verticalScrollBar->setPageStep(qRound(range.size()*100.0)); // adjust size of scroll bar slider
 }

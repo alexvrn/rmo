@@ -74,6 +74,12 @@ void Client::sendCommand(CommandType::Command cmd, const QVariantMap& value)
 }
 
 
+PgasData Client::pgasData() const
+{
+  return m_pgasData;
+}
+
+
 bool Client::connectToServer(const QString& host)
 {
   qDebug() << qPrintable(QString(tr("Подключение к серверу %1")).arg(host));
@@ -416,7 +422,7 @@ void Client::readyRead()
           cvm.insert(m_command, QList<QVariantMap>() << vm);
           m_pgasData.insert(stationId, cvm);
         }
-        emit data(m_command, m_pgasData);
+        emit newData(m_command);
 
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
 //      if (!jobject.isEmpty())

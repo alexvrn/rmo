@@ -33,6 +33,9 @@ class Client : public QObject
     // Отправка команды(или запроса) локальному серверу
     void sendCommand(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
 
+    // Данные, полученные от ПГАС-ов
+    PgasData pgasData() const;
+
   private:
     Client(QObject *parent = Q_NULLPTR);
     Client& operator=(const Client&);
@@ -41,7 +44,7 @@ class Client : public QObject
     void logout();
 
   signals:
-    void data(CommandType::Command cmd, const PgasData& data = PgasData());
+    void newData(CommandType::Command cmd, const QVariant& value = QVariant());
     void authentication();
     void messageReceived(const QVariantMap& result);
 

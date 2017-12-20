@@ -31,9 +31,9 @@ void ControlPanel::setConnectState(bool connect)
 }
 
 
-void ControlPanel::data(CommandType::Command cmd, const PgasData& value)
+void ControlPanel::newData(CommandType::Command cmd, const QVariant& value)
 {
-  m_indicatorsStackedWidget->data(cmd, value);
+  m_indicatorsStackedWidget->newData(cmd, value);
 }
 
 

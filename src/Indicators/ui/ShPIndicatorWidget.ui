@@ -615,6 +615,13 @@
                   </widget>
                  </item>
                  <item>
+                  <widget class="QScrollBar" name="verticalScrollBar">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="Graphic" name="customPlot" native="true"/>
                  </item>
                  <item>

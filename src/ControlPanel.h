@@ -23,7 +23,7 @@ class ControlPanel : public QMainWindow
     virtual void setConfiguration(const QString& type, const QString& mode = QString()) = 0;
 
   public slots:
-    virtual void data(CommandType::Command cmd, const PgasData& value = PgasData());
+    virtual void newData(CommandType::Command cmd, const QVariant& value = QVariant());
 
   signals:
     void windowDeactivate();

@@ -56,7 +56,7 @@ void ShPIndicator::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicator::data(CommandType::Command cmd, const PgasData& value)
+void ShPIndicator::newData(CommandType::Command cmd, const QVariant& value)
 {
   // Если текущие данные ПГАС
   if (cmd >= CommandType::Stream_1 && cmd <= CommandType::Stream_22)
@@ -64,8 +64,8 @@ void ShPIndicator::data(CommandType::Command cmd, const PgasData& value)
     // Если смотрим на текущие данные (иначе не игнорим, данные записались в файлы)
     if (!ui->lastToolButton->isChecked())
     {
-      m_indicatorItem1->data(cmd, value);
-      m_indicatorItem2->data(cmd, value);
+      m_indicatorItem1->newData();
+      m_indicatorItem2->newData();
     }
   }
   // Ответ на запрос данных на определённое время
