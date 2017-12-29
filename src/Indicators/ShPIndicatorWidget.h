@@ -37,6 +37,9 @@ class ShPIndicatorWidget : public QWidget
     void newData();
     void setCurrentPgasNumber(int pgasNumber);
     int currentPgasNumber() const;
+    void setNowData(bool nowData);
+    bool isNowData() const;
+    void setSelectedData(const PgasData& selectedData);
 
   signals:
     void countWidget();
@@ -51,6 +54,8 @@ class ShPIndicatorWidget : public QWidget
 
     void vertScrollBarChanged(int value);
     void yAxisChanged(QCPRange range);
+
+    void on_toolButtonGrid_toggled(bool checked);
 
 private:
     void dataRepaint();
@@ -67,6 +72,9 @@ private:
     QButtonGroup* m_buttonGroup;
 
     QCPColorMap *m_colorMap;
+
+    bool m_nowData;
+    PgasData m_selectedData;
 };
 
 #endif // SHPINDICATORWIDGET_H

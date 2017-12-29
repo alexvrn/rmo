@@ -29,7 +29,7 @@ class ShPIndicator : public QWidget
 
   private slots:
     void checkedDateTime();
-
+    void nowToggled();
     void on_spinBox_valueChanged(int value);
 
 private:

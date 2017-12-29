@@ -28,6 +28,10 @@ class ShPIndicatorItem : public QWidget
     void setLightMode(const QString& mode);
     void newData();
     void setCurrentPgasNumber(int pgasNumber);
+    // Режим
+    void setNowData(bool nowData);
+    // Данные для выбранной даты
+    void setSelectedData(const PgasData& selectedData);
 
   private slots:
     void deleteDownWidget();

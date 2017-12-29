@@ -43,6 +43,9 @@ class Client : public QObject
   public slots:
     void logout();
 
+    //! Получение данных из файла
+    PgasData parseFile(const QDateTime& dateTime) const;
+
   signals:
     void newData(CommandType::Command cmd, const QVariant& value = QVariant());
     void authentication();
@@ -62,6 +65,7 @@ class Client : public QObject
   private:
     void init();
     QVariantMap parseData(CommandType::Command cmd, const QByteArray& data) const;
+    void addDate(CommandType::Command cmd, const QVariantMap& vm, PgasData& container) const;
 
     AuthDialog m_authDialog;
 

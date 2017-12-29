@@ -27,6 +27,8 @@ ShPIndicator::ShPIndicator(QWidget *parent)
 
   connect(ui->checkedToolButton, SIGNAL(clicked(bool)), SLOT(checkedDateTime()));
 
+  connect(ui->nowToolButton, SIGNAL(toggled(bool)), SLOT(nowToggled()));
+
   ui->indicatorsHorizontalLayout->addWidget(m_indicatorItem1);
   ui->indicatorsHorizontalLayout->addWidget(m_indicatorItem2);
 }
@@ -40,12 +42,22 @@ ShPIndicator::~ShPIndicator()
 
 void ShPIndicator::checkedDateTime()
 {
-  // Запрашиваем данные по выбранному времени
-  QVariantMap v;
-  v["datetime"] = ui->dateTimeEdit->dateTime();
-
   // Посылаем команду(запрос в данном случае)
-  Client::instance().sendCommand(CommandType::CMD_RequestData_DateTime, v);
+  const auto data = Client::instance().parseFile(ui->dateTimeEdit->dateTime());
+
+  m_indicatorItem1->setSelectedData(data);
+  m_indicatorItem2->setSelectedData(data);
+}
+
+
+void ShPIndicator::nowToggled()
+{
+  m_indicatorItem1->setNowData(ui->nowToolButton->isChecked());
+  m_indicatorItem2->setNowData(ui->nowToolButton->isChecked());
+
+  // Обнуляем данные
+  m_indicatorItem1->setSelectedData(PgasData());
+  m_indicatorItem2->setSelectedData(PgasData());
 }
 
 
@@ -58,22 +70,22 @@ void ShPIndicator::setLightMode(const QString& mode)
 
 void ShPIndicator::newData(CommandType::Command cmd, const QVariant& value)
 {
-  // Если текущие данные ПГАС
-  if (cmd >= CommandType::Stream_1 && cmd <= CommandType::Stream_22)
+  // Если выбрано получение данных по конкретной дате, то текущие данные игнорим
+  if (!ui->nowToolButton->isChecked())
   {
-    // Если смотрим на текущие данные (иначе не игнорим, данные записались в файлы)
-    if (!ui->lastToolButton->isChecked())
-    {
-      m_indicatorItem1->newData();
-      m_indicatorItem2->newData();
-    }
+    return;
   }
-  // Ответ на запрос данных на определённое время
-  else if (cmd == CommandType::CMD_RequestData_DateTime)
+  else
   {
-    if (ui->lastToolButton->isChecked())
+    // Если текущие данные ПГАС
+    if (cmd >= CommandType::Stream_1 && cmd <= CommandType::Stream_22)
     {
-      // bla bla bla
+      // Если смотрим на текущие данные (иначе не игнорим, данные записались в файлы)
+      if (!ui->lastToolButton->isChecked())
+      {
+        m_indicatorItem1->newData();
+        m_indicatorItem2->newData();
+      }
     }
   }
 }

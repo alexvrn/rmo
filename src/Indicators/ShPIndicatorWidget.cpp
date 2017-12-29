@@ -18,6 +18,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   , m_graphColor(QColor(0,255,0))
   , m_pgasNumber(1)
   , m_buttonGroup(new QButtonGroup(this))
+  , m_nowData(true)
 {
   ui->setupUi(this);
 
@@ -44,10 +45,10 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
   // http://www.qcustomplot.com/index.php/demos/colormapdemo
   // configure axis rect:
-  //ui->widget_2->setInteractions(QCP::iSelectPlottables|QCP::iSelectItems); // this will also allow rescaling the color scale by dragging/zooming
+  ui->widget_2->setInteractions(QCP::iSelectAxes|QCP::iRangeDrag); // this will also allow rescaling the color scale by dragging/zooming
   ui->widget_2->axisRect()->setupFullAxesBox(true);
   ui->widget_2->xAxis->setLabel("");
-  ui->widget_2->yAxis->setLabel("Гц");
+  ui->widget_2->yAxis->setLabel("T");
 
   ui->widget_2->yAxis->setRangeUpper(50);
 
@@ -90,7 +91,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   const QString style = "background-color: rgb(200,200,200, 20);";
   //ui->labelX->setStyleSheet(style);
   //ui->labelY->setStyleSheet(style);
-  ui->typeLabel->setStyleSheet(style);
+  //ui->typeLabel->setStyleSheet(style);
   ui->contrastLabel->setStyleSheet(style);
   ui->brightnessLabel->setStyleSheet(style);
 
@@ -102,7 +103,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->paletteWidget->hide();
   //ui->labelY->hide();
   //ui->labelX->hide();
-  ui->typeLabel->hide();
+  //ui->typeLabel->hide();
 
   ui->pchToolButton->setChecked(true);
 }
@@ -155,19 +156,22 @@ void ShPIndicatorWidget::dataRepaint()
   if (m_buttonGroup->checkedId() == -1)
   {
     m_colorMap->data()->clear();
+    ui->widget_2->replot();
     return;
   }
 
-  auto pgasData = Client::instance().pgasData();
+  // Берем данные в зависимости от режима (текущие данные или выбранные для определённой даты)
+  auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
   auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
   if (data.isEmpty())
   {
     m_colorMap->data()->clear();
+    ui->widget_2->replot();
     return;
   }
 
   int nx = 128;
-  int ny = 100;//(data.length() - indexBegin) / 128;
+  int ny = isNowData() ? 100 : 60;//(data.length() - indexBegin) / 128;
 
   m_colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
   m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
@@ -251,6 +255,26 @@ int ShPIndicatorWidget::currentPgasNumber() const
 }
 
 
+void ShPIndicatorWidget::setNowData(bool nowData)
+{
+  m_nowData = nowData;
+  dataRepaint();
+}
+
+
+bool ShPIndicatorWidget::isNowData() const
+{
+  return m_nowData;
+}
+
+
+void ShPIndicatorWidget::setSelectedData(const PgasData& selectedData)
+{
+  m_selectedData = selectedData;
+  dataRepaint();
+}
+
+
 void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 {
   if (checked)
@@ -284,4 +308,11 @@ void ShPIndicatorWidget::yAxisChanged(QCPRange range)
 {
   ui->verticalScrollBar->setValue(qRound(-range.center()*100.0)); // adjust position of scroll bar slider
   ui->verticalScrollBar->setPageStep(qRound(range.size()*100.0)); // adjust size of scroll bar slider
+}
+
+
+void ShPIndicatorWidget::on_toolButtonGrid_toggled(bool checked)
+{
+  ui->widget_2->xAxis->grid()->setVisible(checked);
+  ui->widget_2->yAxis->grid()->setVisible(checked);
 }

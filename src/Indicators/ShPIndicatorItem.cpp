@@ -82,3 +82,19 @@ void ShPIndicatorItem::setCurrentPgasNumber(int pgasNumber)
   if (m_downWidget)
     m_downWidget->setCurrentPgasNumber(pgasNumber);
 }
+
+
+void ShPIndicatorItem::setNowData(bool nowData)
+{
+  m_upWidget->setNowData(nowData);
+  if (m_downWidget)
+    m_downWidget->setNowData(nowData);
+}
+
+
+void ShPIndicatorItem::setSelectedData(const PgasData& selectedData)
+{
+  m_upWidget->setSelectedData(selectedData);
+  if (m_downWidget)
+    m_downWidget->setSelectedData(selectedData);
+}

@@ -7,6 +7,10 @@
 #include <QTimer>
 #include <QLocalSocket>
 #include <QEventLoop>
+#include <QSettings>
+#include <QFile>
+#include <QDataStream>
+#include <QDir>
 
 // CBOR
 #include <cbor.h>
@@ -47,16 +51,20 @@ Client::~Client()
 
 void Client::sendCommand(CommandType::Command cmd, const QVariantMap& value)
 {
+  QByteArray data;
+
   switch (cmd)
   {
     case CommandType::CMD_RequestData_DateTime:
-      qDebug() << value["datetime"];
+    {
+      //! TODO: делать это тут или отдавать службе?
+      //const qint64 secs = value["datetime"].toDateTime().toSecsSinceEpoch();
+      //data = QByteArray::number(secs);
       break;
+    }
     default:
       qWarning() << "Неизвестный тип команды" << cmd;
   }
-
-  QByteArray data; //
 
   QByteArray package;
   QDataStream out(&package, QIODevice::WriteOnly);
@@ -65,8 +73,12 @@ void Client::sendCommand(CommandType::Command cmd, const QVariantMap& value)
   out << quint16(idMessage);
   out << quint16(cmd);
   out << quint32(data.length());
+
   if (data.length())
-    out.writeRawData(data.data(), data.length());
+  {
+    if (-1 == out.writeRawData(data.data(), data.length()))
+      qWarning() << tr("Ошибка отправки данных");
+  }
 
   m_socket->write(package);
   if (!m_socket->waitForBytesWritten())
@@ -327,6 +339,92 @@ QVariantMap Client::parseData(CommandType::Command cmd, const QByteArray& data) 
 }
 
 
+PgasData Client::parseFile(const QDateTime& dateTime) const
+{
+  QSettings settings("SAMI_DVO_RAN", "rmo");
+  QString sourceDataPath = settings.value("sourceDataPath",
+#if defined(Q_OS_LINUX)
+    "/tmp/rmoserver"
+  #else
+        "C:\\tmp\\rmoserver"
+  #endif
+  ).toString();
+
+  // Ищем файл с запрашиваемой датой
+  QFile dat(QString("%1%2%3%4").arg(sourceDataPath).arg(QDir::separator()).arg(dateTime.date().toString("ddMMyyyy")).arg(".dat"));
+  if (dat.exists())
+  {
+    if (dat.open(QIODevice::ReadOnly))
+    {
+      QDataStream in(&dat);
+      in.setVersion(QDataStream::Qt_5_9);
+
+      PgasData result;
+      while (!in.atEnd())
+      {
+        quint16 cmd;
+        quint32 dataLength;
+        QByteArray dataArray;
+        in >> cmd;
+        in >> dataLength;
+        if (dataLength != 0)
+        {
+          dataArray.resize(dataLength);
+          int bytesRead = in.readRawData(dataArray.data(), dataLength);
+          if (bytesRead == -1)
+          {
+            qWarning() << tr("Ошибка чтения файла");
+            return PgasData();
+          }
+          CommandType::Command command = static_cast<CommandType::Command>(cmd);
+          QVariantMap vm = parseData(command, dataArray);
+          uint timestamp = vm["timestamp"].toUInt();
+          QDateTime dt = QDateTime::fromSecsSinceEpoch(timestamp);
+          if (dt.time().hour() == dateTime.time().hour()
+              && dt.time().minute() == dateTime.time().minute())
+          {
+            addDate(command, vm, result);
+          }
+        }
+      }
+
+      return result;
+    }
+  }
+
+  return PgasData();
+}
+
+
+void Client::addDate(CommandType::Command command, const QVariantMap& vm, PgasData& container) const
+{
+  // Номер ПГАС
+  int stationId = vm["stationId"].toInt();
+  if (stationId <= 0)
+  {
+    qWarning() << tr("Неверный номер ПГАС:") << stationId;
+    return;
+  }
+  else
+  {
+    if (container.contains(stationId))
+    {
+      auto map = container[stationId];
+      if (map.contains(command))
+        container[stationId][command].append(vm);
+      else
+        container[stationId].insert(command, QList<QVariantMap>() << vm);
+    }
+    else
+    {
+      QMap<CommandType::Command, QList<QVariantMap> > cvm;
+      cvm.insert(command, QList<QVariantMap>() << vm);
+      container.insert(stationId, cvm);
+    }
+  }
+}
+
+
 void Client::readyRead()
 {
   // TDOD: не знаю, нужна ли тут эта проверка
@@ -408,20 +506,7 @@ void Client::readyRead()
       }
       else
       {
-        if (m_pgasData.contains(stationId))
-        {
-          auto map = m_pgasData[stationId];
-          if (map.contains(m_command))
-            m_pgasData[stationId][m_command].append(vm);
-          else
-            m_pgasData[stationId].insert(m_command, QList<QVariantMap>() << vm);
-        }
-        else
-        {
-          QMap<CommandType::Command, QList<QVariantMap> > cvm;
-          cvm.insert(m_command, QList<QVariantMap>() << vm);
-          m_pgasData.insert(stationId, cvm);
-        }
+        addDate(m_command, vm, m_pgasData);
         emit newData(m_command);
 
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
@@ -434,6 +519,11 @@ void Client::readyRead()
 //        qWarning() << tr("Невозможно преобразовать данные");
 //      }
       }
+    }
+    else if (m_command >= CommandType::CMD_RequestData_DateTime)
+    {
+      // Команда на запрос данных по дате-времени
+
     }
     init();
   }
