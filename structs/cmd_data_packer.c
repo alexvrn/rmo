@@ -11,7 +11,9 @@
 
 #include "cbor.h"
 
+#if defined(Q_OS_LINUX)
 #include "curl/curl.h"
+#endif
 
 #include "types.h"
 

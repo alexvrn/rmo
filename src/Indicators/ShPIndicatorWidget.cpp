@@ -22,7 +22,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 {
   ui->setupUi(this);
 
-  connect(ui->paletteComboBox, SIGNAL(activated(int)), ui->paletteWidget, SLOT(setPalette(int)));
+  connect(ui->paletteComboBox, SIGNAL(activated(int)), this, SLOT(setGradient(int)));
   //connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
 
   // Индикаторная картина ШП
@@ -60,9 +60,14 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
   m_colorMap->setColorScale(colorScale); // associate the color map with the color scale
   //colorScale->axis()->setLabel("Magnetic Field Strength");
+  QCPColorGradient gradien;
+  QMap<double, QColor> colorStops;
+  colorStops[0] = QColor(0, 50, 0);
+  colorStops[+1] = QColor(0, 255, 0);
+  gradien.setColorStops(colorStops);
 
   // set the color gradient of the color map to one of the presets:
-  m_colorMap->setGradient(QCPColorGradient::gpPolar);
+  m_colorMap->setGradient(gradien);//QCPColorGradient::gpJet);
   // we could have also created a QCPColorGradient instance and added own colors to
   // the gradient, see the documentation of QCPColorGradient for what's possible.
 
@@ -148,6 +153,27 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
     ui->customPlot->setBackgroundColor(QColor(180, 180, 180));
   else if (mode == "night")
     ui->customPlot->setBackgroundColor(QColor(130, 130, 130));
+}
+
+
+void ShPIndicatorWidget::setGradient(int value)
+{
+  if (value == 0)
+  {
+    QCPColorGradient gradien;
+    QMap<double, QColor> colorStops;
+    colorStops[0] = QColor(0, 50, 0);
+    colorStops[+1] = QColor(0, 255, 0);
+    gradien.setColorStops(colorStops);
+
+    m_colorMap->setGradient(gradien);
+  }
+  else
+  {
+    m_colorMap->setGradient(QCPColorGradient::gpJet);
+  }
+
+  ui->widget_2->replot();
 }
 
 

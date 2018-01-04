@@ -18,7 +18,9 @@ extern "C" {
 
 #include "cbor.h"
 
+#if defined(Q_OS_LINUX)
 #include "curl/curl.h"
+#endif
 
 #include "types.h"
 
@@ -69,7 +71,9 @@ typedef struct pgas_stream_t {
 	char* url;
 } pgas_stream_t;
 
+#if defined(Q_OS_LINUX)
 extern CURL* curl_handler;
+#endif
 extern pgas_stream_t pgas_stream[PGAS_STREAM_MAX];
 extern int pgas_stream_init(void);
 extern int pgas_stream_cleanup(void);

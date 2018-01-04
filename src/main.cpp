@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
   QObject::connect(&controlRightPanel, &ControlRightPanel::showWindow, &controlLeftPanel, &ControlLeftPanel::setVisible);
   QObject::connect(&controlRightPanel, &ControlRightPanel::lightMode, &controlLeftPanel, &ControlLeftPanel::setLightMode);
 
-  const bool release = settings.value("release", true).toBool();
+  const bool release = false;//settings.value("release", true).toBool();
   if (!release)
   {
     const auto screen = qApp->primaryScreen();
@@ -74,14 +74,14 @@ int main(int argc, char *argv[])
   {
     QMessageBox::critical(0, QObject::tr("Подключение к локальному серверу"),
                              QObject::tr("Не удаётся подключиться к серверу."));
-    return 0;
+    //return 0;
   }
 
   QObject::connect(&client, &Client::authentication, &controlLeftPanel, &ControlRightPanel::show);
   QObject::connect(&client, &Client::authentication, &controlRightPanel, &ControlLeftPanel::show);
 
-  QObject::connect(&client, &Client::data, &controlRightPanel, &ControlRightPanel::data);
-  QObject::connect(&client, &Client::data, &controlLeftPanel, &ControlLeftPanel::data);
+  QObject::connect(&client, &Client::newData, &controlRightPanel, &ControlRightPanel::newData);
+  QObject::connect(&client, &Client::newData, &controlLeftPanel, &ControlLeftPanel::newData);
 
   // Проверка бездействия пользователя
   ScreenSaver& screenSaver = ScreenSaver::instance();

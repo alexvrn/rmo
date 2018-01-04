@@ -18,7 +18,9 @@ extern "C" {
 
 #include "cbor.h"
 
+#if defined(Q_OS_LINUX)
 #include "curl/curl.h"
+#endif
 
 #include "types.h"
 
@@ -105,8 +107,8 @@ extern "C" {
 	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>‑<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>29 - Выдача строки индикаторного процесса режима ШП</label></form>\n"\
 	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>-<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>30 - Выдача первичных отметок режима ШП</label></form>\n"\
 	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>‑<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>32 - Выдача сегмента отсчетов сигнала в КИС или в канале АСЦ</label></form>\n"\
-	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>‑<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>33 - Выдача энергетических спектров сигналов несущей, огибающей (в диапазоне ВЛМ) или огибающей (в диапазоне МК) в КИС/канале АСЦ</label></form>\n"\
-	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>-<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>34 - Выдача отметок ДС энергетических спектров сигналов несущей, огибающей (в диапазоне ВЛМ) или огибающей (в диапазоне МК) в КИС/канале АСЦ</label></form>\n"\
+	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>‑<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>33 - Выдача энергетических спектров сигналов несущей, огибающей (в диапазоне ВЛМ) или огибающей (в диапазоне МК) в КИС/канале АСЦ</label></form>\n"\
+	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>-<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>34 - Выдача отметок ДС энергетических спектров сигналов несущей, огибающей (в диапазоне ВЛМ) или огибающей (в диапазоне МК) в КИС/канале АСЦ</label></form>\n"\
 	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>‑<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>35 - Выдача отсчетов АКФ в КИС/канале АСЦ</label></form>\n"\
 	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>-<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>36 - Выдача отметок АКФ сигнала в КИС/канале АСЦ</label></form>\n"\
 	"<tr><td margin='0' padding='0'><form target='_blank'action='<base-url>/<Штамп времени>‑<Код потока>' method='PUT'><button>request</button><labe>base-url-query</label><input type='text' name='base-url-query'/><label>37 - Выдача строки индикаторного процесса режима ГЛ</label></form>\n"\
