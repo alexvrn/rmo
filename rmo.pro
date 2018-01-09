@@ -24,16 +24,16 @@ SOURCES += src/main.cpp\
     src/LeftPanel/MonitoringLeftPanel.cpp \
     src/RightPanel/SettingRightPanel.cpp \
     src/IndicatorsStackedWidget.cpp \
-    src/Indicators/GLIndicator.cpp \
+    src/Indicators/GL/GLIndicator.cpp \
     src/ControlPanel.cpp \
-    src/Indicators/TOIndicator.cpp \
-    src/Indicators/SAIndicator.cpp \
+    src/Indicators/TO/TOIndicator.cpp \
+    src/Indicators/SA/SAIndicator.cpp \
     src/Client/Client.cpp \
     src/Indicators/PaletteWidget.cpp \
     src/QCustomPlot/qcustomplot.cpp \
-    src/Indicators/ShPIndicatorItem.cpp \
-    src/Indicators/ShPIndicator.cpp \
-    src/Indicators/ShPIndicatorWidget.cpp \
+    src/Indicators/ShP/ShPIndicatorItem.cpp \
+    src/Indicators/ShP/ShPIndicator.cpp \
+    src/Indicators/ShP/ShPIndicatorWidget.cpp \
     src/AuthDialog/AuthDialog.cpp \
     src/ScreenSaver.cpp \
     src/Client/ResponseReceiver.cpp \
@@ -51,16 +51,16 @@ HEADERS += \
     src/LeftPanel/MonitoringLeftPanel.h \
     src/RightPanel/SettingRightPanel.h \
     src/IndicatorsStackedWidget.h \
-    src/Indicators/GLIndicator.h \
+    src/Indicators/GL/GLIndicator.h \
     src/ControlPanel.h \
-    src/Indicators/TOIndicator.h \
-    src/Indicators/SAIndicator.h \
+    src/Indicators/TO/TOIndicator.h \
+    src/Indicators/SA/SAIndicator.h \
     src/Client/Client.h \
     src/Indicators/PaletteWidget.h \
     src/QCustomPlot/qcustomplot.h \
-    src/Indicators/ShPIndicatorItem.h \
-    src/Indicators/ShPIndicator.h \
-    src/Indicators/ShPIndicatorWidget.h \
+    src/Indicators/ShP/ShPIndicatorItem.h \
+    src/Indicators/ShP/ShPIndicator.h \
+    src/Indicators/ShP/ShPIndicatorWidget.h \
     src/AuthDialog/AuthDialog.h \
     src/ScreenSaver.h \
     src/Client/ResponseReceiver.h \
@@ -90,5 +90,6 @@ RESOURCES += \
     resources.qrc
 
 
-INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Indicators/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics \
-              riot_os_cbor/ structs/
+INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics \
+              riot_os_cbor/ structs/ \
+              src/Indicators/ src/Indicators/ShP/ src/Indicators/SA/ src/Indicators/TO/ src/Indicators/GL/

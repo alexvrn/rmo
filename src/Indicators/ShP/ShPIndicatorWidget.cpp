@@ -170,7 +170,7 @@ void ShPIndicatorWidget::setGradient(int value)
   }
   else
   {
-    m_colorMap->setGradient(QCPColorGradient::gpJet);
+    m_colorMap->setGradient(QCPColorGradient::gpSpectrum);
   }
 
   ui->widget_2->replot();
