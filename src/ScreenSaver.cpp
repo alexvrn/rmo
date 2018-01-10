@@ -3,6 +3,7 @@
 
 // Qt
 #include <QTimer>
+#include <QSettings>
 
 // System
 #if defined(Q_OS_LINUX)
@@ -30,7 +31,10 @@ void ScreenSaver::checkIdle()
   static XScreenSaverInfo *info = XScreenSaverAllocInfo();
   XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
 
-  const int targetIdleMs = 30 * 1000;   // целевое время бездействия в миллисекундах
+  QSettings settings("SAMI_DVO_RAN", "rmo");
+  const int second = settings.value("screensaver", 60).toInt();
+
+  const int targetIdleMs = second * 1000;   // целевое время бездействия в миллисекундах
   const int actualIdleMs = info->idle; // фактическое время бездействия в мс
   if (actualIdleMs < targetIdleMs)
   {
