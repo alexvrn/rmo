@@ -38,6 +38,6 @@ namespace CommandType
   };
 }
 
-typedef QMap<int, QMap<CommandType::Command, QList<QVariantMap> > > PgasData;
+typedef QHash<int, QHash<CommandType::Command, QList<QVariantMap> > > PgasData;
 
 #endif // COMMANDTYPE_H
