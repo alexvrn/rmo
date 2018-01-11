@@ -92,9 +92,9 @@ void ShPIndicatorItem::setNowData(bool nowData)
 }
 
 
-void ShPIndicatorItem::setSelectedData(const PgasData& selectedData)
+void ShPIndicatorItem::setSelectedData(const PgasData& selectedData, const QDateTime& checkDateTime)
 {
-  m_upWidget->setSelectedData(selectedData);
+  m_upWidget->setSelectedData(selectedData, checkDateTime);
   if (m_downWidget)
-    m_downWidget->setSelectedData(selectedData);
+    m_downWidget->setSelectedData(selectedData, checkDateTime);
 }

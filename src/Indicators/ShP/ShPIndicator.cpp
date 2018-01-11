@@ -42,11 +42,17 @@ ShPIndicator::~ShPIndicator()
 
 void ShPIndicator::checkedDateTime()
 {
-  // Посылаем команду(запрос в данном случае)
-  const auto data = Client::instance().parseFile(ui->dateTimeEdit->dateTime());
+  // Обнуляем секунды
+  QDateTime checkDateTime = ui->dateTimeEdit->dateTime();
+  const QTime checkTime = checkDateTime.time();
+  const QTime time(checkTime.hour(), checkTime.minute(), 0);
+  checkDateTime.setTime(time);
 
-  m_indicatorItem1->setSelectedData(data);
-  m_indicatorItem2->setSelectedData(data);
+  // Посылаем команду(запрос в данном случае)
+  const auto data = Client::instance().parseFile(checkDateTime);
+
+  m_indicatorItem1->setSelectedData(data, checkDateTime);
+  m_indicatorItem2->setSelectedData(data, checkDateTime);
 }
 
 

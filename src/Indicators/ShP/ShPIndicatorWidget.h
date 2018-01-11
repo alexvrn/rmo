@@ -39,7 +39,7 @@ class ShPIndicatorWidget : public QWidget
     int currentPgasNumber() const;
     void setNowData(bool nowData);
     bool isNowData() const;
-    void setSelectedData(const PgasData& selectedData);
+    void setSelectedData(const PgasData& selectedData, const QDateTime& checkDateTime = QDateTime());
 
   signals:
     void countWidget();
@@ -57,6 +57,8 @@ class ShPIndicatorWidget : public QWidget
     void yAxisChanged(QCPRange range);
 
     void on_toolButtonGrid_toggled(bool checked);
+
+    void on_predIndicatorComboBox_activated(int index);
 
 private:
     void dataRepaint();
@@ -76,6 +78,9 @@ private:
 
     bool m_nowData;
     PgasData m_selectedData;
+
+    int m_seconds;
+    QDateTime m_checkDateTime;
 };
 
 #endif // SHPINDICATORWIDGET_H

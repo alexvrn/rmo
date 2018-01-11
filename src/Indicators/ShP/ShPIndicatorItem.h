@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QSplitter>
 #include <QVariantMap>
+#include <QDateTime>
 
 // Local
 class ShPIndicatorWidget;
@@ -31,7 +32,7 @@ class ShPIndicatorItem : public QWidget
     // Режим
     void setNowData(bool nowData);
     // Данные для выбранной даты
-    void setSelectedData(const PgasData& selectedData);
+    void setSelectedData(const PgasData& selectedData, const QDateTime& checkDateTime = QDateTime());
 
   private slots:
     void deleteDownWidget();
