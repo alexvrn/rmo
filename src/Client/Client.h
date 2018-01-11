@@ -46,6 +46,9 @@ class Client : public QObject
     //! Получение данных из файла
     PgasData parseFile(const QDateTime& dateTime) const;
 
+    //! Получение данных за secons секунд, начитая от текущего времени
+    PgasData parseFile(int seconds) const;
+
   signals:
     void newData(CommandType::Command cmd, const QVariant& value = QVariant());
     void authentication();

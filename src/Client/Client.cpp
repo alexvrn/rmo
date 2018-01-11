@@ -34,6 +34,10 @@ Client::Client(QObject *parent)
   // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
   //connect(&m_dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
   //m_dataTimer.start(500); // Interval 0 means to refresh as fast as possible
+
+  // Запрашиваем накопившиеся данные за заданное в конфиге количество секунд
+  QSettings settings("SAMI_DVO_RAN", "rmo");
+  m_pgasData = parseFile(settings.value("SHP/seconds", 60).toInt());
 }
 
 
@@ -396,6 +400,67 @@ PgasData Client::parseFile(const QDateTime& dateTime) const
 }
 
 
+PgasData Client::parseFile(int seconds) const
+{
+  if (seconds <= 0)
+    return PgasData();
+
+  QSettings settings("SAMI_DVO_RAN", "rmo");
+  QString sourceDataPath = settings.value("sourceDataPath",
+#if defined(Q_OS_LINUX)
+    "/tmp/rmoserver"
+  #else
+        "C:\\tmp\\rmoserver"
+  #endif
+  ).toString();
+
+  const QDateTime now = QDateTime::currentDateTime();
+
+  // Ищем файл с запрашиваемой датой
+  QFile dat(QString("%1%2%3%4").arg(sourceDataPath).arg(QDir::separator()).arg(now.date().toString("ddMMyyyy")).arg(".dat"));
+  if (dat.exists())
+  {
+    if (dat.open(QIODevice::ReadOnly))
+    {
+      QDataStream in(&dat);
+      in.setVersion(QDataStream::Qt_5_9);
+
+      PgasData result;
+      while (!in.atEnd())
+      {
+        quint16 cmd;
+        quint32 dataLength;
+        QByteArray dataArray;
+        in >> cmd;
+        in >> dataLength;
+        if (dataLength != 0)
+        {
+          dataArray.resize(dataLength);
+          int bytesRead = in.readRawData(dataArray.data(), dataLength);
+          if (bytesRead == -1)
+          {
+            qWarning() << tr("Ошибка чтения файла");
+            return PgasData();
+          }
+          CommandType::Command command = static_cast<CommandType::Command>(cmd);
+          QVariantMap vm = parseData(command, dataArray);
+          uint timestamp = vm["timestamp"].toUInt();
+          QDateTime dt = QDateTime::fromSecsSinceEpoch(timestamp);
+          if (dt.secsTo(now) <= seconds)
+          {
+            addDate(command, vm, result);
+          }
+        }
+      }
+
+      return result;
+    }
+  }
+
+  return PgasData();
+}
+
+
 void Client::addDate(CommandType::Command command, const QVariantMap& vm, PgasData& container) const
 {
   // Номер ПГАС
@@ -417,7 +482,7 @@ void Client::addDate(CommandType::Command command, const QVariantMap& vm, PgasDa
     }
     else
     {
-      QMap<CommandType::Command, QList<QVariantMap> > cvm;
+      QHash<CommandType::Command, QList<QVariantMap> > cvm;
       cvm.insert(command, QList<QVariantMap>() << vm);
       container.insert(stationId, cvm);
     }
@@ -493,7 +558,6 @@ void Client::readyRead()
       return;
 
     QByteArray message = m_socket->read(m_messageLength);
-    //qDebug() << tr("Тип") << m_command << message.length() << message;
     if (m_command >= CommandType::Stream_1 && m_command <= CommandType::Stream_22)
     {
       QVariantMap vm = parseData(m_command, message);
@@ -502,7 +566,7 @@ void Client::readyRead()
       int stationId = vm["stationId"].toInt();
       if (stationId <= 0)
       {
-        qWarning() << tr("Неверный номер ПГАС:") << stationId;;
+        qWarning() << tr("Неверный номер ПГАС:") << stationId;
       }
       else
       {
@@ -526,6 +590,10 @@ void Client::readyRead()
 
     }
     init();
+
+    // Проверяем, есть ли ещё сообщения
+    if (m_socket->bytesAvailable())
+      readyRead();
   }
 }
 
@@ -537,7 +605,7 @@ void Client::disconnected()
 
 
 void Client::realtimeDataSlot()
-{  
+{
   //emit data(CommandType::CMD_PGAS_Data);
 }
 
