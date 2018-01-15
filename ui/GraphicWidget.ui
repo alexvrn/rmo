@@ -14,6 +14,18 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>1</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>1</number>
+   </property>
+   <property name="bottomMargin">
+    <number>1</number>
+   </property>
    <item row="0" column="0">
     <widget class="QWidget" name="panel" native="true">
      <property name="styleSheet">
@@ -272,7 +284,7 @@
         <item row="1" column="0" colspan="2">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QCustomPlot" name="widget_2" native="true">
+           <widget class="QCustomPlot" name="graphic" native="true">
             <property name="minimumSize">
              <size>
               <width>400</width>
@@ -429,8 +441,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>layoutWidget</zorder>
-  <zorder></zorder>
  </widget>
  <customwidgets>
   <customwidget>

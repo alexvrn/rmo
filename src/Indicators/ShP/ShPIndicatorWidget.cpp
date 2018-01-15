@@ -76,6 +76,12 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
 
 void ShPIndicatorWidget::newData()
 {
+  if (m_buttonGroup->checkedId() == -1)
+  {
+    ui->graphicWidget->setData(QList<QVariantMap>());
+    return;
+  }
+
   // Берем данные в зависимости от режима (текущие данные или выбранные для определённой даты)
   const auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
   const auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
@@ -121,17 +127,7 @@ void ShPIndicatorWidget::setSelectedData(const PgasData& selectedData, const QDa
 void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 {
   if (checked)
-  {
-    //ui->widget_2->xAxis->setLabel(button->text());
-    //ui->widget_2->replot();
-  }
+   ui->graphicWidget->setAxisText(button->text());
 
   newData();
-}
-
-
-void ShPIndicatorWidget::on_predIndicatorComboBox_activated(int index)
-{
-  Q_UNUSED(index);
-  //ui->widget_2->replot();
 }

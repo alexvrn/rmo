@@ -6,7 +6,6 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::GraphicWidget)
   , m_graphColor(QColor(0,255,0))
-  , m_buttonGroup(new QButtonGroup(this))
   , m_nowData(true)
   , m_seconds(0)
 {
@@ -30,23 +29,23 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   // http://www.qcustomplot.com/index.php/demos/colormapdemo
   // configure axis rect:
-  ui->widget_2->setInteractions(QCP::iSelectAxes|QCP::iRangeDrag); // this will also allow rescaling the color scale by dragging/zooming
-  ui->widget_2->axisRect()->setupFullAxesBox(true);
-  ui->widget_2->xAxis->setLabel("");
-  ui->widget_2->yAxis->setLabel("T");
+  ui->graphic->setInteractions(QCP::iSelectAxes|QCP::iRangeDrag); // this will also allow rescaling the color scale by dragging/zooming
+  ui->graphic->axisRect()->setupFullAxesBox(true);
+  ui->graphic->xAxis->setLabel("");
+  ui->graphic->yAxis->setLabel("T");
 
-  //ui->widget_2->setLocale(QLocale(QLocale::Russian, QLocale::RussianFederation));
+  //ui->graphic->setLocale(QLocale(QLocale::Russian, QLocale::RussianFederation));
   //QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
   //dateTicker->setDateTimeFormat("h.m.s");
-  //ui->widget_2->yAxis->setTicker(dateTicker);
+  //ui->graphic->yAxis->setTicker(dateTicker);
 
-  ui->widget_2->yAxis->setRangeUpper(50);
+  ui->graphic->yAxis->setRangeUpper(50);
 
   // set up the QCPColorMap:
-  m_colorMap = new QCPColorMap(ui->widget_2->xAxis, ui->widget_2->yAxis);
+  m_colorMap = new QCPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
   // add a color scale:
-  QCPColorScale *colorScale = new QCPColorScale(ui->widget_2);
-  ui->widget_2->plotLayout()->addElement(0, 1, colorScale); // add it to the right of the main axis rect
+  QCPColorScale *colorScale = new QCPColorScale(ui->graphic);
+  ui->graphic->plotLayout()->addElement(0, 1, colorScale); // add it to the right of the main axis rect
   colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
   m_colorMap->setColorScale(colorScale); // associate the color map with the color scale
   //colorScale->axis()->setLabel("Magnetic Field Strength");
@@ -63,18 +62,15 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
 
   // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
-  QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->widget_2);
-  ui->widget_2->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
+  QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->graphic);
+  ui->graphic->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
   colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
 
   ui->paletteWidget->setPalette(0);
 
-  setHasSwitch(false);
-  connect(ui->countToolButton, SIGNAL(clicked(bool)), this, SIGNAL(countWidget()));
-
   ui->verticalScrollBar->setRange(-500, 500);
   connect(ui->verticalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(vertScrollBarChanged(int)));
-  connect(ui->widget_2->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(yAxisChanged(QCPRange)));
+  connect(ui->graphic->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(yAxisChanged(QCPRange)));
 
   QPalette pal(ui->panel->palette());
 
@@ -98,8 +94,6 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //ui->labelY->hide();
   //ui->labelX->hide();
   //ui->typeLabel->hide();
-
-  ui->pchToolButton->setChecked(true);
 }
 
 
@@ -157,7 +151,7 @@ void GraphicWidget::setGradient(int value)
     m_colorMap->setGradient(QCPColorGradient::gpSpectrum);
   }
 
-  ui->widget_2->replot();
+  ui->graphic->replot();
 }
 
 
@@ -165,19 +159,11 @@ void GraphicWidget::dataRepaint()
 {
   m_colorMap->data()->clear();
 
-  if (m_buttonGroup->checkedId() == -1)
-  {
-    ui->widget_2->replot();
-    return;
-  }
-
   int nx = 128;
   int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
 
   m_colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
   m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
-
- // ui->widget_2->yAxis->setRange(QDateTime::currentDateTime().toTime_t(), QDateTime::currentDateTime().toTime_t() + m_seconds);
 
   // Прединдикаторная обработка
   //! TODO
@@ -185,7 +171,7 @@ void GraphicWidget::dataRepaint()
 
   QHash<QDateTime, int> timeAxis;
   // Убираем миллисекунды
-  QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(m_seconds);
+  QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(60);
   const QTime bottomTime = QTime(bottomRange.time().hour(),
                                  bottomRange.time().minute(),
                                  bottomRange.time().second());
@@ -207,38 +193,16 @@ void GraphicWidget::dataRepaint()
       continue;
 
     const int xIndex = m_data[index]["beamCount"].toInt();
-    m_colorMap->data()->setCell(xIndex, v[dateTime], data[index]["data"].toDouble());
+    m_colorMap->data()->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
   }
-
-//  int yIndex = 0;
-//  //QVector<double> v(128, 0);
-//  for (int index = 0; index < data.length(); index++)
-//  {
-//    const int xIndex = data[index]["beamCount"].toInt();
-//    m_colorMap->data()->setCell(xIndex, yIndex, data[index]["data"].toDouble());
-//    //v[xIndex] = data[index]["data"].toDouble();
-//    //qDebug() << xIndex;
-//    if (xIndex == 127)
-//    {
-//      //for (int i = 0; i < 128; i++)
-//      //  colorMap->data()->setCell(i, yIndex, v[i]);
-//      //qDebug() << v;
-//      //v.fill(0);
-//      yIndex++;
-//      qDebug() << "New" << yIndex;
-//      //qDebug() << "Строка" << yIndex << data.length() << index;
-//      //for (int i = 0; i < 128; ++i)
-//      //  m_colorMap->data()->setCell(i, yIndex, 0.7);
-//    }
-//  }
 
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
   //m_colorMap->rescaleDataRange();
 
   // rescale the key (x) and value (y) axes so the whole color map is visible:
-  ui->widget_2->rescaleAxes();
+  ui->graphic->rescaleAxes();
 
-  ui->widget_2->replot();
+  ui->graphic->replot();
 }
 
 
@@ -269,16 +233,10 @@ void GraphicWidget::setSelectedData(const QList<QVariantMap>& selectedData, cons
 }
 
 
-void GraphicWidget::shpIndicatorView(QAbstractButton* button, bool checked)
+void GraphicWidget::setAxisText(const QString& text)
 {
-  if (checked)
-  {
-    //ui->typeLabel->setText(button->text());
-    ui->widget_2->xAxis->setLabel(button->text());
-    ui->widget_2->replot();
-  }
-
-  dataRepaint();
+  ui->graphic->xAxis->setLabel(text);
+  ui->graphic->replot();
 }
 
 
@@ -290,10 +248,10 @@ void GraphicWidget::on_orientationToolButton_clicked()
 
 void GraphicWidget::vertScrollBarChanged(int value)
 {
-  if (qAbs(ui->widget_2->yAxis->range().center()+value/100.0) > 0.01) // if user is dragging plot, we don't want to replot twice
+  if (qAbs(ui->graphic->yAxis->range().center()+value/100.0) > 0.01) // if user is dragging plot, we don't want to replot twice
   {
-    ui->widget_2->yAxis->setRange(-value/100.0, ui->widget_2->yAxis->range().size(), Qt::AlignCenter);
-    ui->widget_2->replot();
+    ui->graphic->yAxis->setRange(-value/100.0, ui->graphic->yAxis->range().size(), Qt::AlignCenter);
+    ui->graphic->replot();
   }
 }
 
@@ -307,13 +265,13 @@ void GraphicWidget::yAxisChanged(QCPRange range)
 
 void GraphicWidget::on_toolButtonGrid_toggled(bool checked)
 {
-  ui->widget_2->xAxis->grid()->setVisible(checked);
-  ui->widget_2->yAxis->grid()->setVisible(checked);
+  ui->graphic->xAxis->grid()->setVisible(checked);
+  ui->graphic->yAxis->grid()->setVisible(checked);
 }
 
 
 void GraphicWidget::on_predIndicatorComboBox_activated(int index)
 {
   Q_UNUSED(index);
-  ui->widget_2->replot();
+  ui->graphic->replot();
 }

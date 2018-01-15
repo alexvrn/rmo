@@ -6,7 +6,6 @@
 #include <QTimer>
 #include <QVariantMap>
 class QToolButton;
-class QAbstractButton;
 
 // Local
 class Graphic;
@@ -35,13 +34,12 @@ class GraphicWidget : public QWidget
     void setNowData(bool nowData);
     bool isNowData() const;
     void setSelectedData(const QList<QVariantMap>& selectedData, const QDateTime& checkDateTime = QDateTime());
+    void setAxisText(const QString& text);
 
   private slots:
     void colorValue(const QColor &color);
     void brightness(int value);
     void setGradient(int value);
-
-    void shpIndicatorView(QAbstractButton* button, bool checked);
 
     void on_orientationToolButton_clicked();
 
@@ -60,8 +58,6 @@ class GraphicWidget : public QWidget
     QColor m_graphColor;
 
     QList<QToolButton*> m_toolButtons;
-
-    QButtonGroup* m_buttonGroup;
 
     QCPColorMap *m_colorMap;
 

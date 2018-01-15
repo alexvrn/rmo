@@ -46,7 +46,6 @@ class ShPIndicatorWidget : public QWidget
 
   private slots:
     void shpIndicatorView(QAbstractButton* button, bool checked);
-    void on_predIndicatorComboBox_activated(int index);
 
 private:
     Ui::ShPIndicatorWidget *ui;
