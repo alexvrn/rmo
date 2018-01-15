@@ -45,24 +45,10 @@ class ShPIndicatorWidget : public QWidget
     void countWidget();
 
   private slots:
-    void colorValue(const QColor &color);
-    void brightness(int value);
-    void setGradient(int value);
-
     void shpIndicatorView(QAbstractButton* button, bool checked);
-
-    void on_orientationToolButton_clicked();
-
-    void vertScrollBarChanged(int value);
-    void yAxisChanged(QCPRange range);
-
-    void on_toolButtonGrid_toggled(bool checked);
-
     void on_predIndicatorComboBox_activated(int index);
 
 private:
-    void dataRepaint();
-
     Ui::ShPIndicatorWidget *ui;
 
     Graphic* m_graphic;
@@ -73,8 +59,6 @@ private:
 
     int m_pgasNumber;
     QButtonGroup* m_buttonGroup;
-
-    QCPColorMap *m_colorMap;
 
     bool m_nowData;
     PgasData m_selectedData;

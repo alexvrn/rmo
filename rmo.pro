@@ -40,7 +40,8 @@ SOURCES += src/main.cpp\
     src/Graphics/Graphic.cpp \
     riot_os_cbor/cbor.c \
     structs/cmd_data_packer.c \
-    structs/cmd_data_debug.c
+    structs/cmd_data_debug.c \
+    src/GraphicWidget.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -68,7 +69,8 @@ HEADERS += \
     src/commandType.h \
     riot_os_cbor/cbor.h \
     structs/cmd_data_packer.h \
-    structs/cmd_data_debug.h
+    structs/cmd_data_debug.h \
+    src/GraphicWidget.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -84,7 +86,8 @@ FORMS += \
     src/Indicators/ui/ShPIndicatorItem.ui \
     src/Indicators/ui/ShPIndicator.ui \
     src/Indicators/ui/ShPIndicatorWidget.ui \
-    ui/AuthDialog.ui
+    ui/AuthDialog.ui \
+    ui/GraphicWidget.ui
 
 RESOURCES += \
     resources.qrc
