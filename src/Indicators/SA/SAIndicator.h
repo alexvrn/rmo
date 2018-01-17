@@ -18,6 +18,10 @@ class SAIndicator : public QWidget
     explicit SAIndicator(QWidget *parent = Q_NULLPTR);
     ~SAIndicator();
 
+  private slots:
+    void checkedDateTime();
+    void nowToggled();
+
   private:
     Ui::SAIndicator *ui;
 };
