@@ -4,8 +4,6 @@
 #include "ShPIndicatorItem.h"
 #include "Client.h"
 
-// Qt
-#include <QButtonGroup>
 
 ShPIndicator::ShPIndicator(QWidget *parent)
   : QWidget(parent)
