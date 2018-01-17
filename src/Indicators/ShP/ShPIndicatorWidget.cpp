@@ -47,6 +47,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   setLightMode(settings.value("mode", "sun").toString());
 
   ui->pchToolButton->setChecked(true);
+
+  ui->graphicWidget->setType(GraphicWidget::ShP);
 }
 
 

@@ -103,6 +103,30 @@ GraphicWidget::~GraphicWidget()
 }
 
 
+void GraphicWidget::setType(IndicatorType indicatorType)
+{
+  m_indicatorType = indicatorType;
+
+  // Обновляем список вариантов прединдикаторной обработки
+  ui->predIndicatorComboBox->clear();
+
+  if (indicatorType == IndicatorType::ShP)
+  {
+    ui->predIndicatorComboBox->addItem(tr("Логарифм"), PredIndicatorType::Logarithm);
+    ui->predIndicatorComboBox->addItem(tr("Линейная"), PredIndicatorType::Linear);
+    ui->predIndicatorComboBox->addItem(tr("Логарифм"), PredIndicatorType::Marker);
+    ui->predIndicatorComboBox->addItem(tr("Пороговая"), PredIndicatorType::Threshold);
+    ui->predIndicatorComboBox->addItem(tr("Логарифм"), PredIndicatorType::GL_Reverberation);
+    ui->predIndicatorComboBox->addItem(tr("Логарифм"), PredIndicatorType::GL_Noise);
+  }
+  else if (indicatorType == IndicatorType::SA)
+  {
+    ui->predIndicatorComboBox->addItem(tr("Логарифм"), PredIndicatorType::Logarithm);
+    ui->predIndicatorComboBox->addItem(tr("Псевдо-линейная"), PredIndicatorType::PseudoLinear);
+  }
+}
+
+
 void GraphicWidget::colorValue(const QColor &color)
 {
   m_graphColor = color;
@@ -273,5 +297,8 @@ void GraphicWidget::on_toolButtonGrid_toggled(bool checked)
 void GraphicWidget::on_predIndicatorComboBox_activated(int index)
 {
   Q_UNUSED(index);
+
+  PredIndicatorType predIndicatorType = static_cast<PredIndicatorType>(ui->predIndicatorComboBox->currentData().toInt());
+  qDebug() << predIndicatorType;
   ui->graphic->replot();
 }

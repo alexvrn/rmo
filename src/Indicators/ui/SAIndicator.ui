@@ -202,7 +202,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout" rowstretch="3,1">
          <item row="0" column="0">
-          <widget class="GraphicWidget" name="widget" native="true"/>
+          <widget class="GraphicWidget" name="widget_1" native="true"/>
          </item>
          <item row="1" column="0">
           <widget class="QCustomPlot" name="widget_3" native="true"/>

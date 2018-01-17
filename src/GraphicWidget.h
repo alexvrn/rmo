@@ -24,8 +24,29 @@ class GraphicWidget : public QWidget
   Q_OBJECT
 
   public:
+    // Типы индикатора
+    enum IndicatorType
+    {
+      ShP,
+      SA
+    };
+
+    // Типы пред-индикаторной обработки
+    enum PredIndicatorType
+    {
+      Logarithm,
+      Linear,
+      Marker,
+      Threshold,
+      GL_Reverberation,
+      GL_Noise,
+      PseudoLinear
+    };
+
     explicit GraphicWidget(QWidget *parent = 0);
     ~GraphicWidget();
+
+    void setType(IndicatorType indicatorType);
 
   public slots:
     void setData(const QList<QVariantMap>& data);
@@ -41,13 +62,11 @@ class GraphicWidget : public QWidget
     void brightness(int value);
     void setGradient(int value);
 
-    void on_orientationToolButton_clicked();
-
     void vertScrollBarChanged(int value);
     void yAxisChanged(QCPRange range);
 
     void on_toolButtonGrid_toggled(bool checked);
-
+    void on_orientationToolButton_clicked();
     void on_predIndicatorComboBox_activated(int index);
 
   private:
@@ -71,6 +90,8 @@ class GraphicWidget : public QWidget
     Ui::GraphicWidget *ui;
 
     QList<QVariantMap> m_data;
+
+    IndicatorType m_indicatorType;
 };
 
 #endif // GRAPHICWIDGET_H

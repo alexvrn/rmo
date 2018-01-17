@@ -2,6 +2,7 @@
 #include "SAIndicator.h"
 #include "ui_SAIndicator.h"
 #include "Client.h"
+#include "GraphicWidget.h"
 
 SAIndicator::SAIndicator(QWidget *parent)
   : QWidget(parent)
@@ -22,6 +23,10 @@ SAIndicator::SAIndicator(QWidget *parent)
   connect(ui->checkedToolButton, SIGNAL(clicked(bool)), SLOT(checkedDateTime()));
 
   connect(ui->nowToolButton, SIGNAL(toggled(bool)), SLOT(nowToggled()));
+
+  ui->widget_1->setType(GraphicWidget::SA);
+  ui->widget_2->setType(GraphicWidget::SA);
+  ui->widget_5->setType(GraphicWidget::SA);
 }
 
 
