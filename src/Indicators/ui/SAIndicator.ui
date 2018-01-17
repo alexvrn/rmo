@@ -43,15 +43,14 @@
       </property>
       <item>
        <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Номер ПГАС:</string>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinBox">
-        <property name="minimum">
-         <number>1</number>
+        <property name="text">
+         <string>Цель № 1000</string>
         </property>
        </widget>
       </item>
@@ -179,7 +178,14 @@
       <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>TextLabel</string>
+         <string>Номер:
+23</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -272,7 +278,10 @@
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>TextLabel</string>
+             <string>1000 Гц</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -286,7 +295,10 @@
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>TextLabel</string>
+             <string>100 Гц</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -331,12 +343,18 @@
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>TextLabel</string>
+             <string>11.11.</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QSlider" name="verticalSlider_2">
+            <property name="tracking">
+             <bool>true</bool>
+            </property>
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -346,6 +364,9 @@
            <widget class="QLabel" name="label_5">
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -369,16 +390,30 @@
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="horizontalSlider">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QSlider" name="horizontalSlider">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QLabel" name="label_8">
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
