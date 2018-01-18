@@ -56,22 +56,24 @@ class GraphicWidget : public QWidget
     bool isNowData() const;
     void setAxisText(const QString& text);
 
+    void resizeEvent(QResizeEvent* event);
+
   private slots:
     void colorValue(const QColor &color);
     void brightness(int value);
     void setGradient(int value);
 
-    void vertScrollBarChanged(int value);
-    void yAxisChanged(QCPRange range);
-
     void on_toolButtonGrid_toggled(bool checked);
     void on_orientationToolButton_clicked();
     void on_predIndicatorComboBox_activated(int index);
+
+    void colorScaleLayout();
 
   private:
     void dataRepaint();
 
     Graphic* m_graphic;
+    QCPColorScale* m_colorScale;
 
     QColor m_graphColor;
 

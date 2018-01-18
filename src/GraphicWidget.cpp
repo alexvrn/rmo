@@ -15,6 +15,10 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   QSettings settings("SAMI_DVO_RAN", "rmo");
   m_seconds = settings.value("SHP/seconds", 60).toInt();
 
+  ui->scrollArea->verticalScrollBar()->setSliderDown(true);
+
+  connect(ui->scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), SLOT(colorScaleLayout()));
+
   connect(ui->paletteComboBox, SIGNAL(activated(int)), this, SLOT(setGradient(int)));
   //connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
 
@@ -34,6 +38,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   ui->graphic->xAxis->setLabel("");
   ui->graphic->yAxis->setLabel("T");
 
+
   //ui->graphic->setLocale(QLocale(QLocale::Russian, QLocale::RussianFederation));
   //QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
   //dateTicker->setDateTimeFormat("h.m.s");
@@ -43,11 +48,12 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   // set up the QCPColorMap:
   m_colorMap = new QCPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
+
   // add a color scale:
-  QCPColorScale *colorScale = new QCPColorScale(ui->graphic);
-  ui->graphic->plotLayout()->addElement(0, 1, colorScale); // add it to the right of the main axis rect
-  colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
-  m_colorMap->setColorScale(colorScale); // associate the color map with the color scale
+  m_colorScale = new QCPColorScale(ui->graphic);
+  ui->graphic->plotLayout()->addElement(0, 1, m_colorScale); // add it to the right of the main axis rect
+  m_colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
+  m_colorMap->setColorScale(m_colorScale); // associate the color map with the color scale
   //colorScale->axis()->setLabel("Magnetic Field Strength");
   QCPColorGradient gradien;
   QMap<double, QColor> colorStops;
@@ -60,22 +66,10 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   // we could have also created a QCPColorGradient instance and added own colors to
   // the gradient, see the documentation of QCPColorGradient for what's possible.
 
-
   // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
-  QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->graphic);
-  ui->graphic->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
-  colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
-
-  ui->verticalScrollBar->setRange(-500, 500);
-  connect(ui->verticalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(vertScrollBarChanged(int)));
-  connect(ui->graphic->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(yAxisChanged(QCPRange)));
-
-  QPalette pal(ui->panel->palette());
-
-  // устанавливаем цвет фона
-  pal.setColor(QPalette::Background, QColor(200, 200, 200));
-  ui->panel->setAutoFillBackground(true);
-  ui->panel->setPalette(pal);
+  //QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->graphic);
+  //ui->graphic->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
+  //colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
 
   const QString style = "background-color: rgb(200,200,200, 20);";
   //ui->labelX->setStyleSheet(style);
@@ -87,10 +81,12 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   // Подцветка
   setLightMode(settings.value("mode", "sun").toString());
 
-  ui->customPlot->hide();
-  //ui->labelY->hide();
-  //ui->labelX->hide();
-  //ui->typeLabel->hide();
+  ui->graphic->setFixedHeight(m_seconds);
+
+  QMargins mar(0, 100, 1, 100);
+  m_colorScale->setMargins(mar);
+
+  dataRepaint();
 }
 
 
@@ -149,10 +145,10 @@ void GraphicWidget::setData(const QList<QVariantMap> &data, const QDateTime& dat
 
 void GraphicWidget::setLightMode(const QString& mode)
 {
-  if (mode == "sun")
-    ui->customPlot->setBackgroundColor(QColor(180, 180, 180));
-  else if (mode == "night")
-    ui->customPlot->setBackgroundColor(QColor(130, 130, 130));
+//  if (mode == "sun")
+//    ui->customPlot->setBackgroundColor(QColor(180, 180, 180));
+//  else if (mode == "night")
+//    ui->customPlot->setBackgroundColor(QColor(130, 130, 130));
 }
 
 
@@ -183,6 +179,8 @@ void GraphicWidget::dataRepaint()
 
   int nx = 128;
   int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
+
+  ui->graphic->setBackground(QBrush(Qt::lightGray));
 
   m_colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
   m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
@@ -218,6 +216,8 @@ void GraphicWidget::dataRepaint()
     m_colorMap->data()->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
   }
 
+
+
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
   //m_colorMap->rescaleDataRange();
 
@@ -237,6 +237,9 @@ void GraphicWidget::newData()
 void GraphicWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
+  ui->graphic->setMinimumHeight(nowData ? m_seconds : 0);
+
+  colorScaleLayout();
   dataRepaint();
 }
 
@@ -254,26 +257,16 @@ void GraphicWidget::setAxisText(const QString& text)
 }
 
 
+void GraphicWidget::resizeEvent(QResizeEvent* event)
+{
+  colorScaleLayout();
+  QWidget::resizeEvent(event);
+}
+
+
 void GraphicWidget::on_orientationToolButton_clicked()
 {
-  ui->customPlot->setOrientation(!ui->customPlot->orientation());
-}
-
-
-void GraphicWidget::vertScrollBarChanged(int value)
-{
-  if (qAbs(ui->graphic->yAxis->range().center()+value/100.0) > 0.01) // if user is dragging plot, we don't want to replot twice
-  {
-    ui->graphic->yAxis->setRange(-value/100.0, ui->graphic->yAxis->range().size(), Qt::AlignCenter);
-    ui->graphic->replot();
-  }
-}
-
-
-void GraphicWidget::yAxisChanged(QCPRange range)
-{
-  ui->verticalScrollBar->setValue(qRound(-range.center()*100.0)); // adjust position of scroll bar slider
-  ui->verticalScrollBar->setPageStep(qRound(range.size()*100.0)); // adjust size of scroll bar slider
+  //ui->customPlot->setOrientation(!ui->customPlot->orientation());
 }
 
 
@@ -290,5 +283,15 @@ void GraphicWidget::on_predIndicatorComboBox_activated(int index)
 
   PredIndicatorType predIndicatorType = static_cast<PredIndicatorType>(ui->predIndicatorComboBox->currentData().toInt());
   qDebug() << predIndicatorType;
+  ui->graphic->replot();
+}
+
+
+void GraphicWidget::colorScaleLayout()
+{
+  const int hv = ui->scrollArea->verticalScrollBar()->height();
+  const QMargins m(0, ui->scrollArea->verticalScrollBar()->value(), 0,
+                   (m_nowData ? m_seconds : height()) - ui->scrollArea->verticalScrollBar()->value() - hv);
+  m_colorScale->setMargins(m);
   ui->graphic->replot();
 }
