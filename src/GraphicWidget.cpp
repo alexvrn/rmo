@@ -66,8 +66,6 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   ui->graphic->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
   colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
 
-  ui->paletteWidget->setPalette(0);
-
   ui->verticalScrollBar->setRange(-500, 500);
   connect(ui->verticalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(vertScrollBarChanged(int)));
   connect(ui->graphic->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(yAxisChanged(QCPRange)));
@@ -90,7 +88,6 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   setLightMode(settings.value("mode", "sun").toString());
 
   ui->customPlot->hide();
-  ui->paletteWidget->hide();
   //ui->labelY->hide();
   //ui->labelX->hide();
   //ui->typeLabel->hide();
