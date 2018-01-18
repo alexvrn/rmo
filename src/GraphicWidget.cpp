@@ -139,9 +139,10 @@ void GraphicWidget::brightness(int value)
 }
 
 
-void GraphicWidget::setData(const QList<QVariantMap> &data)
+void GraphicWidget::setData(const QList<QVariantMap> &data, const QDateTime& dateTime)
 {
   m_data = data;
+  m_checkDateTime = dateTime;
   dataRepaint();
 }
 
@@ -243,14 +244,6 @@ void GraphicWidget::setNowData(bool nowData)
 bool GraphicWidget::isNowData() const
 {
   return m_nowData;
-}
-
-
-void GraphicWidget::setSelectedData(const QList<QVariantMap>& selectedData, const QDateTime& checkDateTime)
-{
-  m_selectedData = selectedData;
-  m_checkDateTime = checkDateTime;
-  dataRepaint();
 }
 
 

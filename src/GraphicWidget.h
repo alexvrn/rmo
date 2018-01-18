@@ -49,12 +49,11 @@ class GraphicWidget : public QWidget
     void setType(IndicatorType indicatorType);
 
   public slots:
-    void setData(const QList<QVariantMap>& data);
+    void setData(const QList<QVariantMap>& data, const QDateTime& dateTime = QDateTime());
     void setLightMode(const QString& mode);
     void newData();
     void setNowData(bool nowData);
     bool isNowData() const;
-    void setSelectedData(const QList<QVariantMap>& selectedData, const QDateTime& checkDateTime = QDateTime());
     void setAxisText(const QString& text);
 
   private slots:

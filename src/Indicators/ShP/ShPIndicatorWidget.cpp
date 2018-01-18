@@ -88,7 +88,7 @@ void ShPIndicatorWidget::newData()
   const auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
   const auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
 
-  ui->graphicWidget->setData(data);
+  ui->graphicWidget->setData(data, m_checkDateTime);
 }
 
 
@@ -108,6 +108,7 @@ int ShPIndicatorWidget::currentPgasNumber() const
 void ShPIndicatorWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
+  ui->graphicWidget->setNowData(nowData);
   newData();
 }
 
