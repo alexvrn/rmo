@@ -24,6 +24,7 @@ Client::Client(QObject *parent)
   , m_socket(new QLocalSocket(this))
   , m_waitState(WaitingId)
   , m_messageLength(0)
+  , m_seconds(0)
 {
   connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
 
@@ -37,7 +38,8 @@ Client::Client(QObject *parent)
 
   // Запрашиваем накопившиеся данные за заданное в конфиге количество секунд
   QSettings settings("SAMI_DVO_RAN", "rmo");
-  m_pgasData = parseFile(settings.value("SHP/seconds", 60).toInt());
+  m_seconds = settings.value("SHP/seconds", 60).toInt();
+  m_pgasData = parseFile(m_seconds);
 }
 
 
@@ -461,6 +463,30 @@ PgasData Client::parseFile(int seconds) const
 }
 
 
+QList<QVariantMap> Client::parseFile(int stationId, CommandType::Command command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const
+{
+  if (lowerDateTime >= upperDateTime)
+    return QList<QVariantMap>();
+
+  if (!m_pgasData.contains(stationId))
+    return QList<QVariantMap>();
+
+  if (!m_pgasData[stationId].contains(command))
+    return QList<QVariantMap>();
+
+  QList<QVariantMap> result;
+  auto vms = m_pgasData[stationId][command];
+  for (auto vm : vms)
+  {
+    const QDateTime dt = QDateTime::fromSecsSinceEpoch(vm["timestamp"].toUInt());
+    if (dt >= lowerDateTime && dt <= upperDateTime)
+      result.append(vm);
+  }
+
+  return result;
+}
+
+
 void Client::addDate(CommandType::Command command, const QVariantMap& vm, PgasData& container) const
 {
   // Номер ПГАС
@@ -476,7 +502,28 @@ void Client::addDate(CommandType::Command command, const QVariantMap& vm, PgasDa
     {
       auto map = container[stationId];
       if (map.contains(command))
+      {
+        // Проверяем, наполнен ли контейнер до максимального значения
+        QList<QVariantMap> vms = container[stationId][command];
+        // Берем первое и последнее добавляемое значение времени и берем разницу в секундах
+        const QDateTime lowerDateTime = QDateTime::fromSecsSinceEpoch(vms[0]["timestamp"].toUInt());
+        const QDateTime upperDateTime = QDateTime::fromSecsSinceEpoch(vm["timestamp"].toUInt());
+        if (lowerDateTime.addSecs(m_seconds) < upperDateTime)
+        {
+          // Удаляем данные с первой датой
+          auto end = std::remove_if(vms.begin(), vms.end(),
+                                          [lowerDateTime](const QVariantMap& vm)
+                                          {
+                                            const QDateTime dt = QDateTime::fromSecsSinceEpoch(vm["timestamp"].toUInt());
+                                            return (dt.time().hour() == lowerDateTime.time().hour()
+                                                    && dt.time().minute() == lowerDateTime.time().minute()
+                                                    && dt.time().second() == lowerDateTime.time().second());
+                                          });
+          vms.erase(end, vms.end());
+          container[stationId][command] = vms;
+        }
         container[stationId][command].append(vm);
+      }
       else
         container[stationId].insert(command, QList<QVariantMap>() << vm);
     }

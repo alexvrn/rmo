@@ -49,6 +49,9 @@ class Client : public QObject
     //! Получение данных за secons секунд, начитая от текущего времени
     PgasData parseFile(int seconds) const;
 
+    //! Получение данных за заданный период
+    QList<QVariantMap> parseFile(int stationId, CommandType::Command command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const;
+
   signals:
     void newData(CommandType::Command cmd, const QVariant& value = QVariant());
     void authentication();
@@ -87,6 +90,7 @@ class Client : public QObject
     quint32 m_messageLength;
 
     PgasData m_pgasData;
+    int m_seconds;
 };
 
 #endif // CLIENT_H

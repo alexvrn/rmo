@@ -69,7 +69,9 @@ class GraphicWidget : public QWidget
 
     void colorScaleLayout();
 
-  private:
+    void on_verticalScrollBar_valueChanged(int value);
+
+private:
     void dataRepaint();
 
     Graphic* m_graphic;

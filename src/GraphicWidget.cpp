@@ -15,9 +15,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   QSettings settings("SAMI_DVO_RAN", "rmo");
   m_seconds = settings.value("SHP/seconds", 60).toInt();
 
-  ui->scrollArea->verticalScrollBar()->setSliderDown(true);
-
-  connect(ui->scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), SLOT(colorScaleLayout()));
+  ui->verticalScrollBar->setRange(0, m_seconds);
 
   connect(ui->paletteComboBox, SIGNAL(activated(int)), this, SLOT(setGradient(int)));
   //connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
@@ -48,7 +46,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   // set up the QCPColorMap:
   m_colorMap = new QCPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
-
+  ui->graphic->setViewport(QRect(0,10, 40, 40));
   // add a color scale:
   m_colorScale = new QCPColorScale(ui->graphic);
   ui->graphic->plotLayout()->addElement(0, 1, m_colorScale); // add it to the right of the main axis rect
@@ -81,10 +79,10 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   // Подцветка
   setLightMode(settings.value("mode", "sun").toString());
 
-  ui->graphic->setFixedHeight(m_seconds);
+  //ui->graphic->setFixedHeight(m_seconds);
 
-  QMargins mar(0, 100, 1, 100);
-  m_colorScale->setMargins(mar);
+  //QMargins mar(0, 100, 1, 100);
+  //m_colorScale->setMargins(mar);
 
   dataRepaint();
 }
@@ -182,8 +180,11 @@ void GraphicWidget::dataRepaint()
 
   ui->graphic->setBackground(QBrush(Qt::lightGray));
 
+  const int valueScroll = ui->verticalScrollBar->value();
+
   m_colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
-  m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
+  //m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, 60)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
+  m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, 60));
 
   // Прединдикаторная обработка
   //! TODO
@@ -197,7 +198,7 @@ void GraphicWidget::dataRepaint()
                                  bottomRange.time().second());
   bottomRange.setTime(bottomTime);
 
-  for (int i = 0; i < ny; ++i)
+  for (int i = valueScroll; i < ny + valueScroll; ++i)
     timeAxis[bottomRange.addSecs(-i)] = i;
 
   for (int index = 0; index < m_data.length(); index++)
@@ -237,8 +238,8 @@ void GraphicWidget::newData()
 void GraphicWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
-  ui->graphic->setMinimumHeight(nowData ? m_seconds : 0);
-
+  ui->verticalScrollBar->setRange(0, nowData ? m_seconds : 1);
+  ui->verticalScrollBar->setVisible(nowData);
   colorScaleLayout();
   dataRepaint();
 }
@@ -260,6 +261,7 @@ void GraphicWidget::setAxisText(const QString& text)
 void GraphicWidget::resizeEvent(QResizeEvent* event)
 {
   colorScaleLayout();
+  ui->verticalScrollBar->setValue(0);
   QWidget::resizeEvent(event);
 }
 
@@ -289,9 +291,15 @@ void GraphicWidget::on_predIndicatorComboBox_activated(int index)
 
 void GraphicWidget::colorScaleLayout()
 {
-  const int hv = ui->scrollArea->verticalScrollBar()->height();
-  const QMargins m(0, ui->scrollArea->verticalScrollBar()->value(), 0,
-                   (m_nowData ? m_seconds : height()) - ui->scrollArea->verticalScrollBar()->value() - hv);
-  m_colorScale->setMargins(m);
-  ui->graphic->replot();
+//  const int hv = ui->scrollArea->verticalScrollBar()->height();
+//  const QMargins m(0, ui->scrollArea->verticalScrollBar()->value(), 0,
+//                   (m_nowData ? m_seconds : height()) - ui->scrollArea->verticalScrollBar()->value() - hv);
+//  m_colorScale->setMargins(m);
+//  ui->graphic->replot();
+}
+
+void GraphicWidget::on_verticalScrollBar_valueChanged(int value)
+{
+  Q_UNUSED(value);
+  dataRepaint();
 }
