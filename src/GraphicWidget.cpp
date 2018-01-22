@@ -180,11 +180,13 @@ void GraphicWidget::dataRepaint()
 
   ui->graphic->setBackground(QBrush(Qt::lightGray));
 
-  const int valueScroll = ui->verticalScrollBar->value();
+  const int size = isNowData() ? m_seconds / 4 : 60; //! TODO: делить на 4 или на сколько вообще!
 
-  m_colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
+  const int valueScroll = isNowData() ? (ui->verticalScrollBar->maximum() - ui->verticalScrollBar->value()) : 0;
+
+  m_colorMap->data()->setSize(nx, size); // we want the color map to have nx * ny data points
   //m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, 60)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
-  m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, 60));
+  m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny));
 
   // Прединдикаторная обработка
   //! TODO
@@ -198,8 +200,8 @@ void GraphicWidget::dataRepaint()
                                  bottomRange.time().second());
   bottomRange.setTime(bottomTime);
 
-  for (int i = valueScroll; i < ny + valueScroll; ++i)
-    timeAxis[bottomRange.addSecs(-i)] = i;
+  for (int i = 0; i < ny; ++i)
+    timeAxis[bottomRange.addSecs(-i)] = i - valueScroll;
 
   for (int index = 0; index < m_data.length(); index++)
   {
@@ -216,7 +218,6 @@ void GraphicWidget::dataRepaint()
     const int xIndex = m_data[index]["beamCount"].toInt();
     m_colorMap->data()->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
   }
-
 
 
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
@@ -239,6 +240,8 @@ void GraphicWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
   ui->verticalScrollBar->setRange(0, nowData ? m_seconds : 1);
+  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds : 60);
+  ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
   ui->verticalScrollBar->setVisible(nowData);
   colorScaleLayout();
   dataRepaint();
@@ -261,7 +264,8 @@ void GraphicWidget::setAxisText(const QString& text)
 void GraphicWidget::resizeEvent(QResizeEvent* event)
 {
   colorScaleLayout();
-  ui->verticalScrollBar->setValue(0);
+  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds : 60);
+  ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
   QWidget::resizeEvent(event);
 }
 
