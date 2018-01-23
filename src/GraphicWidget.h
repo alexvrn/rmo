@@ -73,6 +73,7 @@ class GraphicWidget : public QWidget
 
 private:
     void dataRepaint();
+    int shiftData() const;
 
     Graphic* m_graphic;
     QCPColorScale* m_colorScale;

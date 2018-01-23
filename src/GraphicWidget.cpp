@@ -84,6 +84,13 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //QMargins mar(0, 100, 1, 100);
   //m_colorScale->setMargins(mar);
 
+  QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
+  timeTicker->setTimeFormat("%h:%m:%s");;
+  ui->graphic->yAxis->setTicker(timeTicker);
+  ui->graphic->yAxis->setRange(10000, 20000000);
+
+  //ui->graphic->axisRect()->setupFullAxesBox();
+
   dataRepaint();
 }
 
@@ -180,8 +187,7 @@ void GraphicWidget::dataRepaint()
 
   ui->graphic->setBackground(QBrush(Qt::lightGray));
 
-  const int size = isNowData() ? m_seconds / 4 : 60; //! TODO: делить на 4 или на сколько вообще!
-
+  const int size = isNowData() ? shiftData() : 60;
   const int valueScroll = isNowData() ? (ui->verticalScrollBar->maximum() - ui->verticalScrollBar->value()) : 0;
 
   m_colorMap->data()->setSize(nx, size); // we want the color map to have nx * ny data points
@@ -191,6 +197,9 @@ void GraphicWidget::dataRepaint()
   // Прединдикаторная обработка
   //! TODO
   const int predIndicator = ui->predIndicatorComboBox->currentIndex();
+
+  //ui->graphic->yAxis->setRangeLower(2000);
+  ui->graphic->yAxis->setRange(QCPAxisTickerDateTime::dateTimeToKey(QDate(2013, 11, 16)), QCPAxisTickerDateTime::dateTimeToKey(QDate(2015, 5, 2)));
 
   QHash<QDateTime, int> timeAxis;
   // Убираем миллисекунды
@@ -216,9 +225,16 @@ void GraphicWidget::dataRepaint()
       continue;
 
     const int xIndex = m_data[index]["beamCount"].toInt();
+    // чтобы не было предупреждения
+    if (!(xIndex < m_colorMap->data()->keySize() && timeAxis[dateTime] >= 0 && timeAxis[dateTime] < m_colorMap->data()->valueSize()))
+      continue;
+
     m_colorMap->data()->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
   }
 
+  //double nowtime = QDateTime::currentDateTime().toTime_t();
+  ui->graphic->yAxis->setTicks(2);//setRange(nowtime, 60, Qt::AlignRight);
+  ui->graphic->yAxis->setTickLabels(true);
 
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
   //m_colorMap->rescaleDataRange();
@@ -226,7 +242,15 @@ void GraphicWidget::dataRepaint()
   // rescale the key (x) and value (y) axes so the whole color map is visible:
   ui->graphic->rescaleAxes();
 
+  ui->graphic->yAxis->rescale();
   ui->graphic->replot();
+}
+
+
+int GraphicWidget::shiftData() const
+{
+  //! TODO: делить на 4 или на сколько вообще!
+  return m_seconds / 4;
 }
 
 
@@ -240,7 +264,7 @@ void GraphicWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
   ui->verticalScrollBar->setRange(0, nowData ? m_seconds : 1);
-  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds : 60);
+  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
   ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
   ui->verticalScrollBar->setVisible(nowData);
   colorScaleLayout();
@@ -264,7 +288,7 @@ void GraphicWidget::setAxisText(const QString& text)
 void GraphicWidget::resizeEvent(QResizeEvent* event)
 {
   colorScaleLayout();
-  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds : 60);
+  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
   ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
   QWidget::resizeEvent(event);
 }
