@@ -28,31 +28,24 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   connect(ui->brightnessSlider, SIGNAL(valueChanged(int)), SLOT(brightness(int)));
 
-
   // http://www.qcustomplot.com/index.php/demos/colormapdemo
   // configure axis rect:
   ui->graphic->setInteractions(QCP::iSelectAxes|QCP::iRangeDrag); // this will also allow rescaling the color scale by dragging/zooming
   ui->graphic->axisRect()->setupFullAxesBox(true);
   ui->graphic->xAxis->setLabel("");
-  ui->graphic->yAxis->setLabel("T");
-
 
   //ui->graphic->setLocale(QLocale(QLocale::Russian, QLocale::RussianFederation));
   //QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
   //dateTicker->setDateTimeFormat("h.m.s");
   //ui->graphic->yAxis->setTicker(dateTicker);
 
-  ui->graphic->yAxis->setRangeUpper(50);
-
-  // set up the QCPColorMap:
-  m_colorMap = new QCPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
-  ui->graphic->setViewport(QRect(0,10, 40, 40));
-  // add a color scale:
   m_colorScale = new QCPColorScale(ui->graphic);
   ui->graphic->plotLayout()->addElement(0, 1, m_colorScale); // add it to the right of the main axis rect
   m_colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
+
+  m_colorMap = new QCPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
   m_colorMap->setColorScale(m_colorScale); // associate the color map with the color scale
-  //colorScale->axis()->setLabel("Magnetic Field Strength");
+
   QCPColorGradient gradien;
   QMap<double, QColor> colorStops;
   colorStops[0] = QColor(0, 50, 0);
@@ -61,8 +54,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   // set the color gradient of the color map to one of the presets:
   m_colorMap->setGradient(gradien);//QCPColorGradient::gpJet);
-  // we could have also created a QCPColorGradient instance and added own colors to
-  // the gradient, see the documentation of QCPColorGradient for what's possible.
+
 
   // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
   //QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->graphic);
@@ -70,9 +62,6 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
 
   const QString style = "background-color: rgb(200,200,200, 20);";
-  //ui->labelX->setStyleSheet(style);
-  //ui->labelY->setStyleSheet(style);
-  //ui->typeLabel->setStyleSheet(style);
   ui->contrastLabel->setStyleSheet(style);
   ui->brightnessLabel->setStyleSheet(style);
 
@@ -85,11 +74,8 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //m_colorScale->setMargins(mar);
 
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-  timeTicker->setTimeFormat("%h:%m:%s");;
-  ui->graphic->yAxis->setTicker(timeTicker);
-  ui->graphic->yAxis->setRange(10000, 20000000);
-
-  //ui->graphic->axisRect()->setupFullAxesBox();
+  timeTicker->setTimeFormat("%h:%m");
+  //ui->graphic->yAxis->setTicker(timeTicker);
 
   dataRepaint();
 }
@@ -182,26 +168,32 @@ void GraphicWidget::dataRepaint()
 {
   m_colorMap->data()->clear();
 
-  int nx = 128;
-  int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
+  if (m_type == CommandType::Stream_3 || m_type == CommandType::Stream_4)
+  {
+    ui->graphic->yAxis->setLabel("Т");
+    shpRepaint();
+  }
+  else
+  {
+    ui->graphic->yAxis->setLabel("Гц");
+  }
+}
+
+
+void GraphicWidget::shpRepaint()
+{
+  const int nx = 128;
+  const int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
 
   ui->graphic->setBackground(QBrush(Qt::lightGray));
 
   const int size = isNowData() ? shiftData() : 60;
   const int valueScroll = isNowData() ? (ui->verticalScrollBar->maximum() - ui->verticalScrollBar->value()) : 0;
 
-  m_colorMap->data()->setSize(nx, size); // we want the color map to have nx * ny data points
-  //m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, 60)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
-  m_colorMap->data()->setRange(QCPRange(0, nx), QCPRange(0, ny));
-
   // Прединдикаторная обработка
   //! TODO
-  const int predIndicator = ui->predIndicatorComboBox->currentIndex();
+  //const int predIndicator = ui->predIndicatorComboBox->currentIndex();
 
-  //ui->graphic->yAxis->setRangeLower(2000);
-  ui->graphic->yAxis->setRange(QCPAxisTickerDateTime::dateTimeToKey(QDate(2013, 11, 16)), QCPAxisTickerDateTime::dateTimeToKey(QDate(2015, 5, 2)));
-
-  QHash<QDateTime, int> timeAxis;
   // Убираем миллисекунды
   QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(60);
   const QTime bottomTime = QTime(bottomRange.time().hour(),
@@ -209,9 +201,12 @@ void GraphicWidget::dataRepaint()
                                  bottomRange.time().second());
   bottomRange.setTime(bottomTime);
 
+  // Соответствие времени и координаты по оси Y
+  QHash<QDateTime, int> timeAxis;
   for (int i = 0; i < ny; ++i)
     timeAxis[bottomRange.addSecs(-i)] = i - valueScroll;
 
+  QCPColorMapData* colorMapData = new QCPColorMapData(nx, size, QCPRange(0, nx), QCPRange(0, ny));
   for (int index = 0; index < m_data.length(); index++)
   {
     const uint timestamp = m_data[index]["timestamp"].toUInt();
@@ -226,15 +221,12 @@ void GraphicWidget::dataRepaint()
 
     const int xIndex = m_data[index]["beamCount"].toInt();
     // чтобы не было предупреждения
-    if (!(xIndex < m_colorMap->data()->keySize() && timeAxis[dateTime] >= 0 && timeAxis[dateTime] < m_colorMap->data()->valueSize()))
+    if (!(xIndex < nx && timeAxis[dateTime] >= 0 && timeAxis[dateTime] < size))
       continue;
 
-    m_colorMap->data()->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
+    colorMapData->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
   }
-
-  //double nowtime = QDateTime::currentDateTime().toTime_t();
-  ui->graphic->yAxis->setTicks(2);//setRange(nowtime, 60, Qt::AlignRight);
-  ui->graphic->yAxis->setTickLabels(true);
+  m_colorMap->setData(colorMapData);
 
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
   //m_colorMap->rescaleDataRange();
@@ -278,10 +270,12 @@ bool GraphicWidget::isNowData() const
 }
 
 
-void GraphicWidget::setAxisText(const QString& text)
+void GraphicWidget::setDataType(const QString& text, CommandType::Command type)
 {
+  m_type = type;
   ui->graphic->xAxis->setLabel(text);
   ui->graphic->replot();
+  dataRepaint();
 }
 
 
@@ -312,7 +306,6 @@ void GraphicWidget::on_predIndicatorComboBox_activated(int index)
   Q_UNUSED(index);
 
   PredIndicatorType predIndicatorType = static_cast<PredIndicatorType>(ui->predIndicatorComboBox->currentData().toInt());
-  qDebug() << predIndicatorType;
   ui->graphic->replot();
 }
 

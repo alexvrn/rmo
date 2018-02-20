@@ -54,7 +54,7 @@ class GraphicWidget : public QWidget
     void newData();
     void setNowData(bool nowData);
     bool isNowData() const;
-    void setAxisText(const QString& text);
+    void setDataType(const QString& text, CommandType::Command type);
 
     void resizeEvent(QResizeEvent* event);
 
@@ -73,6 +73,7 @@ class GraphicWidget : public QWidget
 
 private:
     void dataRepaint();
+    void shpRepaint();
     int shiftData() const;
 
     Graphic* m_graphic;
@@ -96,6 +97,7 @@ private:
     QList<QVariantMap> m_data;
 
     IndicatorType m_indicatorType;
+    CommandType::Command m_type;
 };
 
 #endif // GRAPHICWIDGET_H

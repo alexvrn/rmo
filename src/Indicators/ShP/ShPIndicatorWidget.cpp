@@ -130,7 +130,10 @@ void ShPIndicatorWidget::setSelectedData(const PgasData& selectedData, const QDa
 void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 {
   if (checked)
-   ui->graphicWidget->setAxisText(button->text());
+  {
+    CommandType::Command buttonType = static_cast<CommandType::Command>(m_buttonGroup->id(button));
+    ui->graphicWidget->setDataType(button->text(), buttonType);
+  }
 
   newData();
 }
