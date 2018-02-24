@@ -45,7 +45,7 @@ void SAIndicator::checkedDateTime()
   checkDateTime.setTime(time);
 
   // Посылаем команду(запрос в данном случае)
-  const auto data = Client::instance().parseFile(checkDateTime);
+  //const auto data = Client::instance().parseFile(checkDateTime);
 }
 
 

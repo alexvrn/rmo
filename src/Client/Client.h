@@ -5,12 +5,13 @@
 #include <QObject>
 #include <QLocalSocket>
 #include <QVariantMap>
-//#include <QTimer>
+class QThread;
 
 // Local
 #include "AuthDialog.h"
 #include "ResponseReceiver.h"
 #include <commandType.h>
+class ClientWorker;
 
 class Client : public QObject
 {
@@ -43,15 +44,6 @@ class Client : public QObject
   public slots:
     void logout();
 
-    //! Получение данных из файла
-    PgasData parseFile(const QDateTime& dateTime) const;
-
-    //! Получение данных за secons секунд, начитая от текущего времени
-    PgasData parseFile(int seconds) const;
-
-    //! Получение данных за заданный период
-    QList<QVariantMap> parseFile(int stationId, CommandType::Command command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const;
-
   signals:
     void newData(CommandType::Command cmd, const QVariant& value = QVariant());
     void authentication();
@@ -65,18 +57,24 @@ class Client : public QObject
 
     void authAccess(const QVariantMap& userData);
 
+    void calculateData(const QByteArray& data, CommandType::Command cmd);
+
+    void getNewData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value = QVariant());
+    void getPgasData(const PgasData& pgasData);
+
     // FAKE
     void realtimeDataSlot();
 
   private:
     void init();
-    QVariantMap parseData(CommandType::Command cmd, const QByteArray& data) const;
-    void addDate(CommandType::Command cmd, const QVariantMap& vm, PgasData& container) const;
 
     AuthDialog m_authDialog;
 
     //! TODO: надо ли это
     ResponseReceiver* m_responseReceiver;
+
+    ClientWorker* m_clientWorker;
+    QThread* m_thread;
 
     QLocalSocket* m_socket;
 
@@ -85,12 +83,12 @@ class Client : public QObject
 
     QString m_host;
 
+    // Для чтения данных с сокета
     WaitState m_waitState;
     CommandType::Command m_command;
     quint32 m_messageLength;
 
     PgasData m_pgasData;
-    int m_seconds;
 };
 
 #endif // CLIENT_H

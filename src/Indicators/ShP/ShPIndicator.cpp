@@ -47,7 +47,8 @@ void ShPIndicator::checkedDateTime()
   checkDateTime.setTime(time);
 
   // Посылаем команду(запрос в данном случае)
-  const auto data = Client::instance().parseFile(checkDateTime);
+  //const auto data = Client::instance().parseFile(checkDateTime);
+  PgasData data;
 
   m_indicatorItem1->setSelectedData(data, checkDateTime);
   m_indicatorItem2->setSelectedData(data, checkDateTime);

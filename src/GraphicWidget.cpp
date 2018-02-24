@@ -55,6 +55,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   // set the color gradient of the color map to one of the presets:
   m_colorMap->setGradient(gradien);//QCPColorGradient::gpJet);
 
+  m_colorMap->setInterpolate(true);
 
   // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
   //QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->graphic);
@@ -73,10 +74,13 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //QMargins mar(0, 100, 1, 100);
   //m_colorScale->setMargins(mar);
 
-  QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-  timeTicker->setTimeFormat("%h:%m");
+  //QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
+  //timeTicker->setTimeFormat("%h:%m");
   //ui->graphic->yAxis->setTicker(timeTicker);
+  //ui->graphic->yAxis->setTickLabels(true);
 
+  connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
+  m_replotTimer.start(10000);
   dataRepaint();
 }
 
@@ -130,7 +134,9 @@ void GraphicWidget::setData(const QList<QVariantMap> &data, const QDateTime& dat
 {
   m_data = data;
   m_checkDateTime = dateTime;
-  dataRepaint();
+
+  //! TODO: Обновляем по таймеру через кадлые 10 сек() - Разобраться с требованием
+  //dataRepaint();
 }
 
 
@@ -176,12 +182,16 @@ void GraphicWidget::dataRepaint()
   else
   {
     ui->graphic->yAxis->setLabel("Гц");
+    pchssRepaint();
   }
 }
 
 
-void GraphicWidget::shpRepaint()
+void GraphicWidget::pchssRepaint()
 {
+  if (m_data.isEmpty())
+    return;
+
   const int nx = 128;
   const int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
 
@@ -200,6 +210,76 @@ void GraphicWidget::shpRepaint()
                                  bottomRange.time().minute(),
                                  bottomRange.time().second());
   bottomRange.setTime(bottomTime);
+
+
+
+  // Соответствие времени и координаты по оси Y
+  QHash<QDateTime, int> timeAxis;
+  for (int i = 0; i < ny; ++i)
+    timeAxis[bottomRange.addSecs(-i)] = i - valueScroll;
+  ui->graphic->yAxis->setRange(valueScroll* 10, valueScroll* 20);
+
+  QCPColorMapData* colorMapData = new QCPColorMapData(nx, size, QCPRange(0, nx), QCPRange(0, ny));
+  for (int index = 0; index < m_data.length(); index++)
+  {
+    const uint timestamp = m_data[index]["timestamp"].toUInt();
+    QDateTime dateTime = QDateTime::fromSecsSinceEpoch(timestamp);
+
+    // Обнуляем секунды
+    const QTime checkTime = dateTime.time();
+    const QTime time(checkTime.hour(), checkTime.minute(), checkTime.second());
+    dateTime.setTime(time);
+    if (!timeAxis.contains(dateTime))
+      continue;
+
+    const int xIndex = m_data[index]["beamCount"].toInt();
+    // чтобы не было предупреждения
+    if (!(xIndex < nx && timeAxis[dateTime] >= 0 && timeAxis[dateTime] < size))
+      continue;
+
+    colorMapData->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
+  }
+  m_colorMap->setData(colorMapData);
+
+  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
+  //m_colorMap->rescaleDataRange();
+
+  // rescale the key (x) and value (y) axes so the whole color map is visible:
+  ui->graphic->rescaleAxes();
+
+  ui->graphic->yAxis->rescale();
+  ui->graphic->replot();
+}
+
+
+void GraphicWidget::shpRepaint()
+{
+  if (m_data.isEmpty())
+    return;
+
+  const int nx = 128;
+  const int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
+
+  ui->graphic->setBackground(QBrush(Qt::lightGray));
+
+  const int size = isNowData() ? shiftData() : 60;
+  const int valueScroll = isNowData() ? (ui->verticalScrollBar->maximum() - ui->verticalScrollBar->value()) : 0;
+
+  // Прединдикаторная обработка
+  //! TODO
+  //const int predIndicator = ui->predIndicatorComboBox->currentIndex();
+
+  // Убираем миллисекунды
+  //QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(60);
+  const QDateTime nowTime = QDateTime::fromSecsSinceEpoch(m_data.last()["timestamp"].toUInt()); // Текущее время на оборудовании (может отличаться от времени на РМО)
+  QDateTime bottomRange = isNowData() ? nowTime : m_checkDateTime.addSecs(60); // Нижняя граница времени на графике
+  const QTime bottomTime = QTime(bottomRange.time().hour(),
+                                 bottomRange.time().minute(),
+                                 bottomRange.time().second());
+  bottomRange.setTime(bottomTime);
+
+  //double nowtime = QDateTime::currentDateTime().toTime_t();
+  //ui->graphic->yAxis->setRange(nowtime, nowtime + 60, Qt::AlignLeft);
 
   // Соответствие времени и координаты по оси Y
   QHash<QDateTime, int> timeAxis;

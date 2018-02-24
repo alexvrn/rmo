@@ -84,6 +84,7 @@ void ShPIndicatorItem::newData()
   if (m_downWidget)
     m_downWidget->newData();
 
+  return;
   // calculate two new data points:
   static double key = 1; // time elapsed since start of demo, in seconds
   key += 20;

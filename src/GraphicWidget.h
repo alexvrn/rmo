@@ -71,9 +71,11 @@ class GraphicWidget : public QWidget
 
     void on_verticalScrollBar_valueChanged(int value);
 
-private:
     void dataRepaint();
+
+  private:
     void shpRepaint();
+    void pchssRepaint();
     int shiftData() const;
 
     Graphic* m_graphic;
@@ -91,13 +93,14 @@ private:
     int m_seconds;
     QDateTime m_checkDateTime;
 
-  private:
     Ui::GraphicWidget *ui;
 
     QList<QVariantMap> m_data;
 
     IndicatorType m_indicatorType;
     CommandType::Command m_type;
+
+    QTimer m_replotTimer;
 };
 
 #endif // GRAPHICWIDGET_H
