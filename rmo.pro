@@ -29,6 +29,7 @@ SOURCES += src/main.cpp\
     src/Indicators/TO/TOIndicator.cpp \
     src/Indicators/SA/SAIndicator.cpp \
     src/Client/Client.cpp \
+    src/Client/ClientWorker.cpp \
     src/Indicators/PaletteWidget.cpp \
     src/QCustomPlot/qcustomplot.cpp \
     src/Indicators/ShP/ShPIndicatorItem.cpp \
@@ -41,7 +42,8 @@ SOURCES += src/main.cpp\
     riot_os_cbor/cbor.c \
     structs/cmd_data_packer.c \
     structs/cmd_data_debug.c \
-    src/GraphicWidget.cpp
+    src/GraphicWidget.cpp \
+    src/CPColorMap/CPColorMap.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -57,6 +59,7 @@ HEADERS += \
     src/Indicators/TO/TOIndicator.h \
     src/Indicators/SA/SAIndicator.h \
     src/Client/Client.h \
+    src/Client/ClientWorker.h   \
     src/Indicators/PaletteWidget.h \
     src/QCustomPlot/qcustomplot.h \
     src/Indicators/ShP/ShPIndicatorItem.h \
@@ -70,7 +73,8 @@ HEADERS += \
     riot_os_cbor/cbor.h \
     structs/cmd_data_packer.h \
     structs/cmd_data_debug.h \
-    src/GraphicWidget.h
+    src/GraphicWidget.h \
+    src/CPColorMap/CPColorMap.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -95,4 +99,5 @@ RESOURCES += \
 
 INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics \
               riot_os_cbor/ structs/ \
-              src/Indicators/ src/Indicators/ShP/ src/Indicators/SA/ src/Indicators/TO/ src/Indicators/GL/
+              src/Indicators/ src/Indicators/ShP/ src/Indicators/SA/ src/Indicators/TO/ src/Indicators/GL/ \
+              src/CPColorMap/
