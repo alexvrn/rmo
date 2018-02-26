@@ -59,9 +59,6 @@ class Client : public QObject
 
     void calculateData(const QByteArray& data, CommandType::Command cmd);
 
-    void getNewData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value = QVariant());
-    void getPgasData(const PgasData& pgasData);
-
     // FAKE
     void realtimeDataSlot();
 
@@ -88,7 +85,7 @@ class Client : public QObject
     CommandType::Command m_command;
     quint32 m_messageLength;
 
-    PgasData m_pgasData;
+    //PgasData m_pgasData;
 };
 
 #endif // CLIENT_H

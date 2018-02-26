@@ -22,11 +22,11 @@ Client::Client(QObject *parent)
   , m_messageLength(0)
 {
   qRegisterMetaType<CommandType::Command>();
+  qRegisterMetaType<PgasData>();
 
   m_thread->start();
   m_clientWorker->moveToThread(m_thread);
-  connect(m_clientWorker, &ClientWorker::newData, this, &Client::getNewData, Qt::QueuedConnection);
-  connect(m_clientWorker, &ClientWorker::pgasData, this, &Client::getPgasData, Qt::QueuedConnection);
+  connect(m_clientWorker, &ClientWorker::newData, this, &Client::newData, Qt::QueuedConnection);
 
   connect(&m_authDialog, &AuthDialog::authentication, this, &Client::authAccess);
 
@@ -91,7 +91,9 @@ void Client::sendCommand(CommandType::Command cmd, const QVariantMap& value)
 
 PgasData Client::pgasData() const
 {
-  return m_pgasData;
+  PgasData data;
+  QMetaObject::invokeMethod(m_clientWorker, "pgasData", Qt::BlockingQueuedConnection, Q_RETURN_ARG(PgasData, data));
+  return data;
 }
 
 
@@ -259,19 +261,6 @@ void Client::readyRead()
     if (m_socket->bytesAvailable())
       readyRead();
   }
-}
-
-
-void Client::getNewData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value)
-{
-  m_pgasData = pgasData;
-  emit newData(cmd, value);
-}
-
-
-void Client::getPgasData(const PgasData& pgasData)
-{
-  m_pgasData = pgasData;
 }
 
 
