@@ -95,6 +95,17 @@ PgasData Client::pgasData() const
 }
 
 
+//! Получение данных из файла для времени dateTime(с точностью до минуты)
+PgasData Client::parseFileForDateTime(const QDateTime& dateTime) const
+{
+  PgasData data;
+  QMetaObject::invokeMethod(m_clientWorker, "parseFileForDateTime", Qt::BlockingQueuedConnection,
+                            Q_RETURN_ARG(PgasData, data),
+                            Q_ARG(QDateTime, dateTime));
+  return data;
+}
+
+
 bool Client::connectToServer(const QString& host)
 {
   qDebug() << qPrintable(QString(tr("Подключение к серверу %1")).arg(host));

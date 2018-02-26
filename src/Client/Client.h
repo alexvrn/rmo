@@ -31,11 +31,14 @@ class Client : public QObject
 
     bool connectToServer(const QString& host);
 
-    // Отправка команды(или запроса) локальному серверу
+    //! Отправка команды(или запроса) локальному серверу
     void sendCommand(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
 
-    // Данные, полученные от ПГАС-ов
+    //! Данные, полученные от ПГАС-ов
     PgasData pgasData() const;
+
+    //! Получение данных из файла для времени dateTime(с точностью до минуты)
+    PgasData parseFileForDateTime(const QDateTime& dateTime) const;
 
   private:
     Client(QObject *parent = Q_NULLPTR);

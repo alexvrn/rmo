@@ -46,9 +46,10 @@ void ShPIndicator::checkedDateTime()
   const QTime time(checkTime.hour(), checkTime.minute(), 0);
   checkDateTime.setTime(time);
 
+  qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
   // Посылаем команду(запрос в данном случае)
-  //const auto data = Client::instance().parseFile(checkDateTime);
-  PgasData data;
+  const auto data = Client::instance().parseFileForDateTime(checkDateTime);
+  qApp->restoreOverrideCursor();
 
   m_indicatorItem1->setSelectedData(data, checkDateTime);
   m_indicatorItem2->setSelectedData(data, checkDateTime);

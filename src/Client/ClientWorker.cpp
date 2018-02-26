@@ -21,7 +21,9 @@ ClientWorker::ClientWorker(QObject *parent)
   // Запрашиваем накопившиеся данные за заданное в конфиге количество секунд
   QSettings settings("SAMI_DVO_RAN", "rmo");
   m_seconds = settings.value("SHP/seconds", 60).toInt();
-  m_pgasData = parseFile(m_seconds);
+
+  //! TODO: очень долгая операция. Убрать из конструктора
+  //m_pgasData = parseFile(m_seconds);
   emit pgasData(m_pgasData);
 
   //! FAKE
@@ -207,7 +209,7 @@ QVariantMap ClientWorker::parseData(CommandType::Command cmd, const QByteArray& 
 }
 
 
-PgasData ClientWorker::parseFile(const QDateTime& dateTime) const
+PgasData ClientWorker::parseFileForDateTime(const QDateTime& dateTime) const
 {
   QSettings settings("SAMI_DVO_RAN", "rmo");
   QString sourceDataPath = settings.value("sourceDataPath",
@@ -254,8 +256,6 @@ PgasData ClientWorker::parseFile(const QDateTime& dateTime) const
             addDate(command, vm, result);
           }
         }
-        else
-         qDebug() << "fuck!";
       }
 
       return result;

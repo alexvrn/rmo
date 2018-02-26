@@ -21,14 +21,14 @@ class ClientWorker : public QObject
   public slots:
     void calculateData(const QByteArray& data, CommandType::Command cmd);
 
+    //! Получение данных из файла для времени dateTime(с точностью до минуты)
+    PgasData parseFileForDateTime(const QDateTime& dateTime) const;
+
   signals:
     void newData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value = QVariant());
     void pgasData(const PgasData& pgasData);
 
   private slots:
-    //! Получение данных из файла для времени dateTime(с точностью до минуты)
-    PgasData parseFile(const QDateTime& dateTime) const;
-
     //! Получение данных за seconds секунд, начиная от текущего времени
     PgasData parseFile(int seconds) const;
 

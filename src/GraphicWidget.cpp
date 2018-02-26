@@ -66,6 +66,8 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   ui->contrastLabel->setStyleSheet(style);
   ui->brightnessLabel->setStyleSheet(style);
 
+  //QCPAxis* cp = new QCPAxis(ui->graphic->axisRect(0), QCPAxis::atLeft);
+
   // Подцветка
   setLightMode(settings.value("mode", "sun").toString());
 
