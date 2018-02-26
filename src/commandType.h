@@ -41,6 +41,5 @@ Q_DECLARE_METATYPE(CommandType::Command)
 
 // <Номер ПГАС, данные>
 typedef QHash<int, QHash<CommandType::Command, QList<QVariantMap> > > PgasData;
-Q_DECLARE_METATYPE(PgasData)
 
 #endif // COMMANDTYPE_H

@@ -22,6 +22,7 @@ ClientWorker::ClientWorker(QObject *parent)
   QSettings settings("SAMI_DVO_RAN", "rmo");
   m_seconds = settings.value("SHP/seconds", 60).toInt();
   m_pgasData = parseFile(m_seconds);
+  emit pgasData(m_pgasData);
 
   //! FAKE
   // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
@@ -368,7 +369,7 @@ void ClientWorker::calculateData(const QByteArray& data, CommandType::Command cm
     else
     {
       addDate(cmd, vm, m_pgasData);
-      emit newData(cmd);
+      emit newData(m_pgasData, cmd);
 
 //      QJsonObject jobject = QJsonDocument::fromJson(message).object();
 //      if (!jobject.isEmpty())
@@ -385,12 +386,6 @@ void ClientWorker::calculateData(const QByteArray& data, CommandType::Command cm
   {
     // Команда на запрос данных по дате-времени
   }
-}
-
-
-PgasData ClientWorker::pgasData() const
-{
-  return m_pgasData;
 }
 
 
