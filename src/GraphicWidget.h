@@ -10,6 +10,7 @@ class QToolButton;
 // Local
 class Graphic;
 #include <commandType.h>
+class GraphicWidgetWorker;
 
 // QCustomPlot
 #include "qcustomplot.h"
@@ -58,6 +59,11 @@ class GraphicWidget : public QWidget
 
     void resizeEvent(QResizeEvent* event);
 
+    void calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
+                       int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime);
+
+    void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange);
+
   private slots:
     void colorValue(const QColor &color);
     void brightness(int value);
@@ -101,6 +107,11 @@ class GraphicWidget : public QWidget
     CommandType::Command m_type;
 
     QTimer m_replotTimer;
+
+    GraphicWidgetWorker* m_graphicWidgetWorker;
+    QThread* m_thread;
+
+    QCPColorMapData* m_colorMapData;
 };
 
 #endif // GRAPHICWIDGET_H

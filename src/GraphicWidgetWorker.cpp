@@ -4,6 +4,7 @@
 // Qt
 #include <QtConcurrent>
 #include <QFuture>
+#include <QTime>
 
 GraphicWidgetWorker::GraphicWidgetWorker(QObject *parent)
   : QObject(parent)
@@ -21,6 +22,8 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
 {
   if (data.isEmpty())
     return;
+  QTime tt;
+  tt.start();
 
   const int nx = 128;
   const int ny = isNowData ? seconds : 60;//(data.length() - indexBegin) / 128;
@@ -28,9 +31,11 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
   const int size = isNowData ? shiftData : 60;
   const int valueScroll = isNowData ? (verticalScrollBarMaximum - verticalScrollBarValue) : 0;
 
+  //qDebug() << "222222" << isNowData << verticalScrollBarMaximum << verticalScrollBarValue << valueScroll;
+
   // Убираем миллисекунды
   //QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(60);
-  const QDateTime nowTime = QDateTime::fromSecsSinceEpoch(data.last()["timestamp"].toUInt()); // Текущее время на оборудовании (может отличаться от времени на РМО)
+  const QDateTime nowTime = data.last()["timestamp"].toDateTime(); // Текущее время на оборудовании (может отличаться от времени на РМО)
   QDateTime bottomRange = isNowData ? nowTime : checkDateTime.addSecs(60); // Нижняя граница времени на графике
   const QTime bottomTime = QTime(bottomRange.time().hour(),
                                  bottomRange.time().minute(),
@@ -46,8 +51,7 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
 
   for (int index = 0; index < data.length(); index++)
   {
-    const uint timestamp = data[index]["timestamp"].toUInt();
-    QDateTime dateTime = QDateTime::fromSecsSinceEpoch(timestamp);
+    QDateTime dateTime = data[index]["timestamp"].toDateTime();
 
     // Обнуляем секунды
     const QTime checkTime = dateTime.time();
@@ -63,6 +67,6 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
 
     result.insert(qMakePair(xIndex, timeAxis[dateTime]), data[index]["data"].toDouble());
   }
-
+  qDebug() << tt.elapsed() / 1000.0;
   emit calculatedData(result, nx, size, ny);
 }

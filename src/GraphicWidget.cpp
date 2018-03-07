@@ -1,6 +1,7 @@
 // Local
 #include "GraphicWidget.h"
 #include "ui_GraphicWidget.h"
+#include "GraphicWidgetWorker.h"
 
 GraphicWidget::GraphicWidget(QWidget *parent)
   : QWidget(parent)
@@ -8,8 +9,16 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   , m_graphColor(QColor(0,255,0))
   , m_nowData(true)
   , m_seconds(0)
+  , m_graphicWidgetWorker(new GraphicWidgetWorker)
+  , m_thread(new QThread(this))
+  , m_colorMapData(new QCPColorMapData(0,0, QCPRange(0,0), QCPRange(0,0)))
 {
   ui->setupUi(this);
+
+  m_thread->start();
+  m_graphicWidgetWorker->moveToThread(m_thread);
+
+  connect(m_graphicWidgetWorker, &GraphicWidgetWorker::calculatedData, this, &GraphicWidget::calculatedData, Qt::QueuedConnection);
 
   // Количество секунд для отображения
   QSettings settings("SAMI_DVO_RAN", "rmo");
@@ -46,6 +55,8 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   m_colorMap = new QCPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
   m_colorMap->setColorScale(m_colorScale); // associate the color map with the color scale
 
+  //m_colorMap->setData(m_colorMapData);
+
   QCPColorGradient gradien;
   QMap<double, QColor> colorStops;
   colorStops[0] = QColor(0, 50, 0);
@@ -81,8 +92,8 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //ui->graphic->yAxis->setTicker(timeTicker);
   //ui->graphic->yAxis->setTickLabels(true);
 
-  connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
-  m_replotTimer.start(10000);
+  //connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
+  //m_replotTimer.start(10000);
   dataRepaint();
 }
 
@@ -90,6 +101,12 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 GraphicWidget::~GraphicWidget()
 {
   delete ui;
+
+  m_thread->quit();
+  if (!m_thread->wait(5000))
+    m_thread->terminate();
+
+  delete m_graphicWidgetWorker;
 }
 
 
@@ -137,7 +154,6 @@ void GraphicWidget::setData(const QList<QVariantMap> &data, const QDateTime& dat
   m_data = data;
   m_checkDateTime = dateTime;
 
-  //! TODO: Обновляем по таймеру через кадлые 10 сек() - Разобраться с требованием
   //dataRepaint();
 }
 
@@ -174,7 +190,7 @@ void GraphicWidget::setGradient(int value)
 
 void GraphicWidget::dataRepaint()
 {
-  m_colorMap->data()->clear();
+  //m_colorMap->data()->clear();
 
   if (m_type == CommandType::Stream_3 || m_type == CommandType::Stream_4)
   {
@@ -194,7 +210,9 @@ void GraphicWidget::pchssRepaint()
   if (m_data.isEmpty())
     return;
 
-  const int nx = 128;
+  calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
+
+  /*const int nx = 128;
   const int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
 
   ui->graphic->setBackground(QBrush(Qt::lightGray));
@@ -250,7 +268,7 @@ void GraphicWidget::pchssRepaint()
   ui->graphic->rescaleAxes();
 
   ui->graphic->yAxis->rescale();
-  ui->graphic->replot();
+  ui->graphic->replot();*/
 }
 
 
@@ -259,7 +277,10 @@ void GraphicWidget::shpRepaint()
   if (m_data.isEmpty())
     return;
 
-  const int nx = 128;
+  //qDebug() << "111111" << ui->verticalScrollBar->maximum() << ui->verticalScrollBar->value();
+  calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
+
+  /*const int nx = 128;
   const int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
 
   ui->graphic->setBackground(QBrush(Qt::lightGray));
@@ -309,6 +330,56 @@ void GraphicWidget::shpRepaint()
     colorMapData->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
   }
   m_colorMap->setData(colorMapData);
+
+  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
+  //m_colorMap->rescaleDataRange();
+
+  // rescale the key (x) and value (y) axes so the whole color map is visible:
+  ui->graphic->rescaleAxes();
+
+  ui->graphic->yAxis->rescale();
+  ui->graphic->replot();*/
+}
+
+
+void GraphicWidget::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
+                   int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime)
+{
+  QMetaObject::invokeMethod(m_graphicWidgetWorker, "calculateData", Qt::QueuedConnection,
+                            Q_ARG(QList<QVariantMap>, data),
+                            Q_ARG(bool, isNowData),
+                            Q_ARG(int, seconds),
+                            Q_ARG(int, shiftData),
+                            Q_ARG(int, verticalScrollBarMaximum),
+                            Q_ARG(int, verticalScrollBarValue),
+                            Q_ARG(QDateTime, checkDateTime));
+}
+
+
+
+void GraphicWidget::calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange)
+{
+  //QCPColorMapData* colorMapData = new QCPColorMapData(keySize, valueSize, QCPRange(0, keySize), QCPRange(0, yRange));
+
+  m_colorMap->data()->setSize(keySize, valueSize);
+  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(0, yRange));
+  QHashIterator<QPair<int, int>, double> iter(result);
+  while (iter.hasNext())
+  {
+    iter.next();
+    m_colorMap->data()->setCell(iter.key().first, iter.key().second, iter.value());
+  }
+
+//  m_colorMapData->setKeySize(keySize);
+//  m_colorMapData->setValueSize(valueSize);
+//  m_colorMapData->setRange(QCPRange(0, keySize), QCPRange(0, yRange));
+//  QHashIterator<QPair<int, int>, double> iter(result);
+//  while (iter.hasNext())
+//  {
+//    iter.next();
+//    m_colorMapData->setCell(iter.key().first, iter.key().second, iter.value());
+//  }
+  //m_colorMap->setData(m_colorMapData);
 
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
   //m_colorMap->rescaleDataRange();

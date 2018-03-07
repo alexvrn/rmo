@@ -51,7 +51,7 @@ QVariantMap ClientWorker::parseData(CommandType::Command cmd, const QByteArray& 
       cmd_data86_unpack(&cborStream, &offset, &cmdData);
       QVariantMap vm;
       vm["streamId"]    = cmdData.streamId;
-      vm["timestamp"]   = cmdData.timestamp;
+      vm["timestamp"]   = QDateTime::fromSecsSinceEpoch(cmdData.timestamp);
       vm["coefCount"]   = cmdData.coefCount;
       vm["elemCount"]   = cmdData.elemCount;
       vm["lowFreq"]     = cmdData.lowFreq;
@@ -75,7 +75,7 @@ QVariantMap ClientWorker::parseData(CommandType::Command cmd, const QByteArray& 
       cmd_data92_unpack(&cborStream, &offset, &cmdData);
       QVariantMap vm;
       vm["streamId"]    = cmdData.streamId;
-      vm["timestamp"]   = cmdData.timestamp;
+      vm["timestamp"]   = QDateTime::fromSecsSinceEpoch(cmdData.timestamp);
       vm["beamCount"]   = cmdData.beamCount;
       vm["lowFreq"]     = cmdData.lowFreq;
       vm["highFreq"]    = cmdData.highFreq;
@@ -248,8 +248,7 @@ PgasData ClientWorker::parseFileForDateTime(const QDateTime& dateTime) const
           }
           CommandType::Command command = static_cast<CommandType::Command>(cmd);
           QVariantMap vm = parseData(command, dataArray);
-          uint timestamp = vm["timestamp"].toUInt();
-          QDateTime dt = QDateTime::fromSecsSinceEpoch(timestamp);
+          QDateTime dt = vm["timestamp"].toDateTime();
           if (dt.time().hour() == dateTime.time().hour()
               && dt.time().minute() == dateTime.time().minute())
           {
@@ -310,8 +309,7 @@ PgasData ClientWorker::parseFile(int seconds) const
           }
           const CommandType::Command command = static_cast<CommandType::Command>(cmd);
           const QVariantMap vm = parseData(command, dataArray);
-          const uint timestamp = vm["timestamp"].toUInt();
-          const QDateTime dt = QDateTime::fromSecsSinceEpoch(timestamp);
+          const QDateTime dt = vm["timestamp"].toDateTime();
           if (dt.secsTo(now) <= seconds)
             addDate(command, vm, result);
         }
@@ -345,7 +343,7 @@ QList<QVariantMap> ClientWorker::parseFile(int stationId, CommandType::Command c
   auto vms = m_pgasData[stationId][command];
   for (auto vm : vms)
   {
-    const QDateTime dt = QDateTime::fromSecsSinceEpoch(vm["timestamp"].toUInt());
+    const QDateTime dt = vm["timestamp"].toDateTime();
     if (dt >= lowerDateTime && dt <= upperDateTime)
       result.append(vm);
   }
@@ -414,15 +412,15 @@ void ClientWorker::addDate(CommandType::Command command, const QVariantMap& vm, 
           return;
         }
         // Берем первое и последнее добавляемое значение времени и берем разницу в секундах
-        const QDateTime lowerDateTime = QDateTime::fromSecsSinceEpoch(vms[0]["timestamp"].toUInt());
-        const QDateTime upperDateTime = QDateTime::fromSecsSinceEpoch(vm["timestamp"].toUInt());
+        const QDateTime lowerDateTime = vms[0]["timestamp"].toDateTime();
+        const QDateTime upperDateTime = vm["timestamp"].toDateTime();
         if (lowerDateTime.addSecs(m_seconds) < upperDateTime)
         {
           // Удаляем данные с первой датой
           auto end = std::remove_if(vms.begin(), vms.end(),
                                           [lowerDateTime](const QVariantMap& vm)
                                           {
-                                            const QDateTime dt = QDateTime::fromSecsSinceEpoch(vm["timestamp"].toUInt());
+                                            const QDateTime dt = vm["timestamp"].toDateTime();
                                             return (dt.time().hour() == lowerDateTime.time().hour()
                                                     && dt.time().minute() == lowerDateTime.time().minute()
                                                     && dt.time().second() == lowerDateTime.time().second());

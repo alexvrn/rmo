@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network printsupport
+QT       += core gui network concurrent printsupport
 
 CONFIG += c++11
 
@@ -43,6 +43,7 @@ SOURCES += src/main.cpp\
     structs/cmd_data_packer.c \
     structs/cmd_data_debug.c \
     src/GraphicWidget.cpp \
+    src/GraphicWidgetWorker.cpp \
     src/CPColorMap/CPColorMap.cpp
 
 HEADERS += \
@@ -74,6 +75,7 @@ HEADERS += \
     structs/cmd_data_packer.h \
     structs/cmd_data_debug.h \
     src/GraphicWidget.h \
+    src/GraphicWidgetWorker.h \
     src/CPColorMap/CPColorMap.h
 
 FORMS += \
