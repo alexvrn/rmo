@@ -49,6 +49,10 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   ui->pchToolButton->setChecked(true);
 
   ui->graphicWidget->setType(GraphicWidget::ShP);
+
+  connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
+  m_replotTimer.start(10000);
+  dataRepaint();
 }
 
 
@@ -76,7 +80,8 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
 }
 
 
-void ShPIndicatorWidget::newData()
+//! update - если true, то обновляем картинку данных
+void ShPIndicatorWidget::newData(bool update)
 {
   if (m_buttonGroup->checkedId() == -1)
   {
@@ -88,14 +93,15 @@ void ShPIndicatorWidget::newData()
   const auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
   const auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
 
-  ui->graphicWidget->setData(data, m_checkDateTime);
+  if (update)
+    ui->graphicWidget->setData(data, m_checkDateTime);
 }
 
 
 void ShPIndicatorWidget::setCurrentPgasNumber(int pgasNumber)
 {
   m_pgasNumber = pgasNumber;
-  newData();
+  newData(true);
 }
 
 
@@ -109,7 +115,7 @@ void ShPIndicatorWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
   ui->graphicWidget->setNowData(nowData);
-  newData();
+  newData(true);
 }
 
 
@@ -123,7 +129,7 @@ void ShPIndicatorWidget::setSelectedData(const PgasData& selectedData, const QDa
 {
   m_selectedData = selectedData;
   m_checkDateTime = checkDateTime;
-  newData();
+  newData(true);
 }
 
 
@@ -135,5 +141,11 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
     ui->graphicWidget->setDataType(button->text(), buttonType);
   }
 
-  newData();
+  newData(true);
+}
+
+
+void ShPIndicatorWidget::dataRepaint()
+{
+  newData(true);
 }

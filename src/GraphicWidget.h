@@ -85,6 +85,7 @@ private:
     void shpRepaint();
     void pchssRepaint();
     int shiftData() const;
+    void clearData();
 
     Graphic* m_graphic;
     QCPColorScale* m_colorScale;
@@ -107,8 +108,6 @@ private:
 
     IndicatorType m_indicatorType;
     CommandType::Command m_type;
-
-    QTimer m_replotTimer;
 
     GraphicWidgetWorker* m_graphicWidgetWorker;
     QThread* m_thread;

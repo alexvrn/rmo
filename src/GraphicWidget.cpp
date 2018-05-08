@@ -92,10 +92,6 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //timeTicker->setTimeFormat("%h:%m");
   //ui->graphic->yAxis->setTicker(timeTicker);
   //ui->graphic->yAxis->setTickLabels(true);
-
-  connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
-  m_replotTimer.start(10000);
-  dataRepaint();
 }
 
 
@@ -156,7 +152,7 @@ void GraphicWidget::setData(const QList<QVariantMap> &data, const QDateTime& dat
   m_checkDateTime = dateTime;
 
   // Обновляем данные не сразу, а по таймеру через каждые 10 секунд
-  //dataRepaint();
+  dataRepaint();
 }
 
 
@@ -208,7 +204,10 @@ void GraphicWidget::dataRepaint()
 void GraphicWidget::pchssRepaint()
 {
   if (m_data.isEmpty())
+  {
+    clearData();
     return;
+  }
 
   calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
 }
@@ -217,7 +216,10 @@ void GraphicWidget::pchssRepaint()
 void GraphicWidget::shpRepaint()
 {
   if (m_data.isEmpty())
+  {
+    clearData();
     return;
+  }
 
   calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
 }
@@ -265,6 +267,22 @@ int GraphicWidget::shiftData() const
 {
   //! TODO: делить на 4 или на сколько вообще!
   return m_seconds / 4;
+}
+
+
+void GraphicWidget::clearData()
+{
+  m_colorMap->data()->clear();
+  m_colorMap->data()->setSize(60, 128);
+  m_colorMap->data()->setRange(QCPRange(0, 60), QCPRange(0, 128));
+  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
+  //m_colorMap->rescaleDataRange();
+
+  // rescale the key (x) and value (y) axes so the whole color map is visible:
+  ui->graphic->rescaleAxes();
+
+  ui->graphic->yAxis->rescale();
+  ui->graphic->replot();
 }
 
 

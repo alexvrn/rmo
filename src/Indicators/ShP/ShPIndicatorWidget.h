@@ -34,7 +34,7 @@ class ShPIndicatorWidget : public QWidget
 
   public slots:
     void setLightMode(const QString& mode);
-    void newData();
+    void newData(bool update = false);
     void setCurrentPgasNumber(int pgasNumber);
     int currentPgasNumber() const;
     void setNowData(bool nowData);
@@ -46,6 +46,7 @@ class ShPIndicatorWidget : public QWidget
 
   private slots:
     void shpIndicatorView(QAbstractButton* button, bool checked);
+    void dataRepaint();
 
 private:
     Ui::ShPIndicatorWidget *ui;
@@ -64,6 +65,8 @@ private:
 
     int m_seconds;
     QDateTime m_checkDateTime;
+
+    QTimer m_replotTimer;
 };
 
 #endif // SHPINDICATORWIDGET_H
