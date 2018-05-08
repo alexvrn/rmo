@@ -22,8 +22,6 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
 {
   if (data.isEmpty())
     return;
-  QTime tt;
-  tt.start();
 
   const int nx = 128;
   const int ny = isNowData ? seconds : 60;//(data.length() - indexBegin) / 128;
@@ -67,6 +65,6 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
 
     result.insert(qMakePair(xIndex, timeAxis[dateTime]), data[index]["data"].toDouble());
   }
-  qDebug() << tt.elapsed() / 1000.0;
+
   emit calculatedData(result, nx, size, ny);
 }

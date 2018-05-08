@@ -83,34 +83,6 @@ void ShPIndicatorItem::newData()
   m_upWidget->newData();
   if (m_downWidget)
     m_downWidget->newData();
-
-  return;
-  // calculate two new data points:
-  static double key = 1; // time elapsed since start of demo, in seconds
-  key += 20;
-  static double lastPointKey = 0;
-  if (key-lastPointKey > 0.002) // at most add point every 2 ms
-  {
-    // add data to lines:
-    ui->graphic->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
-    // rescale value (vertical) axis to fit the current data:
-    //ui->customPlot->graph(0)->rescaleValueAxis();
-    //ui->customPlot->graph(1)->rescaleValueAxis(true);
-    lastPointKey = key;
-  }
-  // make key axis range scroll with the data (at a constant range size of 8):
-  ui->graphic->xAxis->setRange(key, 8, Qt::AlignRight);
-  ui->graphic->replot();
-
-  // calculate frames per second:
-  static double lastFpsKey;
-  static int frameCount;
-  ++frameCount;
-  if (key-lastFpsKey > 2) // average fps over 2 seconds
-  {
-    lastFpsKey = key;
-    frameCount = 0;
-  }
 }
 
 

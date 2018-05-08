@@ -79,7 +79,9 @@ class GraphicWidget : public QWidget
 
     void dataRepaint();
 
-  private:
+    void on_verticalScrollBar_sliderReleased();
+
+private:
     void shpRepaint();
     void pchssRepaint();
     int shiftData() const;

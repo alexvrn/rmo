@@ -20,6 +20,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   connect(m_graphicWidgetWorker, &GraphicWidgetWorker::calculatedData, this, &GraphicWidget::calculatedData, Qt::QueuedConnection);
 
+  //! FIXME: проверка количества секунд
   // Количество секунд для отображения
   QSettings settings("SAMI_DVO_RAN", "rmo");
   m_seconds = settings.value("SHP/seconds", 60).toInt();
@@ -92,8 +93,8 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   //ui->graphic->yAxis->setTicker(timeTicker);
   //ui->graphic->yAxis->setTickLabels(true);
 
-  //connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
-  //m_replotTimer.start(10000);
+  connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
+  m_replotTimer.start(10000);
   dataRepaint();
 }
 
@@ -154,6 +155,7 @@ void GraphicWidget::setData(const QList<QVariantMap> &data, const QDateTime& dat
   m_data = data;
   m_checkDateTime = dateTime;
 
+  // Обновляем данные не сразу, а по таймеру через каждые 10 секунд
   //dataRepaint();
 }
 
@@ -475,5 +477,10 @@ void GraphicWidget::colorScaleLayout()
 void GraphicWidget::on_verticalScrollBar_valueChanged(int value)
 {
   Q_UNUSED(value);
+  //dataRepaint();
+}
+
+void GraphicWidget::on_verticalScrollBar_sliderReleased()
+{
   dataRepaint();
 }
