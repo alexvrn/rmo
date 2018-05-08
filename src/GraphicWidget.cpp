@@ -192,8 +192,6 @@ void GraphicWidget::setGradient(int value)
 
 void GraphicWidget::dataRepaint()
 {
-  //m_colorMap->data()->clear();
-
   if (m_type == CommandType::Stream_3 || m_type == CommandType::Stream_4)
   {
     ui->graphic->yAxis->setLabel("Т");
@@ -213,64 +211,6 @@ void GraphicWidget::pchssRepaint()
     return;
 
   calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
-
-  /*const int nx = 128;
-  const int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
-
-  ui->graphic->setBackground(QBrush(Qt::lightGray));
-
-  const int size = isNowData() ? shiftData() : 60;
-  const int valueScroll = isNowData() ? (ui->verticalScrollBar->maximum() - ui->verticalScrollBar->value()) : 0;
-
-  // Прединдикаторная обработка
-  //! TODO
-  //const int predIndicator = ui->predIndicatorComboBox->currentIndex();
-
-  // Убираем миллисекунды
-  QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(60);
-  const QTime bottomTime = QTime(bottomRange.time().hour(),
-                                 bottomRange.time().minute(),
-                                 bottomRange.time().second());
-  bottomRange.setTime(bottomTime);
-
-
-
-  // Соответствие времени и координаты по оси Y
-  QHash<QDateTime, int> timeAxis;
-  for (int i = 0; i < ny; ++i)
-    timeAxis[bottomRange.addSecs(-i)] = i - valueScroll;
-  ui->graphic->yAxis->setRange(valueScroll* 10, valueScroll* 20);
-
-  QCPColorMapData* colorMapData = new QCPColorMapData(nx, size, QCPRange(0, nx), QCPRange(0, ny));
-  for (int index = 0; index < m_data.length(); index++)
-  {
-    const uint timestamp = m_data[index]["timestamp"].toUInt();
-    QDateTime dateTime = QDateTime::fromSecsSinceEpoch(timestamp);
-
-    // Обнуляем секунды
-    const QTime checkTime = dateTime.time();
-    const QTime time(checkTime.hour(), checkTime.minute(), checkTime.second());
-    dateTime.setTime(time);
-    if (!timeAxis.contains(dateTime))
-      continue;
-
-    const int xIndex = m_data[index]["beamCount"].toInt();
-    // чтобы не было предупреждения
-    if (!(xIndex < nx && timeAxis[dateTime] >= 0 && timeAxis[dateTime] < size))
-      continue;
-
-    colorMapData->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
-  }
-  m_colorMap->setData(colorMapData);
-
-  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
-  //m_colorMap->rescaleDataRange();
-
-  // rescale the key (x) and value (y) axes so the whole color map is visible:
-  ui->graphic->rescaleAxes();
-
-  ui->graphic->yAxis->rescale();
-  ui->graphic->replot();*/
 }
 
 
@@ -279,68 +219,7 @@ void GraphicWidget::shpRepaint()
   if (m_data.isEmpty())
     return;
 
-  //qDebug() << "111111" << ui->verticalScrollBar->maximum() << ui->verticalScrollBar->value();
   calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
-
-  /*const int nx = 128;
-  const int ny = isNowData() ? m_seconds : 60;//(data.length() - indexBegin) / 128;
-
-  ui->graphic->setBackground(QBrush(Qt::lightGray));
-
-  const int size = isNowData() ? shiftData() : 60;
-  const int valueScroll = isNowData() ? (ui->verticalScrollBar->maximum() - ui->verticalScrollBar->value()) : 0;
-
-  // Прединдикаторная обработка
-  //! TODO
-  //const int predIndicator = ui->predIndicatorComboBox->currentIndex();
-
-  // Убираем миллисекунды
-  //QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(60);
-  const QDateTime nowTime = QDateTime::fromSecsSinceEpoch(m_data.last()["timestamp"].toUInt()); // Текущее время на оборудовании (может отличаться от времени на РМО)
-  QDateTime bottomRange = isNowData() ? nowTime : m_checkDateTime.addSecs(60); // Нижняя граница времени на графике
-  const QTime bottomTime = QTime(bottomRange.time().hour(),
-                                 bottomRange.time().minute(),
-                                 bottomRange.time().second());
-  bottomRange.setTime(bottomTime);
-
-  //double nowtime = QDateTime::currentDateTime().toTime_t();
-  //ui->graphic->yAxis->setRange(nowtime, nowtime + 60, Qt::AlignLeft);
-
-  // Соответствие времени и координаты по оси Y
-  QHash<QDateTime, int> timeAxis;
-  for (int i = 0; i < ny; ++i)
-    timeAxis[bottomRange.addSecs(-i)] = i - valueScroll;
-
-  QCPColorMapData* colorMapData = new QCPColorMapData(nx, size, QCPRange(0, nx), QCPRange(0, ny));
-  for (int index = 0; index < m_data.length(); index++)
-  {
-    const uint timestamp = m_data[index]["timestamp"].toUInt();
-    QDateTime dateTime = QDateTime::fromSecsSinceEpoch(timestamp);
-
-    // Обнуляем секунды
-    const QTime checkTime = dateTime.time();
-    const QTime time(checkTime.hour(), checkTime.minute(), checkTime.second());
-    dateTime.setTime(time);
-    if (!timeAxis.contains(dateTime))
-      continue;
-
-    const int xIndex = m_data[index]["beamCount"].toInt();
-    // чтобы не было предупреждения
-    if (!(xIndex < nx && timeAxis[dateTime] >= 0 && timeAxis[dateTime] < size))
-      continue;
-
-    colorMapData->setCell(xIndex, timeAxis[dateTime], m_data[index]["data"].toDouble());
-  }
-  m_colorMap->setData(colorMapData);
-
-  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
-  //m_colorMap->rescaleDataRange();
-
-  // rescale the key (x) and value (y) axes so the whole color map is visible:
-  ui->graphic->rescaleAxes();
-
-  ui->graphic->yAxis->rescale();
-  ui->graphic->replot();*/
 }
 
 
@@ -361,8 +240,7 @@ void GraphicWidget::calculateData(const QList<QVariantMap>& data, bool isNowData
 
 void GraphicWidget::calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange)
 {
-  //QCPColorMapData* colorMapData = new QCPColorMapData(keySize, valueSize, QCPRange(0, keySize), QCPRange(0, yRange));
-
+  m_colorMap->data()->clear();
   m_colorMap->data()->setSize(keySize, valueSize);
   m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(0, yRange));
   QHashIterator<QPair<int, int>, double> iter(result);
@@ -371,17 +249,6 @@ void GraphicWidget::calculatedData(const QHash<QPair<int, int>, double>& result,
     iter.next();
     m_colorMap->data()->setCell(iter.key().first, iter.key().second, iter.value());
   }
-
-//  m_colorMapData->setKeySize(keySize);
-//  m_colorMapData->setValueSize(valueSize);
-//  m_colorMapData->setRange(QCPRange(0, keySize), QCPRange(0, yRange));
-//  QHashIterator<QPair<int, int>, double> iter(result);
-//  while (iter.hasNext())
-//  {
-//    iter.next();
-//    m_colorMapData->setCell(iter.key().first, iter.key().second, iter.value());
-//  }
-  //m_colorMap->setData(m_colorMapData);
 
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
   //m_colorMap->rescaleDataRange();

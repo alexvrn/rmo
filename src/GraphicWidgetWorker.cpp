@@ -29,10 +29,7 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
   const int size = isNowData ? shiftData : 60;
   const int valueScroll = isNowData ? (verticalScrollBarMaximum - verticalScrollBarValue) : 0;
 
-  //qDebug() << "222222" << isNowData << verticalScrollBarMaximum << verticalScrollBarValue << valueScroll;
-
   // Убираем миллисекунды
-  //QDateTime bottomRange = isNowData() ? QDateTime::currentDateTime() : m_checkDateTime.addSecs(60);
   const QDateTime nowTime = data.last()["timestamp"].toDateTime(); // Текущее время на оборудовании (может отличаться от времени на РМО)
   QDateTime bottomRange = isNowData ? nowTime : checkDateTime.addSecs(60); // Нижняя граница времени на графике
   const QTime bottomTime = QTime(bottomRange.time().hour(),
