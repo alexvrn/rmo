@@ -131,12 +131,6 @@ void Client::stateChanged(QLocalSocket::LocalSocketState state)
 {
   switch (state)
   {
-    case QLocalSocket::ConnectedState:
-      qDebug() << tr("Подключение к локальному серверу сбора данных");
-
-      // Через секунду запрашиваем авторизацию
-      QTimer::singleShot(1000, this, SLOT(logout()));
-      break;
     case QLocalSocket::UnconnectedState:
       qWarning() << tr("Не удаётся подключиться к локальному серверу");
       //! TODO: разобраться с подключением к серверу
@@ -147,16 +141,15 @@ void Client::stateChanged(QLocalSocket::LocalSocketState state)
 }
 
 
-void Client::logout()
+bool Client::logout()
 {
-  if (m_authDialog.isVisible())
-    return;
+  bool accepted = (QDialog::Accepted == m_authDialog.exec());
+  if (accepted)
+    emit success();
+  else
+    emit failure();
 
-  if (QDialog::Rejected == m_authDialog.exec())
-  {
-    // Выходим из приложения, если пользователь отказаться авторизоваться
-    qApp->quit();
-  }
+  return accepted;
 }
 
 
@@ -165,7 +158,7 @@ void Client::authAccess(const QVariantMap& userData)
   qDebug() << userData;
   m_authDialog.setResult(QDialog::Accepted);
   m_authDialog.hide();
-  emit authentication();
+  emit success();
   //! TODO: получение результата по сокету
 //  QByteArray request = Proto::encode("request", method, data);
 

@@ -45,11 +45,13 @@ class Client : public QObject
     Client& operator=(const Client&);
 
   public slots:
-    void logout();
+    // Вызов диалогового окна авторизации
+    bool logout();
 
   signals:
     void newData(CommandType::Command cmd, const QVariant& value = QVariant());
-    void authentication();
+    void success();
+    void failure();
     void messageReceived(const QVariantMap& result);
 
   private slots:

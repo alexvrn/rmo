@@ -74,11 +74,15 @@ int main(int argc, char *argv[])
   {
     QMessageBox::critical(0, QObject::tr("Подключение к локальному серверу"),
                              QObject::tr("Не удаётся подключиться к серверу."));
-    //return 0;
+    return 0;
   }
 
-  QObject::connect(&client, &Client::authentication, &controlLeftPanel, &ControlRightPanel::show);
-  QObject::connect(&client, &Client::authentication, &controlRightPanel, &ControlLeftPanel::show);
+  QObject::connect(&client, &Client::success, &controlLeftPanel, &ControlRightPanel::show);
+  QObject::connect(&client, &Client::success, &controlRightPanel, &ControlLeftPanel::show);
+
+  // Авторизация
+  if (!client.logout())
+    return 0;
 
   QObject::connect(&client, &Client::newData, &controlRightPanel, &ControlRightPanel::newData);
   QObject::connect(&client, &Client::newData, &controlLeftPanel, &ControlLeftPanel::newData);
@@ -89,7 +93,7 @@ int main(int argc, char *argv[])
   QObject::connect(&screenSaver, &ScreenSaver::logout, &controlLeftPanel, &ControlLeftPanel::hide);
   QObject::connect(&screenSaver, &ScreenSaver::logout, &controlRightPanel, &ControlRightPanel::hide);
   QObject::connect(&screenSaver, &ScreenSaver::logout, &client, &Client::logout);
-  QObject::connect(&client, &Client::authentication, &screenSaver, &ScreenSaver::checkIdle);
+  QObject::connect(&client, &Client::success, &screenSaver, &ScreenSaver::checkIdle);
 
   return app.exec();
 }
