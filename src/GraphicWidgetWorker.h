@@ -27,7 +27,7 @@ class GraphicWidgetWorker : public QObject
                        int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime);
 
   signals:
-    void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange);
+    void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange, const QDateTime& bottomRange);
 };
 
 #endif // GRAPHICWIDGETWORKER_H

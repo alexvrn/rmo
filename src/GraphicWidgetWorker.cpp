@@ -29,39 +29,34 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
   const int size = isNowData ? shiftData : 60;
   const int valueScroll = isNowData ? (verticalScrollBarMaximum - verticalScrollBarValue) : 0;
 
-  // Убираем миллисекунды
-  const QDateTime nowTime = data.last()["timestamp"].toDateTime(); // Текущее время на оборудовании (может отличаться от времени на РМО)
+  // Текущее время на оборудовании (может отличаться от времени на РМО)
+  // Поэтому берем текущее время из крайнего набора данных
+  const QDateTime nowTime = data.last()["timestamp"].toDateTime();
   QDateTime bottomRange = isNowData ? nowTime : checkDateTime.addSecs(60); // Нижняя граница времени на графике
-  const QTime bottomTime = QTime(bottomRange.time().hour(),
-                                 bottomRange.time().minute(),
-                                 bottomRange.time().second());
-  bottomRange.setTime(bottomTime);
 
   QHash<QPair<int, int>, double> result;
 
   // Соответствие времени и координаты по оси Y
-  QHash<QDateTime, int> timeAxis;
+  QHash<int, int> timeAxis;
+  // Кол-во секунд от начала дня
+  const int secsBottomRange = static_cast<int>(bottomRange.time().msecsSinceStartOfDay() / 1000.0);
   for (int i = 0; i < ny; ++i)
-    timeAxis[bottomRange.addSecs(-i)] = i - valueScroll;
+    timeAxis[secsBottomRange - i] = i - valueScroll;
 
   for (int index = 0; index < data.length(); index++)
   {
     QDateTime dateTime = data[index]["timestamp"].toDateTime();
-
-    // Обнуляем секунды
-    const QTime checkTime = dateTime.time();
-    const QTime time(checkTime.hour(), checkTime.minute(), checkTime.second());
-    dateTime.setTime(time);
-    if (!timeAxis.contains(dateTime))
+    const int secs = static_cast<int>(dateTime.time().msecsSinceStartOfDay() / 1000.0);
+    if (!timeAxis.contains(secs))
       continue;
 
     const int xIndex = data[index]["beamCount"].toInt();
     // чтобы не было предупреждения
-    if (!(xIndex < nx && timeAxis[dateTime] >= 0 && timeAxis[dateTime] < size))
+    if (!(xIndex < nx && timeAxis[secs] >= 0 && timeAxis[secs] < size))
       continue;
 
-    result.insert(qMakePair(xIndex, timeAxis[dateTime]), data[index]["data"].toDouble());
+    result.insert(qMakePair(xIndex, timeAxis[secs]), data[index]["data"].toDouble());
   }
 
-  emit calculatedData(result, nx, size, ny);
+  emit calculatedData(result, nx, size, ny, bottomRange);
 }

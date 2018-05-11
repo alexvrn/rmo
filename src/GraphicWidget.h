@@ -11,6 +11,7 @@ class QToolButton;
 class Graphic;
 #include <commandType.h>
 class GraphicWidgetWorker;
+#include <CPColorMap.h>
 
 // QCustomPlot
 #include "qcustomplot.h"
@@ -62,7 +63,7 @@ class GraphicWidget : public QWidget
     void calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
                        int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime);
 
-    void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange);
+    void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange, const QDateTime& bottomRange);
 
   private slots:
     void colorValue(const QColor &color);
@@ -81,6 +82,8 @@ class GraphicWidget : public QWidget
 
     void on_verticalScrollBar_sliderReleased();
 
+    void mouseMove(QMouseEvent* event);
+
 private:
     void shpRepaint();
     void pchssRepaint();
@@ -94,7 +97,7 @@ private:
 
     QList<QToolButton*> m_toolButtons;
 
-    QCPColorMap *m_colorMap;
+    CPColorMap *m_colorMap;
 
     bool m_nowData;
     QList<QVariantMap> m_selectedData;

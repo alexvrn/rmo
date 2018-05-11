@@ -44,19 +44,22 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   ui->graphic->axisRect()->setupFullAxesBox(true);
   ui->graphic->xAxis->setLabel("");
 
-  //ui->graphic->setLocale(QLocale(QLocale::Russian, QLocale::RussianFederation));
-  //QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
-  //dateTicker->setDateTimeFormat("h.m.s");
-  //ui->graphic->yAxis->setTicker(dateTicker);
+  // Обработка перемещения мыши
+  connect(ui->graphic, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseMove(QMouseEvent*)));
 
+  // Шкала
   m_colorScale = new QCPColorScale(ui->graphic);
   ui->graphic->plotLayout()->addElement(0, 1, m_colorScale); // add it to the right of the main axis rect
   m_colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
 
-  m_colorMap = new QCPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
+  // Координата времени
+  QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
+  ui->graphic->yAxis->setTicker(timeTicker);
+  timeTicker->setTimeFormat("%h:%m:%s");
+
+  m_colorMap = new CPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
   m_colorMap->setColorScale(m_colorScale); // associate the color map with the color scale
 
-  //m_colorMap->setData(m_colorMapData);
 
   QCPColorGradient gradien;
   QMap<double, QColor> colorStops;
@@ -87,11 +90,6 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   //QMargins mar(0, 100, 1, 100);
   //m_colorScale->setMargins(mar);
-
-  //QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-  //timeTicker->setTimeFormat("%h:%m");
-  //ui->graphic->yAxis->setTicker(timeTicker);
-  //ui->graphic->yAxis->setTickLabels(true);
 }
 
 
@@ -240,11 +238,14 @@ void GraphicWidget::calculateData(const QList<QVariantMap>& data, bool isNowData
 
 
 
-void GraphicWidget::calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange)
+void GraphicWidget::calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange, const QDateTime& bottomRange)
 {
   m_colorMap->data()->clear();
   m_colorMap->data()->setSize(keySize, valueSize);
-  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(0, yRange));
+  const int secs = bottomRange.time().msecsSinceStartOfDay() / 1000.0;
+  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(secs, secs + valueSize));
+  //ui->graphic->yAxis->setRangeReversed(true);
+  ui->graphic->yAxis->setTicker(0);
   QHashIterator<QPair<int, int>, double> iter(result);
   while (iter.hasNext())
   {
@@ -273,8 +274,8 @@ int GraphicWidget::shiftData() const
 void GraphicWidget::clearData()
 {
   m_colorMap->data()->clear();
-  m_colorMap->data()->setSize(60, 128);
-  m_colorMap->data()->setRange(QCPRange(0, 60), QCPRange(0, 128));
+  m_colorMap->data()->setSize(128, 60);
+  m_colorMap->data()->setRange(QCPRange(0, 128), QCPRange(0, 60));
   // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
   //m_colorMap->rescaleDataRange();
 
@@ -368,4 +369,12 @@ void GraphicWidget::on_verticalScrollBar_valueChanged(int value)
 void GraphicWidget::on_verticalScrollBar_sliderReleased()
 {
   dataRepaint();
+}
+
+
+void GraphicWidget::mouseMove(QMouseEvent* event)
+{
+  int x = ui->graphic->xAxis->pixelToCoord(event->pos().x());
+  int y = ui->graphic->yAxis->pixelToCoord(event->pos().y());
+  qDebug() << x << y;
 }
