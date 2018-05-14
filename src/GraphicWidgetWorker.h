@@ -24,7 +24,7 @@ class GraphicWidgetWorker : public QObject
 
   public slots:
     void calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
-                       int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime);
+                       int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime, bool reverse);
 
   signals:
     void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange, const QDateTime& bottomRange);

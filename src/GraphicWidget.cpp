@@ -52,9 +52,12 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   ui->graphic->plotLayout()->addElement(0, 1, m_colorScale); // add it to the right of the main axis rect
   m_colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
 
+  ui->graphic->yAxis->setRangeReversed(false);
+
   // Координата времени
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
   ui->graphic->yAxis->setTicker(timeTicker);
+  //ui->graphic->axisRect()->setupFullAxesBox();
   timeTicker->setTimeFormat("%h:%m:%s");
 
   m_colorMap = new CPColorMap(ui->graphic->xAxis, ui->graphic->yAxis);
@@ -207,7 +210,9 @@ void GraphicWidget::pchssRepaint()
     return;
   }
 
-  calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
+  calculateData(m_data, isNowData(), m_seconds, shiftData(),
+                ui->verticalScrollBar->maximum(),
+                ui->verticalScrollBar->value(), m_checkDateTime, ui->graphic->yAxis->rangeReversed());
 }
 
 
@@ -219,12 +224,14 @@ void GraphicWidget::shpRepaint()
     return;
   }
 
-  calculateData(m_data, isNowData(), m_seconds, shiftData(), ui->verticalScrollBar->maximum(), ui->verticalScrollBar->value(), m_checkDateTime);
+  calculateData(m_data, isNowData(), m_seconds, shiftData(),
+                ui->verticalScrollBar->maximum(),
+                ui->verticalScrollBar->value(), m_checkDateTime, ui->graphic->yAxis->rangeReversed());
 }
 
 
 void GraphicWidget::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
-                   int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime)
+                   int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime, bool reverse)
 {
   QMetaObject::invokeMethod(m_graphicWidgetWorker, "calculateData", Qt::QueuedConnection,
                             Q_ARG(QList<QVariantMap>, data),
@@ -233,7 +240,8 @@ void GraphicWidget::calculateData(const QList<QVariantMap>& data, bool isNowData
                             Q_ARG(int, shiftData),
                             Q_ARG(int, verticalScrollBarMaximum),
                             Q_ARG(int, verticalScrollBarValue),
-                            Q_ARG(QDateTime, checkDateTime));
+                            Q_ARG(QDateTime, checkDateTime),
+                            Q_ARG(bool, reverse));
 }
 
 
@@ -243,9 +251,8 @@ void GraphicWidget::calculatedData(const QHash<QPair<int, int>, double>& result,
   m_colorMap->data()->clear();
   m_colorMap->data()->setSize(keySize, valueSize);
   const int secs = bottomRange.time().msecsSinceStartOfDay() / 1000.0;
-  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(secs, secs + valueSize));
-  //ui->graphic->yAxis->setRangeReversed(true);
-  ui->graphic->yAxis->setTicker(0);
+  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(secs + ui->verticalScrollBar->value(),
+                                                              secs + valueSize + ui->verticalScrollBar->value()));
   QHashIterator<QPair<int, int>, double> iter(result);
   while (iter.hasNext())
   {
@@ -298,7 +305,7 @@ void GraphicWidget::setNowData(bool nowData)
   m_nowData = nowData;
   ui->verticalScrollBar->setRange(0, nowData ? m_seconds : 1);
   ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
-  ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
+  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? 0 : ui->verticalScrollBar->maximum());
   ui->verticalScrollBar->setVisible(nowData);
   colorScaleLayout();
   dataRepaint();
@@ -324,14 +331,16 @@ void GraphicWidget::resizeEvent(QResizeEvent* event)
 {
   colorScaleLayout();
   ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
-  ui->verticalScrollBar->setValue(ui->verticalScrollBar->maximum());
+  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? 0 : ui->verticalScrollBar->maximum());
   QWidget::resizeEvent(event);
 }
 
 
 void GraphicWidget::on_orientationToolButton_clicked()
 {
-  //ui->customPlot->setOrientation(!ui->customPlot->orientation());
+  ui->graphic->yAxis->setRangeReversed(!ui->graphic->yAxis->rangeReversed());
+  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? 0 : ui->verticalScrollBar->maximum());
+  dataRepaint();
 }
 
 
@@ -363,7 +372,7 @@ void GraphicWidget::colorScaleLayout()
 void GraphicWidget::on_verticalScrollBar_valueChanged(int value)
 {
   Q_UNUSED(value);
-  //dataRepaint();
+  dataRepaint();
 }
 
 void GraphicWidget::on_verticalScrollBar_sliderReleased()
@@ -376,5 +385,4 @@ void GraphicWidget::mouseMove(QMouseEvent* event)
 {
   int x = ui->graphic->xAxis->pixelToCoord(event->pos().x());
   int y = ui->graphic->yAxis->pixelToCoord(event->pos().y());
-  qDebug() << x << y;
 }
