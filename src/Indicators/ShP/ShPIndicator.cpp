@@ -48,7 +48,7 @@ void ShPIndicator::checkedDateTime()
 
   qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
   // Посылаем команду(запрос в данном случае)
-  const auto data = Client::instance().parseFileForDateTime(checkDateTime);
+  const auto data = Client::instance().parseFileForDateTime(ui->spinBox->value(), checkDateTime);
   qApp->restoreOverrideCursor();
 
   m_indicatorItem1->setSelectedData(data, checkDateTime);

@@ -22,15 +22,17 @@ class ClientWorker : public QObject
     void calculateData(const QByteArray& data, CommandType::Command cmd);
 
     //! Получение данных из файла для времени dateTime(с точностью до минуты)
-    PgasData parseFileForDateTime(const QDateTime& dateTime) const;
+    //! int stationId - номер ПГАС
+    void parseFileForDateTime(int stationId, const QDateTime& dateTime);
 
   signals:
     void newData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value = QVariant());
     void pgasData(const PgasData& pgasData);
+    void parsedFileForDateTime(const PgasData& data);
 
   private slots:
     //! Получение данных за seconds секунд, начиная от текущего времени
-    PgasData parseFile(int seconds) const;
+    PgasData parseFile(int stationId, int seconds) const;
 
     //! Получение данных за заданный период
     QList<QVariantMap> parseFile(int stationId, CommandType::Command command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const;

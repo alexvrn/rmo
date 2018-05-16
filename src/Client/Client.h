@@ -38,7 +38,8 @@ class Client : public QObject
     PgasData pgasData() const;
 
     //! Получение данных из файла для времени dateTime(с точностью до минуты)
-    PgasData parseFileForDateTime(const QDateTime& dateTime) const;
+    //! int stationId - номер ПГАС
+    PgasData parseFileForDateTime(int stationId, const QDateTime& dateTime) const;
 
   private:
     Client(QObject *parent = Q_NULLPTR);

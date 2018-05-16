@@ -209,7 +209,7 @@ QVariantMap ClientWorker::parseData(CommandType::Command cmd, const QByteArray& 
 }
 
 
-PgasData ClientWorker::parseFileForDateTime(const QDateTime& dateTime) const
+void ClientWorker::parseFileForDateTime(int stationId, const QDateTime& dateTime)
 {
   QSettings settings("SAMI_DVO_RAN", "rmo");
   QString sourceDataPath = settings.value("sourceDataPath",
@@ -221,7 +221,9 @@ PgasData ClientWorker::parseFileForDateTime(const QDateTime& dateTime) const
   ).toString();
 
   // Ищем файл с запрашиваемой датой
-  QFile dat(QString("%1%2%3%4").arg(sourceDataPath).arg(QDir::separator()).arg(dateTime.date().toString("ddMMyyyy")).arg(".dat"));
+  QFile dat(QString("%1%2%3%4").arg(sourceDataPath).arg(QDir::separator())
+                               .arg(QString("%1_%2").arg(dateTime.date().toString("ddMMyyyy")).arg(stationId))
+                               .arg(".dat"));
   if (dat.exists())
   {
     if (dat.open(QIODevice::ReadOnly))
@@ -244,7 +246,9 @@ PgasData ClientWorker::parseFileForDateTime(const QDateTime& dateTime) const
           if (bytesRead == -1)
           {
             qWarning() << tr("Ошибка чтения файла");
-            return PgasData();
+            //return PgasData();
+            emit parsedFileForDateTime(PgasData());
+            return;
           }
           CommandType::Command command = static_cast<CommandType::Command>(cmd);
           QVariantMap vm = parseData(command, dataArray);
@@ -257,15 +261,18 @@ PgasData ClientWorker::parseFileForDateTime(const QDateTime& dateTime) const
         }
       }
 
-      return result;
+      //return result;
+      emit parsedFileForDateTime(result);
+      return;
     }
   }
 
-  return PgasData();
+  //return PgasData();
+  emit parsedFileForDateTime(PgasData());
 }
 
 
-PgasData ClientWorker::parseFile(int seconds) const
+PgasData ClientWorker::parseFile(int stationId, int seconds) const
 {
   if (seconds <= 0)
     return PgasData();
@@ -282,7 +289,9 @@ PgasData ClientWorker::parseFile(int seconds) const
   const QDateTime now = QDateTime::currentDateTime();
 
   // Ищем файл с запрашиваемой датой
-  QFile dat(QString("%1%2%3%4").arg(sourceDataPath).arg(QDir::separator()).arg(now.date().toString("ddMMyyyy")).arg(".dat"));
+  QFile dat(QString("%1%2%3%4").arg(sourceDataPath).arg(QDir::separator())
+                               .arg(QString("%1_%2").arg(now.date().toString("ddMMyyyy")).arg(stationId))
+                               .arg(".dat"));
   if (dat.exists())
   {
     if (dat.open(QIODevice::ReadOnly))

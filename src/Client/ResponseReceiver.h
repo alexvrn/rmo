@@ -6,24 +6,26 @@
 #include <QEventLoop>
 #include <QVariantMap>
 
+// Local
+#include <commandType.h>
+
+
 class ResponseReceiver : public QObject
 {
   Q_OBJECT
 
   public:
-    explicit ResponseReceiver(const QString& method, QObject* parent = Q_NULLPTR);
+    explicit ResponseReceiver(QObject* parent = Q_NULLPTR);
 
-    QVariantMap responseData() const;
+    PgasData responseData() const;
 
   public slots:
-    void messageReceived(const QVariantMap& data);
+    void messageReceived(const PgasData& data);
     void run();
 
   private:
-    QString m_method;
     QEventLoop* m_loop;
-    QVariantMap m_responseData;
-    bool m_received;
+    PgasData m_responseData;
 };
 
 #endif // RESPONSERECEIVER_H

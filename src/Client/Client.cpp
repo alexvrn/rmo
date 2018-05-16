@@ -22,6 +22,7 @@ Client::Client(QObject *parent)
   , m_messageLength(0)
 {
   qRegisterMetaType<CommandType::Command>();
+  qRegisterMetaType<PgasData>("PgasData");
 
   m_thread->start();
   m_clientWorker->moveToThread(m_thread);
@@ -96,13 +97,15 @@ PgasData Client::pgasData() const
 
 
 //! Получение данных из файла для времени dateTime(с точностью до минуты)
-PgasData Client::parseFileForDateTime(const QDateTime& dateTime) const
+PgasData Client::parseFileForDateTime(int stationId, const QDateTime& dateTime) const
 {
-  PgasData data;
-  QMetaObject::invokeMethod(m_clientWorker, "parseFileForDateTime", Qt::BlockingQueuedConnection,
-                            Q_RETURN_ARG(PgasData, data),
-                            Q_ARG(QDateTime, dateTime));
-  return data;
+  ResponseReceiver receiver;
+  connect(m_clientWorker, &ClientWorker::parsedFileForDateTime, &receiver, &ResponseReceiver::messageReceived);
+
+  QMetaObject::invokeMethod(m_clientWorker, "parseFileForDateTime", Qt::QueuedConnection,
+                            Q_ARG(int, stationId), Q_ARG(QDateTime, dateTime));
+  receiver.run();
+  return receiver.responseData();
 }
 
 
