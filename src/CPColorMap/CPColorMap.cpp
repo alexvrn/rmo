@@ -4,21 +4,24 @@
 // Qt
 #include <QDebug>
 
-
 CPColorMap::CPColorMap(QCPAxis *keyAxis, QCPAxis *valueAxis)
   : QCPColorMap(keyAxis, valueAxis)
 {
 }
 
 
-
-void CPColorMap::mouseMoveEvent(QMouseEvent *event, const QPointF &startPos)
+void CPColorMap::setPoint(const QPoint& point)
 {
-  qDebug() << startPos << "1111" << event->x();
+  m_point = point;
 }
 
 
-void CPColorMap::mousePressEvent(QMouseEvent *event, const QVariant &details)
+void CPColorMap::draw(QCPPainter *painter)
 {
-  qDebug() << details << "22222";
+  QCPColorMap::draw(painter);
+
+  painter->setPen(Qt::red);
+
+  const QPointF point = coordsToPixels(m_point.x(), m_point.y());
+  painter->drawRect(point.x()-5, point.y()-5, 5, 5);
 }

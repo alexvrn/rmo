@@ -46,6 +46,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   // Обработка перемещения мыши
   connect(ui->graphic, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseMove(QMouseEvent*)));
+  connect(ui->graphic, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress(QMouseEvent*)));
 
   // Шкала
   m_colorScale = new QCPColorScale(ui->graphic);
@@ -385,4 +386,14 @@ void GraphicWidget::mouseMove(QMouseEvent* event)
 {
   int x = ui->graphic->xAxis->pixelToCoord(event->pos().x());
   int y = ui->graphic->yAxis->pixelToCoord(event->pos().y());
+}
+
+
+void GraphicWidget::mousePress(QMouseEvent* event)
+{
+  int x = ui->graphic->xAxis->pixelToCoord(event->pos().x());
+  int y = ui->graphic->yAxis->pixelToCoord(event->pos().y());
+
+  m_colorMap->setPoint(QPoint(x, y));
+  ui->graphic->replot();
 }

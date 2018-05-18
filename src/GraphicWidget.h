@@ -83,6 +83,7 @@ class GraphicWidget : public QWidget
     void on_verticalScrollBar_sliderReleased();
 
     void mouseMove(QMouseEvent* event);
+    void mousePress(QMouseEvent* event);
 
 private:
     void shpRepaint();
@@ -116,6 +117,7 @@ private:
     QThread* m_thread;
 
     QCPColorMapData* m_colorMapData;
+    QCPItemLine* m_itemLine;
 };
 
 #endif // GRAPHICWIDGET_H

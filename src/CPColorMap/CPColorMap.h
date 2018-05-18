@@ -4,7 +4,6 @@
 // QCustomPlot
 #include "qcustomplot.h"
 
-
 class CPColorMap : public QCPColorMap
 {
   Q_OBJECT
@@ -12,9 +11,13 @@ class CPColorMap : public QCPColorMap
   public:
     explicit CPColorMap(QCPAxis *keyAxis, QCPAxis *valueAxis);
 
+    void setPoint(const QPoint& point);
+
   protected:
-    virtual void mouseMoveEvent(QMouseEvent *event, const QPointF &startPos);
-    virtual void mousePressEvent(QMouseEvent *event, const QVariant &details);
+    virtual void draw(QCPPainter *painter);
+
+  private:
+    QPoint m_point;
 };
 
 #endif // CPCOLORMAP_H
