@@ -18,7 +18,8 @@ GraphicWidgetWorker::~GraphicWidgetWorker()
 
 
 void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
-                                             int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime, bool reverse)
+                                        int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime,
+                                        bool reverse)
 {
   if (data.isEmpty())
     return;
@@ -27,7 +28,7 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
   const int ny = isNowData ? seconds : 60;//(data.length() - indexBegin) / 128;
 
   const int size = isNowData ? shiftData : 60;
-  const int valueScroll = isNowData ? (!reverse ? (verticalScrollBarMaximum - verticalScrollBarValue) : verticalScrollBarValue) : 0;
+  const int valueScroll = isNowData ? (reverse ? verticalScrollBarValue : (verticalScrollBarMaximum - verticalScrollBarValue)) : 0;
   //const int valueScroll = isNowData ? (-verticalScrollBarMaximum + verticalScrollBarValue) : 0;
 
   // Текущее время на оборудовании (может отличаться от времени на РМО)
@@ -42,7 +43,7 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
   // Кол-во секунд от начала дня
   const int secsBottomRange = static_cast<int>(bottomRange.time().msecsSinceStartOfDay() / 1000.0);
   for (int i = 0; i < ny; ++i)
-    timeAxis[secsBottomRange - i] = i - valueScroll;
+    timeAxis[secsBottomRange - ny + i] = i - valueScroll;
 
   for (int index = 0; index < data.length(); index++)
   {

@@ -53,7 +53,7 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   ui->graphic->plotLayout()->addElement(0, 1, m_colorScale); // add it to the right of the main axis rect
   m_colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
 
-  ui->graphic->yAxis->setRangeReversed(false);
+  ui->graphic->yAxis->setRangeReversed(true);
 
   // Координата времени
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
@@ -306,7 +306,7 @@ void GraphicWidget::setNowData(bool nowData)
   m_nowData = nowData;
   ui->verticalScrollBar->setRange(0, nowData ? m_seconds : 1);
   ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
-  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? 0 : ui->verticalScrollBar->maximum());
+  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? ui->verticalScrollBar->maximum() : 0);
   ui->verticalScrollBar->setVisible(nowData);
   colorScaleLayout();
   dataRepaint();
@@ -332,7 +332,7 @@ void GraphicWidget::resizeEvent(QResizeEvent* event)
 {
   colorScaleLayout();
   ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
-  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? 0 : ui->verticalScrollBar->maximum());
+  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? ui->verticalScrollBar->maximum() : 0);
   QWidget::resizeEvent(event);
 }
 
@@ -340,7 +340,7 @@ void GraphicWidget::resizeEvent(QResizeEvent* event)
 void GraphicWidget::on_orientationToolButton_clicked()
 {
   ui->graphic->yAxis->setRangeReversed(!ui->graphic->yAxis->rangeReversed());
-  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? 0 : ui->verticalScrollBar->maximum());
+  ui->verticalScrollBar->setValue(ui->graphic->yAxis->rangeReversed() ? ui->verticalScrollBar->maximum() : 0);
   dataRepaint();
 }
 
