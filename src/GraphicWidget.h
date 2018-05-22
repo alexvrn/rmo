@@ -10,11 +10,8 @@ class QToolButton;
 // Local
 class Graphic;
 #include <commandType.h>
-class GraphicWidgetWorker;
-#include <CPColorMap.h>
+#include "AbstractGraphic.h"
 
-// QCustomPlot
-#include "qcustomplot.h"
 
 namespace Ui
 {
@@ -60,11 +57,6 @@ class GraphicWidget : public QWidget
 
     void resizeEvent(QResizeEvent* event);
 
-    void calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
-                       int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime, bool reverse);
-
-    void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange, const QDateTime& bottomRange);
-
   private slots:
     void colorValue(const QColor &color);
     void brightness(int value);
@@ -76,48 +68,38 @@ class GraphicWidget : public QWidget
 
     void colorScaleLayout();
 
-    void on_verticalScrollBar_valueChanged(int value);
+    void verticalScrollBarSliderReleased();
+    void verticalScrollBarValueChanged(int value);
 
     void dataRepaint();
 
-    void on_verticalScrollBar_sliderReleased();
-
-    void mouseMove(QMouseEvent* event);
-    void mousePress(QMouseEvent* event);
-
 private:
-    void shpRepaint();
-    void pchssRepaint();
     int shiftData() const;
     void clearData();
+    void scrollMinMax();
 
-    Graphic* m_graphic;
-    QCPColorScale* m_colorScale;
+    Ui::GraphicWidget *ui;
 
     QColor m_graphColor;
 
     QList<QToolButton*> m_toolButtons;
 
-    CPColorMap *m_colorMap;
-
     bool m_nowData;
-    QList<QVariantMap> m_selectedData;
 
     int m_seconds;
     QDateTime m_checkDateTime;
-
-    Ui::GraphicWidget *ui;
 
     QList<QVariantMap> m_data;
 
     IndicatorType m_indicatorType;
     CommandType::Command m_type;
 
-    GraphicWidgetWorker* m_graphicWidgetWorker;
-    QThread* m_thread;
+    QScrollBar* m_scrollBar;
+    AbstractGraphic* m_graphic;
 
-    QCPColorMapData* m_colorMapData;
-    QCPItemLine* m_itemLine;
+    QMap<int, QPair<AbstractGraphic*, QScrollBar*> > m_widgetPage;
+    QList<QScrollBar*> m_scrolls;
+    QList<AbstractGraphic*> m_graphics;
 };
 
 #endif // GRAPHICWIDGET_H

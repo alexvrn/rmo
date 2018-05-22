@@ -1,23 +1,17 @@
 // Local
-#include "GraphicWidgetWorker.h"
+#include "GraphicShPWorker.h"
 
 // Qt
-#include <QtConcurrent>
-#include <QFuture>
 #include <QTime>
 
-GraphicWidgetWorker::GraphicWidgetWorker(QObject *parent)
+GraphicShPWorker::GraphicShPWorker(QObject* parent)
   : QObject(parent)
 {
+
 }
 
 
-GraphicWidgetWorker::~GraphicWidgetWorker()
-{
-}
-
-
-void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
+void GraphicShPWorker::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
                                         int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime,
                                         bool reverse)
 {
@@ -60,5 +54,5 @@ void GraphicWidgetWorker::calculateData(const QList<QVariantMap>& data, bool isN
     result.insert(qMakePair(xIndex, timeAxis[secs]), data[index]["data"].toDouble());
   }
 
-  emit calculatedData(result, nx, size, ny, bottomRange);
+  emit calculatedData(result, nx, size, ny, bottomRange, verticalScrollBarValue);
 }

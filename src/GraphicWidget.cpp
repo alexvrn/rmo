@@ -1,7 +1,10 @@
 // Local
 #include "GraphicWidget.h"
 #include "ui_GraphicWidget.h"
-#include "GraphicWidgetWorker.h"
+
+// Qt
+#include <QScrollBar>
+#include <QPair>
 
 GraphicWidget::GraphicWidget(QWidget *parent)
   : QWidget(parent)
@@ -9,23 +12,33 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   , m_graphColor(QColor(0,255,0))
   , m_nowData(true)
   , m_seconds(0)
-  , m_graphicWidgetWorker(new GraphicWidgetWorker)
-  , m_thread(new QThread(this))
-  , m_colorMapData(new QCPColorMapData(0,0, QCPRange(0,0), QCPRange(0,0)))
+  , m_scrollBar(nullptr)
+  , m_graphic(nullptr)
 {
   ui->setupUi(this);
-
-  m_thread->start();
-  m_graphicWidgetWorker->moveToThread(m_thread);
-
-  connect(m_graphicWidgetWorker, &GraphicWidgetWorker::calculatedData, this, &GraphicWidget::calculatedData, Qt::QueuedConnection);
 
   //! FIXME: проверка количества секунд
   // Количество секунд для отображения
   QSettings settings("SAMI_DVO_RAN", "rmo");
   m_seconds = settings.value("SHP/seconds", 60).toInt();
 
-  ui->verticalScrollBar->setRange(0, m_seconds);
+  m_widgetPage[0] = qMakePair(ui->graphicShP1, ui->verticalScrollBarShP1);
+  m_widgetPage[1] = qMakePair(ui->graphicShP2, ui->verticalScrollBarShP2);
+  m_widgetPage[2] = qMakePair(ui->graphicPChSS, ui->verticalScrollBarPChSS);
+
+  auto it = m_widgetPage.begin();
+  while (it != m_widgetPage.end())
+  {
+    auto scroll = it.value().second;
+    scroll->setRange(0, m_seconds);
+    connect(scroll, SIGNAL(sliderReleased()), this, SLOT(verticalScrollBarSliderReleased()));
+    connect(scroll, SIGNAL(valueChanged(int)), this, SLOT(verticalScrollBarValueChanged(int)));
+
+    //! Магическое число second - shift - для правильного отображения
+    scroll->setMaximum(m_seconds - shiftData());
+    scroll->setValue(scroll->maximum());
+    ++it;
+  }
 
   connect(ui->paletteComboBox, SIGNAL(activated(int)), this, SLOT(setGradient(int)));
   //connect(ui->paletteWidget, SIGNAL(colorValue(QColor)), SLOT(colorValue(QColor)));
@@ -38,74 +51,18 @@ GraphicWidget::GraphicWidget(QWidget *parent)
 
   connect(ui->brightnessSlider, SIGNAL(valueChanged(int)), SLOT(brightness(int)));
 
-  // http://www.qcustomplot.com/index.php/demos/colormapdemo
-  // configure axis rect:
-  ui->graphicShP->setInteractions(QCP::iSelectAxes|QCP::iRangeDrag); // this will also allow rescaling the color scale by dragging/zooming
-  ui->graphicShP->axisRect()->setupFullAxesBox(true);
-  ui->graphicShP->xAxis->setLabel("");
-
-  // Обработка перемещения мыши
-  connect(ui->graphicShP, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseMove(QMouseEvent*)));
-  connect(ui->graphicShP, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress(QMouseEvent*)));
-
-  // Шкала
-  m_colorScale = new QCPColorScale(ui->graphicShP);
-  ui->graphicShP->plotLayout()->addElement(0, 1, m_colorScale); // add it to the right of the main axis rect
-  m_colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
-
-  ui->graphicShP->yAxis->setRangeReversed(true);
-
-  // Координата времени
-  QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-  ui->graphicShP->yAxis->setTicker(timeTicker);
-  //ui->graphic->axisRect()->setupFullAxesBox();
-  timeTicker->setTimeFormat("%h:%m:%s");
-
-  m_colorMap = new CPColorMap(ui->graphicShP->xAxis, ui->graphicShP->yAxis);
-  m_colorMap->setColorScale(m_colorScale); // associate the color map with the color scale
-
-
-  QCPColorGradient gradien;
-  QMap<double, QColor> colorStops;
-  colorStops[0] = QColor(0, 50, 0);
-  colorStops[+1] = QColor(0, 255, 0);
-  gradien.setColorStops(colorStops);
-
-  // set the color gradient of the color map to one of the presets:
-  m_colorMap->setGradient(gradien);//QCPColorGradient::gpJet);
-
-  m_colorMap->setInterpolate(true);
-
-  // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
-  //QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->graphic);
-  //ui->graphic->axisRect()->setMarginGroup(QCP::msBottom | QCP::msTop, marginGroup);
-  //colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
-
   const QString style = "background-color: rgb(200,200,200, 20);";
   ui->contrastLabel->setStyleSheet(style);
   ui->brightnessLabel->setStyleSheet(style);
 
-  //QCPAxis* cp = new QCPAxis(ui->graphic->axisRect(0), QCPAxis::atLeft);
-
   // Подцветка
   setLightMode(settings.value("mode", "sun").toString());
-
-  //ui->graphic->setFixedHeight(m_seconds);
-
-  //QMargins mar(0, 100, 1, 100);
-  //m_colorScale->setMargins(mar);
 }
 
 
 GraphicWidget::~GraphicWidget()
 {
   delete ui;
-
-  m_thread->quit();
-  if (!m_thread->wait(5000))
-    m_thread->terminate();
-
-  delete m_graphicWidgetWorker;
 }
 
 
@@ -171,53 +128,24 @@ void GraphicWidget::setGradient(int value)
 {
   if (value == 0)
   {
-    QCPColorGradient gradien;
+    QCPColorGradient gradient;
     QMap<double, QColor> colorStops;
     colorStops[0] = QColor(0, 50, 0);
     colorStops[+1] = QColor(0, 255, 0);
-    gradien.setColorStops(colorStops);
+    gradient.setColorStops(colorStops);
 
-    m_colorMap->setGradient(gradien);
+    m_graphic->setGradient(gradient);
   }
   else
   {
-    m_colorMap->setGradient(QCPColorGradient::gpSpectrum);
+    m_graphic->setGradient(QCPColorGradient::gpSpectrum);
   }
 
-  ui->graphicShP->replot();
+  m_graphic->replot();
 }
 
 
 void GraphicWidget::dataRepaint()
-{
-  if (m_type == CommandType::Stream_3 || m_type == CommandType::Stream_4)
-  {
-    ui->graphicShP->yAxis->setLabel("Т");
-    shpRepaint();
-  }
-  else
-  {
-    ui->graphicPchss->yAxis->setLabel("Гц");
-    pchssRepaint();
-  }
-}
-
-
-void GraphicWidget::pchssRepaint()
-{
-//  if (m_data.isEmpty())
-//  {
-//    clearData();
-//    return;
-//  }
-
-//  calculateData(m_data, isNowData(), m_seconds, shiftData(),
-//                ui->verticalScrollBar->maximum(),
-//                ui->verticalScrollBar->value(), m_checkDateTime, ui->graphic->yAxis->rangeReversed());
-}
-
-
-void GraphicWidget::shpRepaint()
 {
   if (m_data.isEmpty())
   {
@@ -225,50 +153,21 @@ void GraphicWidget::shpRepaint()
     return;
   }
 
-  calculateData(m_data, isNowData(), m_seconds, shiftData(),
-                ui->verticalScrollBar->maximum(),
-                ui->verticalScrollBar->value(), m_checkDateTime, ui->graphicShP->yAxis->rangeReversed());
-}
-
-
-void GraphicWidget::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
-                   int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime, bool reverse)
-{
-  QMetaObject::invokeMethod(m_graphicWidgetWorker, "calculateData", Qt::QueuedConnection,
-                            Q_ARG(QList<QVariantMap>, data),
-                            Q_ARG(bool, isNowData),
-                            Q_ARG(int, seconds),
-                            Q_ARG(int, shiftData),
-                            Q_ARG(int, verticalScrollBarMaximum),
-                            Q_ARG(int, verticalScrollBarValue),
-                            Q_ARG(QDateTime, checkDateTime),
-                            Q_ARG(bool, reverse));
-}
-
-
-
-void GraphicWidget::calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange, const QDateTime& bottomRange)
-{
-  m_colorMap->data()->clear();
-  m_colorMap->data()->setSize(keySize, valueSize);
-  const int secs = bottomRange.time().msecsSinceStartOfDay() / 1000.0;
-  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(secs + ui->verticalScrollBar->value(),
-                                                              secs + valueSize + ui->verticalScrollBar->value()));
-  QHashIterator<QPair<int, int>, double> iter(result);
-  while (iter.hasNext())
+  if (m_type == CommandType::Stream_3 || m_type == CommandType::Stream_4)
   {
-    iter.next();
-    m_colorMap->data()->setCell(iter.key().first, iter.key().second, iter.value());
+    qobject_cast<GraphicShP*>(m_graphic)->calculateData(
+                    m_data, isNowData(), m_seconds, shiftData(),
+                    m_scrollBar->maximum(),
+                    m_scrollBar->value(), m_checkDateTime, m_graphic->yAxis->rangeReversed());
+
   }
-
-  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
-  //m_colorMap->rescaleDataRange();
-
-  // rescale the key (x) and value (y) axes so the whole color map is visible:
-  ui->graphicShP->rescaleAxes();
-
-  ui->graphicShP->yAxis->rescale();
-  ui->graphicShP->replot();
+  else
+  {
+    //qobject_cast<GraphicPChSS*>(m_graphic)->calculateData(
+    //                m_data, isNowData(), m_seconds, shiftData(),
+    //                ui->verticalScrollBarShP->maximum(),
+    //                ui->verticalScrollBarShP->value(), m_checkDateTime, m_graphic->yAxis->rangeReversed());
+  }
 }
 
 
@@ -279,19 +178,23 @@ int GraphicWidget::shiftData() const
 }
 
 
+void GraphicWidget::scrollMinMax()
+{
+  if (!m_scrollBar)
+    return;
+
+  //! Магическое число second - shift - для правильного отображения
+  m_scrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
+  m_scrollBar->setValue(m_graphic->yAxis->rangeReversed() ? m_scrollBar->maximum() : 0);
+}
+
+
 void GraphicWidget::clearData()
 {
-  m_colorMap->data()->clear();
-  m_colorMap->data()->setSize(128, 60);
-  m_colorMap->data()->setRange(QCPRange(0, 128), QCPRange(0, 60));
-  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
-  //m_colorMap->rescaleDataRange();
+  if (!m_graphic)
+    return;
 
-  // rescale the key (x) and value (y) axes so the whole color map is visible:
-  ui->graphicShP->rescaleAxes();
-
-  ui->graphicShP->yAxis->rescale();
-  ui->graphicShP->replot();
+  m_graphic->clearData();
 }
 
 
@@ -304,10 +207,9 @@ void GraphicWidget::newData()
 void GraphicWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
-  ui->verticalScrollBar->setRange(0, nowData ? m_seconds : 1);
-  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
-  ui->verticalScrollBar->setValue(ui->graphicShP->yAxis->rangeReversed() ? ui->verticalScrollBar->maximum() : 0);
-  ui->verticalScrollBar->setVisible(nowData);
+  m_scrollBar->setRange(0, nowData ? m_seconds : 1);
+  scrollMinMax();
+  m_scrollBar->setVisible(nowData);
   colorScaleLayout();
   dataRepaint();
 }
@@ -322,16 +224,26 @@ bool GraphicWidget::isNowData() const
 void GraphicWidget::setDataType(const QString& text, CommandType::Command type)
 {
   m_type = type;
-  if (type == CommandType::Stream_3 || type == CommandType::Stream_4)
+  if (type == CommandType::Stream_3)
   {
-    ui->graphicWidget->setCurrentIndex(0);
-    ui->graphicShP->xAxis->setLabel(text);
-    ui->graphicShP->replot();
+    ui->graphicWidget->setCurrentIndex(1);
+    m_graphic = ui->graphicShP1;
+    m_scrollBar = ui->verticalScrollBarShP1;
+  }
+  else if (type == CommandType::Stream_4)
+  {
+    ui->graphicWidget->setCurrentIndex(2);
+    m_graphic = ui->graphicShP2;
+    m_scrollBar = ui->verticalScrollBarShP2;
   }
   else
   {
-    ui->graphicWidget->setCurrentIndex(1);
+    ui->graphicWidget->setCurrentIndex(0);
+    m_graphic = ui->graphicPChSS;
+    m_scrollBar = ui->verticalScrollBarPChSS;
   }
+
+  m_graphic->xAxis->setLabel(text);
 
   dataRepaint();
 }
@@ -340,24 +252,32 @@ void GraphicWidget::setDataType(const QString& text, CommandType::Command type)
 void GraphicWidget::resizeEvent(QResizeEvent* event)
 {
   colorScaleLayout();
-  ui->verticalScrollBar->setMaximum(isNowData() ? m_seconds - shiftData() : 60);
-  ui->verticalScrollBar->setValue(ui->graphicShP->yAxis->rangeReversed() ? ui->verticalScrollBar->maximum() : 0);
+  scrollMinMax();
   QWidget::resizeEvent(event);
 }
 
 
 void GraphicWidget::on_orientationToolButton_clicked()
 {
-  ui->graphicShP->yAxis->setRangeReversed(!ui->graphicShP->yAxis->rangeReversed());
-  ui->verticalScrollBar->setValue(ui->graphicShP->yAxis->rangeReversed() ? ui->verticalScrollBar->maximum() : 0);
+  auto it = m_widgetPage.begin();
+  while (it != m_widgetPage.end())
+  {
+    auto scroll = it.value().second;
+    auto graphic = it.value().first;
+
+    graphic->yAxis->setRangeReversed(!graphic->yAxis->rangeReversed());
+    scroll->setValue(graphic->yAxis->rangeReversed() ? scroll->maximum() : 0);
+    ++it;
+  }
+
   dataRepaint();
 }
 
 
 void GraphicWidget::on_toolButtonGrid_toggled(bool checked)
-{
-  ui->graphicShP->xAxis->grid()->setVisible(checked);
-  ui->graphicShP->yAxis->grid()->setVisible(checked);
+{  
+  m_graphic->xAxis->grid()->setVisible(checked);
+  m_graphic->yAxis->grid()->setVisible(checked);
 }
 
 
@@ -366,7 +286,7 @@ void GraphicWidget::on_predIndicatorComboBox_activated(int index)
   Q_UNUSED(index);
 
   PredIndicatorType predIndicatorType = static_cast<PredIndicatorType>(ui->predIndicatorComboBox->currentData().toInt());
-  ui->graphicShP->replot();
+  m_graphic->replot();
 }
 
 
@@ -380,35 +300,14 @@ void GraphicWidget::colorScaleLayout()
 }
 
 
-void GraphicWidget::on_verticalScrollBar_valueChanged(int value)
+void GraphicWidget::verticalScrollBarValueChanged(int value)
 {
   Q_UNUSED(value);
   dataRepaint();
 }
 
 
-void GraphicWidget::on_verticalScrollBar_sliderReleased()
+void GraphicWidget::verticalScrollBarSliderReleased()
 {
   dataRepaint();
-}
-
-
-void GraphicWidget::mouseMove(QMouseEvent* event)
-{
-  int x = ui->graphicShP->xAxis->pixelToCoord(event->pos().x());
-  int y = ui->graphicShP->yAxis->pixelToCoord(event->pos().y());
-}
-
-
-void GraphicWidget::mousePress(QMouseEvent* event)
-{
-  const int x = ui->graphicShP->xAxis->pixelToCoord(event->pos().x());
-  const int y = ui->graphicShP->yAxis->pixelToCoord(event->pos().y());
-
-  // Проверяем чтобы клик был только по обрасти графика
-  if (!m_colorMap->data()->keyRange().contains(x) || m_colorMap->data()->keyRange().contains(y))
-    return;
-
-  m_colorMap->setPoint(QPoint(x, y));
-  ui->graphicShP->replot();
 }

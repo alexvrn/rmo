@@ -43,8 +43,12 @@ SOURCES += src/main.cpp\
     structs/cmd_data_packer.c \
     structs/cmd_data_debug.c \
     src/GraphicWidget.cpp \
-    src/GraphicWidgetWorker.cpp \
-    src/CPColorMap/CPColorMap.cpp
+    src/CPColorMap/CPColorMap.cpp \
+    src/GraphicShP.cpp \
+    src/GraphicShPWorker.cpp \
+    src/GraphicPChSS.cpp \
+    src/GraphicPChSSWorker.cpp \
+    src/AbstractGraphic.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -75,8 +79,12 @@ HEADERS += \
     structs/cmd_data_packer.h \
     structs/cmd_data_debug.h \
     src/GraphicWidget.h \
-    src/GraphicWidgetWorker.h \
-    src/CPColorMap/CPColorMap.h
+    src/CPColorMap/CPColorMap.h \
+    src/GraphicShP.h \
+    src/GraphicShPWorker.h \
+    src/GraphicPChSS.h \
+    src/GraphicPChSSWorker.h \
+    src/AbstractGraphic.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
