@@ -23,13 +23,6 @@ class GraphicWidget : public QWidget
   Q_OBJECT
 
   public:
-    // Типы индикатора
-    enum IndicatorType
-    {
-      ShP,
-      SA
-    };
-
     // Типы пред-индикаторной обработки
     enum PredIndicatorType
     {
@@ -45,22 +38,18 @@ class GraphicWidget : public QWidget
     explicit GraphicWidget(QWidget *parent = 0);
     ~GraphicWidget();
 
-    void setType(IndicatorType indicatorType);
-
   public slots:
     void setData(const QList<QVariantMap>& data, const QDateTime& dateTime = QDateTime());
     void setLightMode(const QString& mode);
     void newData();
     void setNowData(bool nowData);
-    bool isNowData() const;
     void setDataType(const QString& text, CommandType::Command type);
+    void setIndicatorType(AbstractGraphic::IndicatorType indicatorType);
 
     void resizeEvent(QResizeEvent* event);
 
   private slots:
     void colorValue(const QColor &color);
-    void brightness(int value);
-    void setGradient(int value);
 
     void on_toolButtonGrid_toggled(bool checked);
     void on_orientationToolButton_clicked();
@@ -74,9 +63,7 @@ class GraphicWidget : public QWidget
     void dataRepaint();
 
 private:
-    int shiftData() const;
     void clearData();
-    void scrollMinMax();
 
     Ui::GraphicWidget *ui;
 
@@ -84,21 +71,16 @@ private:
 
     QList<QToolButton*> m_toolButtons;
 
-    bool m_nowData;
-
-    int m_seconds;
     QDateTime m_checkDateTime;
 
     QList<QVariantMap> m_data;
 
-    IndicatorType m_indicatorType;
+    AbstractGraphic::IndicatorType m_indicatorType;
     CommandType::Command m_type;
 
-    QScrollBar* m_scrollBar;
+    // Текущий график
     AbstractGraphic* m_graphic;
 
-    QMap<int, QPair<AbstractGraphic*, QScrollBar*> > m_widgetPage;
-    QList<QScrollBar*> m_scrolls;
     QList<AbstractGraphic*> m_graphics;
 };
 

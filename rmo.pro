@@ -44,11 +44,11 @@ SOURCES += src/main.cpp\
     structs/cmd_data_debug.c \
     src/GraphicWidget.cpp \
     src/CPColorMap/CPColorMap.cpp \
-    src/GraphicShP.cpp \
-    src/GraphicShPWorker.cpp \
-    src/GraphicPChSS.cpp \
-    src/GraphicPChSSWorker.cpp \
-    src/AbstractGraphic.cpp
+    src/AbstractGraphic.cpp \
+    src/GraphicTime.cpp \
+    src/GraphicTimeWorker.cpp \
+    src/GraphicValue.cpp \
+    src/GraphicValueWorker.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -80,11 +80,11 @@ HEADERS += \
     structs/cmd_data_debug.h \
     src/GraphicWidget.h \
     src/CPColorMap/CPColorMap.h \
-    src/GraphicShP.h \
-    src/GraphicShPWorker.h \
-    src/GraphicPChSS.h \
-    src/GraphicPChSSWorker.h \
-    src/AbstractGraphic.h
+    src/AbstractGraphic.h \
+    src/GraphicTime.h \
+    src/GraphicTimeWorker.h \
+    src/GraphicValue.h \
+    src/GraphicValueWorker.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \
@@ -101,7 +101,9 @@ FORMS += \
     src/Indicators/ui/ShPIndicator.ui \
     src/Indicators/ui/ShPIndicatorWidget.ui \
     ui/AuthDialog.ui \
-    ui/GraphicWidget.ui
+    ui/GraphicWidget.ui \
+    ui/GraphicTime.ui \
+    ui/GraphicValue.ui
 
 RESOURCES += \
     resources.qrc

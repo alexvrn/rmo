@@ -202,7 +202,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout" rowstretch="3,1">
          <item row="0" column="0">
-          <widget class="GraphicWidget" name="widget_1" native="true"/>
+          <widget class="GraphicValue" name="widget_1" native="true"/>
          </item>
          <item row="1" column="0">
           <widget class="QCustomPlot" name="widget_3" native="true"/>
@@ -212,7 +212,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_2" rowstretch="3,1">
          <item row="0" column="0">
-          <widget class="GraphicWidget" name="widget_2" native="true"/>
+          <widget class="GraphicValue" name="widget_2" native="true"/>
          </item>
          <item row="1" column="0">
           <widget class="QCustomPlot" name="widget_4" native="true"/>
@@ -312,7 +312,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_3" rowstretch="3,1">
          <item row="0" column="0">
-          <widget class="GraphicWidget" name="widget_5" native="true"/>
+          <widget class="GraphicValue" name="widget_5" native="true"/>
          </item>
          <item row="1" column="0">
           <widget class="QCustomPlot" name="widget_6" native="true"/>
@@ -435,15 +435,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>GraphicWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">GraphicWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header location="global">qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GraphicValue</class>
+   <extends>QWidget</extends>
+   <header location="global">GraphicValue.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

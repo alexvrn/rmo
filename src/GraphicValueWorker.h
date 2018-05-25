@@ -1,16 +1,16 @@
-#ifndef GRAPHICPCHSSWORKER_H
-#define GRAPHICPCHSSWORKER_H
+#ifndef GRAPHICVALUEWORKER_H
+#define GRAPHICVALUEWORKER_H
 
 // Qt
 #include <QObject>
 #include <QVariantMap>
 
-class GraphicPChSSWorker : public QObject
+class GraphicValueWorker : public QObject
 {
   Q_OBJECT
 
   public:
-    GraphicPChSSWorker(QObject* parent = nullptr);
+    explicit GraphicValueWorker(QObject *parent = nullptr);
 
   public Q_SLOTS:
     void calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
@@ -21,4 +21,4 @@ class GraphicPChSSWorker : public QObject
                         const QDateTime& bottomRange, int verticalScrollBarValue);
 };
 
-#endif // GRAPHICPCHSSWORKER_H
+#endif // GRAPHICVALUEWORKER_H

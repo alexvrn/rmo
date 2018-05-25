@@ -1,17 +1,17 @@
 // Local
-#include "GraphicPChSSWorker.h"
+#include "GraphicValueWorker.h"
 
 // Qt
 #include <QTime>
 
-GraphicPChSSWorker::GraphicPChSSWorker(QObject* parent)
+GraphicValueWorker::GraphicValueWorker(QObject *parent)
   : QObject(parent)
 {
 
 }
 
 
-void GraphicPChSSWorker::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
+void GraphicValueWorker::calculateData(const QList<QVariantMap>& data, bool isNowData, int seconds, int shiftData,
                                         int verticalScrollBarMaximum, int verticalScrollBarValue, const QDateTime& checkDateTime,
                                         bool reverse)
 {
@@ -56,3 +56,4 @@ void GraphicPChSSWorker::calculateData(const QList<QVariantMap>& data, bool isNo
 
   emit calculatedData(result, nx, size, ny, bottomRange, verticalScrollBarValue);
 }
+

@@ -24,9 +24,9 @@ SAIndicator::SAIndicator(QWidget *parent)
 
   connect(ui->nowToolButton, SIGNAL(toggled(bool)), SLOT(nowToggled()));
 
-  ui->widget_1->setType(GraphicWidget::SA);
-  ui->widget_2->setType(GraphicWidget::SA);
-  ui->widget_5->setType(GraphicWidget::SA);
+  //ui->widget_1->setType(GraphicWidget::SA);
+  //ui->widget_2->setType(GraphicWidget::SA);
+  //ui->widget_5->setType(GraphicWidget::SA);
 }
 
 

@@ -48,7 +48,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
   ui->pchToolButton->setChecked(true);
 
-  ui->graphicWidget->setType(GraphicWidget::ShP);
+  ui->graphicWidget->setIndicatorType(AbstractGraphic::ShP);
 
   connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
   m_replotTimer.start(10000);
@@ -129,6 +129,7 @@ void ShPIndicatorWidget::setSelectedData(const PgasData& selectedData, const QDa
 {
   m_selectedData = selectedData;
   m_checkDateTime = checkDateTime;
+
   newData(true);
 }
 
