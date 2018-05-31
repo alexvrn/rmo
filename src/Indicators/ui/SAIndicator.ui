@@ -176,6 +176,19 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
+       <widget class="QLabel" name="label_9">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Формуляр СА</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
          <string>Номер:
@@ -243,42 +256,42 @@
           <item>
            <widget class="QRadioButton" name="radioButton">
             <property name="text">
-             <string>RadioButton</string>
+             <string>ЧД 1</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="radioButton_2">
             <property name="text">
-             <string>RadioButton</string>
+             <string>ЧД 2</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="radioButton_3">
             <property name="text">
-             <string>RadioButton</string>
+             <string>ЧД 3</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="radioButton_4">
             <property name="text">
-             <string>RadioButton</string>
+             <string>ЧД Полный</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="radioButton_5">
             <property name="text">
-             <string>RadioButton</string>
+             <string>ЧД Настр.</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>1000 Гц</string>
+             <string>1099 Гц</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -286,16 +299,20 @@
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="verticalSlider">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QSlider" name="verticalSlider">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>100 Гц</string>
+             <string>199 Гц</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -351,19 +368,23 @@
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="verticalSlider_2">
-            <property name="tracking">
-             <bool>true</bool>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QSlider" name="verticalSlider_2">
+              <property name="tracking">
+               <bool>true</bool>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>TextLabel</string>
+             <string>14:48:40</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -371,23 +392,27 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton">
-            <property name="minimumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QToolButton" name="toolButton">
+              <property name="minimumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -410,7 +435,7 @@
           <item>
            <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>TextLabel</string>
+             <string>14:46:21</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
