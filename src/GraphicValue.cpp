@@ -49,7 +49,7 @@ GraphicValue::GraphicValue(QWidget *parent)
   m_colorMap->setInterpolate(true);
 
   ui->graphic->xAxis->setLabel("");
-  ui->graphic->yAxis->setLabel("Т");
+  ui->graphic->yAxis->setLabel("Гц");
 
   // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
   //QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->graphic);
@@ -70,6 +70,8 @@ GraphicValue::GraphicValue(QWidget *parent)
   const QString style = "background-color: rgb(200,200,200, 20);";
   ui->contrastLabel->setStyleSheet(style);
   ui->brightnessLabel->setStyleSheet(style);
+
+  ui->toolButtonGrid->hide();
 
   // Подцветка
   //setLightMode(settings.value("mode", "sun").toString());

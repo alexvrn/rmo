@@ -20,8 +20,8 @@ ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
 
 
   //
-  ui->graphic->addGraph(); // blue line
-  ui->graphic->graph(0)->setPen(QPen(QColor(40, 110, 255)));
+  auto graphic = ui->graphic->addGraph(); //
+  graphic->setPen(QPen(QColor(40, 110, 255)));
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
   timeTicker->setTimeFormat("%h:%m:%s");
   ui->graphic->xAxis->setTicker(timeTicker);

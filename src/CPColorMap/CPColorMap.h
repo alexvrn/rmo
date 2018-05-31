@@ -14,7 +14,7 @@ class CPColorMap : public QCPColorMap
     void setPoint(const QPoint& point);
 
   protected:
-    virtual void draw(QCPPainter *painter);
+    virtual void draw(QCPPainter *painter) override;
 
   private:
     QPoint m_point;

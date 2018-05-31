@@ -91,6 +91,8 @@ GraphicTime::GraphicTime(QWidget *parent)
   ui->contrastLabel->setStyleSheet(style);
   ui->brightnessLabel->setStyleSheet(style);
 
+  ui->toolButtonGrid->hide();
+
   // Подцветка
   //setLightMode(settings.value("mode", "sun").toString());
 }
