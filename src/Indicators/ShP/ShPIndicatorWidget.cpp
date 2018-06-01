@@ -89,12 +89,14 @@ void ShPIndicatorWidget::newData(bool update)
     return;
   }
 
-  // Берем данные в зависимости от режима (текущие данные или выбранные для определённой даты)
-  const auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
-  const auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
-
   if (update)
+  {
+    // Берем данные в зависимости от режима (текущие данные или выбранные для определённой даты)
+    const auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
+    const auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
+
     ui->graphicWidget->setData(data, m_checkDateTime);
+  }
 }
 
 
