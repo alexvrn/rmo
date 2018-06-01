@@ -3,6 +3,7 @@
 #include "ui_SAIndicator.h"
 #include "Client.h"
 #include "GraphicWidget.h"
+#include "GraphicTime.h"
 
 SAIndicator::SAIndicator(QWidget *parent)
   : QWidget(parent)
@@ -24,6 +25,9 @@ SAIndicator::SAIndicator(QWidget *parent)
 
   connect(ui->nowToolButton, SIGNAL(toggled(bool)), SLOT(nowToggled()));
 
+  ui->widgetGeneralSpectrum->setLabel(tr("Спектр несущей"));
+  ui->widgetVLMSpectrum->setLabel(tr("Спектр ВЛМ"));
+  ui->widgetMKSpectrum->setLabel(tr("Спектр МK"));
   //ui->widget_1->setType(GraphicWidget::SA);
   //ui->widget_2->setType(GraphicWidget::SA);
   //ui->widget_5->setType(GraphicWidget::SA);
@@ -49,7 +53,35 @@ void SAIndicator::checkedDateTime()
 }
 
 
-void SAIndicator::nowToggled()
+void SAIndicator::setLightMode(const QString& mode)
 {
 
+}
+
+
+void SAIndicator::newData(CommandType::Command cmd, const QVariant& value)
+{
+  // Если выбрано получение данных по конкретной дате, то текущие данные игнорим
+  if (!ui->nowToolButton->isChecked())
+  {
+    return;
+  }
+  else
+  {
+    // Если текущие данные ПГАС
+    if (cmd >= CommandType::Stream_1 && cmd <= CommandType::Stream_22)
+    {
+      // Если смотрим на текущие данные (иначе не игнорим, данные записались в файлы)
+      if (!ui->lastToolButton->isChecked())
+      {
+
+      }
+    }
+  }
+}
+
+
+void SAIndicator::nowToggled()
+{
+  m_selectedData = PgasData();
 }
