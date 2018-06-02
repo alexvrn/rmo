@@ -22,6 +22,8 @@ ControlLeftPanel::ControlLeftPanel(QWidget *parent)
   m_toolBar->addWidget(m_panel);
   setCentralWidget(m_indicatorsStackedWidget);
 
+  connect(m_indicatorsStackedWidget, SIGNAL(info(QString)), statusBar(), SLOT(showMessage(QString)));
+
   setWindowTitle("Панель управления");
 }
 

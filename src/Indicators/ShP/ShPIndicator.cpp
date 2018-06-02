@@ -6,12 +6,15 @@
 
 
 ShPIndicator::ShPIndicator(QWidget *parent)
-  : QWidget(parent)
+  : Indicator(parent)
   , ui(new Ui::ShPIndicator)
   , m_indicatorItem1(new ShPIndicatorItem(this))
   , m_indicatorItem2(new ShPIndicatorItem(this))
 {
   ui->setupUi(this);
+
+  connect(m_indicatorItem1, &ShPIndicatorItem::info, this, &Indicator::info);
+  connect(m_indicatorItem2, &ShPIndicatorItem::info, this, &Indicator::info);
 
   ui->lastToolButton->setIcon(QIcon(":/icons/undo-circular-arrow.png"));
   ui->nowToolButton->setIcon(QIcon(":/icons/redo-circular-arrow.png"));

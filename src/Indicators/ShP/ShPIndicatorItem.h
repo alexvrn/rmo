@@ -39,6 +39,9 @@ class ShPIndicatorItem : public QWidget
     void insertDownWidget();
     void countWidget();
 
+  signals:
+    void info(const QString& text);
+
   private:
     Ui::ShPIndicatorItem *ui;
 

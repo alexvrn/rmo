@@ -5,12 +5,14 @@
 #include <QCloseEvent>
 #include <QDebug>
 #include <QApplication>
+#include <QLabel>
 
 ControlPanel::ControlPanel(QWidget *parent)
   : QMainWindow(parent)
-  , m_indicatorsStackedWidget(new IndicatorsStackedWidget(this))
   , m_toolBar(new QToolBar(this))
 {
+  m_indicatorsStackedWidget = new IndicatorsStackedWidget(this);
+
   m_toolBar->setMovable(false);
   addToolBar(Qt::TopToolBarArea, m_toolBar);
   m_toolBar->setMovable(true);

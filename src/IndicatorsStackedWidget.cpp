@@ -13,7 +13,7 @@
 
 IndicatorsStackedWidget::IndicatorsStackedWidget(QWidget *parent)
   : QStackedWidget(parent)
-  , m_nullIndicator(new QWidget(this))
+  , m_nullIndicator(new Indicator(this))
   , m_glIndicator(new GLIndicator(this))
   , m_shpIndicator(new ShPIndicator(this))
   , m_toIndicator(new TOIndicator(this))
@@ -24,6 +24,9 @@ IndicatorsStackedWidget::IndicatorsStackedWidget(QWidget *parent)
   addWidget(m_shpIndicator);
   addWidget(m_toIndicator);
   addWidget(m_saIndicator);
+
+  for (int i = 0; i < count(); i++)
+    connect(qobject_cast<Indicator*>(widget(i)), SIGNAL(info(QString)), this, SIGNAL(info(QString)));
 
   setCurrentWidget(m_nullIndicator);
 }

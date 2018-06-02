@@ -13,6 +13,8 @@
 #include <cmd_data_packer.h>
 #include <cmd_data_debug.h>
 
+const int commandCount = 22;
+const int messageLength = 100;
 
 ClientWorker::ClientWorker(QObject *parent)
   : QObject(parent)
@@ -231,7 +233,59 @@ void ClientWorker::parseFileForDateTime(int stationId, const QDateTime& dateTime
       QDataStream in(&dat);
       in.setVersion(QDataStream::Qt_5_9);
 
+//      const auto msecsBegin = dateTime.time().msecsSinceStartOfDay();
+//      const auto posBegin = msecsBegin * commandCount * messageLength;
+
       PgasData result;
+
+//      qint64 currentPos = posBegin;
+//      bool check = true;
+//      while (!in.atEnd())
+//      {
+//        for (int c = 1; c <= 22; ++c)
+//        {
+//          currentPos += (c - 1) * messageLength;
+//          if (in.skipRawData(currentPos) == -1)
+//          {
+//            qWarning() << tr("Ошибка чтения файла") << dat.errorString();
+//            emit parsedFileForDateTime(PgasData());
+//            return;
+//          }
+//          quint16 cmd;
+//          in >> cmd;
+//          // Проверка что есть данные для данной команды для данного времени
+//          if (cmd < 1 && cmd > 22)
+//            break;
+
+//          quint32 dataLength;
+//          QByteArray dataArray;
+//          in >> dataLength;
+//          if (dataLength != 0)
+//          {
+//            dataArray.resize(dataLength);
+//            int bytesRead = in.readRawData(dataArray.data(), dataLength);
+//            if (bytesRead == -1)
+//            {
+//              qWarning() << tr("Ошибка чтения файла") << dat.errorString();
+//              //return PgasData();
+//              emit parsedFileForDateTime(PgasData());
+//              return;
+//            }
+//            CommandType::Command command = static_cast<CommandType::Command>(cmd);
+//            QVariantMap vm = parseData(command, dataArray);
+//            //QDateTime dt = vm["timestamp"].toDateTime();
+//            addDate(command, vm, result);
+//            //          if (dt.time().hour() == dateTime.time().hour()
+//            //              && dt.time().minute() == dateTime.time().minute())
+//            //          {
+//            //            addDate(command, vm, result);
+//            //          }
+//            //        }
+//          }
+//        }
+
+//        currentPos += commandCount * messageLength;
+//      }
       while (!in.atEnd())
       {
         quint16 cmd;

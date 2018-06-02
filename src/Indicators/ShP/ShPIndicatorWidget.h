@@ -43,6 +43,7 @@ class ShPIndicatorWidget : public QWidget
 
   signals:
     void countWidget();
+    void info(const QString& text);
 
   private slots:
     void shpIndicatorView(QAbstractButton* button, bool checked);

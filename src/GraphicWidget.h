@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QTimer>
 #include <QVariantMap>
+#include <QString>
 class QToolButton;
 
 // Local
@@ -62,7 +63,10 @@ class GraphicWidget : public QWidget
 
     void dataRepaint();
 
-private:
+  signals:
+    void info(const QString& text);
+
+  private:
     void clearData();
 
     Ui::GraphicWidget *ui;

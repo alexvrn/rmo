@@ -49,6 +49,9 @@ class GraphicTime : public QWidget, public AbstractGraphic
     void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange,
                         const QDateTime& bottomRange, int verticalScrollBarValue);
 
+  signals:
+    void info(const QString& text);
+
   private Q_SLOTS:
     void mouseMove(QMouseEvent* event);
     void mousePress(QMouseEvent* event);

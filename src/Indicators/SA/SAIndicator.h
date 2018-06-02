@@ -6,6 +6,10 @@
 
 // Local
 #include "commandType.h"
+#include "Indicator.h"
+
+// QCustomPlot
+#include "qcustomplot.h"
 
 // UI
 namespace Ui
@@ -13,7 +17,7 @@ namespace Ui
   class SAIndicator;
 }
 
-class SAIndicator : public QWidget
+class SAIndicator : public Indicator
 {
   Q_OBJECT
 

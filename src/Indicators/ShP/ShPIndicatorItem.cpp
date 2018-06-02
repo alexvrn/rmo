@@ -14,14 +14,18 @@ ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
 {
   ui->setupUi(this);
 
+  connect(m_upWidget, &ShPIndicatorWidget::info, this, &ShPIndicatorItem::info);
+
   m_upWidget->setHasSwitch(true);
   ui->splitter->addWidget(m_upWidget);
   connect(m_upWidget, SIGNAL(countWidget()), SLOT(countWidget()));
 
 
   //
-  auto graphic = ui->graphic->addGraph(); //
+  auto graphic = ui->graphic->addGraph();
   graphic->setPen(QPen(QColor(40, 110, 255)));
+  ui->graphic->setBackground(QBrush(Qt::black));
+
   QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
   timeTicker->setTimeFormat("%h:%m:%s");
   ui->graphic->xAxis->setTicker(timeTicker);
@@ -42,10 +46,10 @@ void ShPIndicatorItem::setLightMode(const QString& mode)
   if (m_downWidget)
     m_downWidget->setLightMode(mode);
 
-  if (mode == "sun")
-    ui->graphic->setBackground(QBrush(QColor(180, 180, 180)));
-  else if (mode == "night")
-    ui->graphic->setBackground(QBrush(QColor(130, 130, 130)));
+//  if (mode == "sun")
+//    ui->graphic->setBackground(QBrush(QColor(180, 180, 180)));
+//  else if (mode == "night")
+//    ui->graphic->setBackground(QBrush(QColor(130, 130, 130)));
 }
 
 
@@ -55,6 +59,7 @@ void ShPIndicatorItem::insertDownWidget()
 
   m_downWidget = new ShPIndicatorWidget(this);
   m_downWidget->setCurrentPgasNumber(m_upWidget->currentPgasNumber());
+  connect(m_downWidget, &ShPIndicatorWidget::info, this, &ShPIndicatorItem::info);
 
   ui->splitter->addWidget(m_downWidget);
 }
@@ -64,6 +69,7 @@ void ShPIndicatorItem::deleteDownWidget()
 {
   Q_ASSERT(m_downWidget);
 
+  disconnect(m_downWidget, 0, 0, 0);
   delete m_downWidget;
   m_downWidget = nullptr;
 }

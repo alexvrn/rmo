@@ -15,6 +15,11 @@ GraphicWidget::GraphicWidget(QWidget *parent)
   ui->setupUi(this);
 
   m_graphics = QList<AbstractGraphic*>() << ui->graphic_shp1 << ui->graphic_shp2 << ui->graphic_pchss;
+  //for (auto graphic : m_graphics)
+  //  connect(graphic, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
+  connect(ui->graphic_shp1, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
+  connect(ui->graphic_shp2, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
+  connect(ui->graphic_pchss, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
 }
 
 

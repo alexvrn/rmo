@@ -4,13 +4,16 @@
 // Qt
 #include <QWidget>
 
+// Local
+#include "Indicator.h"
+
 // UI
 namespace Ui
 {
   class TOIndicator;
 }
 
-class TOIndicator : public QWidget
+class TOIndicator : public Indicator
 {
   Q_OBJECT
 

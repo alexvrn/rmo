@@ -50,6 +50,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
   ui->graphicWidget->setIndicatorType(AbstractGraphic::ShP);
 
+  connect(ui->graphicWidget, &GraphicWidget::info, this, &ShPIndicatorWidget::info);
+
   connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
   m_replotTimer.start(10000);
   dataRepaint();

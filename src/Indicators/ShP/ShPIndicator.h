@@ -8,6 +8,7 @@
 // Local
 class ShPIndicatorItem;
 #include <commandType.h>
+#include "Indicator.h"
 
 // UI
 namespace Ui
@@ -15,7 +16,7 @@ namespace Ui
   class ShPIndicator;
 }
 
-class ShPIndicator : public QWidget
+class ShPIndicator : public Indicator
 {
   Q_OBJECT
 

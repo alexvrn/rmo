@@ -26,6 +26,8 @@ ControlRightPanel::ControlRightPanel(QWidget *parent)
   m_toolBar->addWidget(m_panel);
   setCentralWidget(m_indicatorsStackedWidget);
 
+  connect(m_indicatorsStackedWidget, SIGNAL(info(QString)), statusBar(), SLOT(showMessage(QString)));
+
   //m_trayIcon = new QSystemTrayIcon(this);
   //m_trayIcon->setIcon(QIcon());
   //m_trayIcon->setContextMenu(trayIconMenu);

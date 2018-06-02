@@ -3,7 +3,7 @@
 #include "ui_TOIndicator.h"
 
 TOIndicator::TOIndicator(QWidget *parent)
-  : QWidget(parent)
+  : Indicator(parent)
   , ui(new Ui::TOIndicator)
 {
   ui->setupUi(this);

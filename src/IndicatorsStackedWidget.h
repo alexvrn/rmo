@@ -4,6 +4,7 @@
 // Qt
 #include <QStackedWidget>
 #include <QVariantMap>
+#include <QStatusBar>
 
 // Local
 class ShPIndicator;
@@ -11,6 +12,7 @@ class GLIndicator;
 class TOIndicator;
 class SAIndicator;
 #include <commandType.h>
+#include "Indicator.h"
 
 
 class IndicatorsStackedWidget : public QStackedWidget
@@ -27,8 +29,11 @@ class IndicatorsStackedWidget : public QStackedWidget
     void setLightMode(const QString& mode);
     void newData(CommandType::Command cmd, const QVariant& value = QVariant());
 
+   signals:
+    void info(const QString& text);
+
   private:
-    QWidget *m_nullIndicator;
+    Indicator *m_nullIndicator;
     GLIndicator *m_glIndicator;
     ShPIndicator *m_shpIndicator;
     TOIndicator *m_toIndicator;

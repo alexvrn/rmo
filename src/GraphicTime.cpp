@@ -332,7 +332,7 @@ void GraphicTime::replot()
 
 void GraphicTime::mouseMove(QMouseEvent* event)
 {
-
+  emit info("time time");
 }
 
 

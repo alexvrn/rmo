@@ -5,8 +5,9 @@
 #include "GraphicWidget.h"
 #include "GraphicTime.h"
 
+
 SAIndicator::SAIndicator(QWidget *parent)
-  : QWidget(parent)
+  : Indicator(parent)
   , ui(new Ui::SAIndicator)
 {
   ui->setupUi(this);
@@ -26,8 +27,14 @@ SAIndicator::SAIndicator(QWidget *parent)
   connect(ui->nowToolButton, SIGNAL(toggled(bool)), SLOT(nowToggled()));
 
   ui->widgetGeneralSpectrum->setLabel(tr("Спектр несущей"));
+  ui->graphicGeneralSpectrum->setBackground(QBrush(Qt::black));
+
   ui->widgetVLMSpectrum->setLabel(tr("Спектр ВЛМ"));
+  ui->graphicVLMSpectrum->setBackground(QBrush(Qt::black));
+
   ui->widgetMKSpectrum->setLabel(tr("Спектр МK"));
+  ui->graphicMKSpectrum->setBackground(QBrush(Qt::black));
+
   //ui->widget_1->setType(GraphicWidget::SA);
   //ui->widget_2->setType(GraphicWidget::SA);
   //ui->widget_5->setType(GraphicWidget::SA);

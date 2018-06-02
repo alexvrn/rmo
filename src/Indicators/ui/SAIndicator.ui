@@ -236,7 +236,7 @@
           <widget class="GraphicTime" name="widgetVLMSpectrum" native="true"/>
          </item>
          <item row="1" column="0">
-          <widget class="QCustomPlot" name="widget_3" native="true"/>
+          <widget class="QCustomPlot" name="graphicVLMSpectrum" native="true"/>
          </item>
         </layout>
        </item>
@@ -246,7 +246,7 @@
           <widget class="GraphicTime" name="widgetMKSpectrum" native="true"/>
          </item>
          <item row="1" column="0">
-          <widget class="QCustomPlot" name="widget_4" native="true"/>
+          <widget class="QCustomPlot" name="graphicMKSpectrum" native="true"/>
          </item>
         </layout>
        </item>
@@ -350,7 +350,7 @@
           <widget class="GraphicTime" name="widgetGeneralSpectrum" native="true"/>
          </item>
          <item row="1" column="0">
-          <widget class="QCustomPlot" name="widget_6" native="true"/>
+          <widget class="QCustomPlot" name="graphicGeneralSpectrum" native="true"/>
          </item>
         </layout>
        </item>
