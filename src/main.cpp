@@ -1,6 +1,7 @@
 // Local
 #include "ControlLeftPanel.h"
 #include "ControlRightPanel.h"
+#include "MainWindow.h"
 #include "Client.h"
 #include "ScreenSaver.h"
 
@@ -24,6 +25,11 @@ int main(int argc, char *argv[])
   // Установка локали по умолчанию
   QLocale russianLocale(QLocale::Russian, QLocale::RussianFederation);
   QLocale::setDefault(russianLocale);
+
+  MainWindow mainWindow;
+
+  return app.exec();
+
 
   // Не показываем окно, пока не авторизуемся
   ControlLeftPanel controlLeftPanel;

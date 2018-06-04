@@ -49,7 +49,8 @@ SOURCES += src/main.cpp\
     src/GraphicTimeWorker.cpp \
     src/GraphicValue.cpp \
     src/GraphicValueWorker.cpp \
-    src/Indicator.cpp
+    src/Indicator.cpp \
+    src/MainWindow.cpp
 
 HEADERS += \
     src/LeftPanel/ControlLeftPanel.h \
@@ -86,7 +87,8 @@ HEADERS += \
     src/GraphicTimeWorker.h \
     src/GraphicValue.h \
     src/GraphicValueWorker.h \
-    src/Indicator.h
+    src/Indicator.h \
+    src/MainWindow.h
 
 FORMS += \
     ui/ControlLeftPanel.ui \

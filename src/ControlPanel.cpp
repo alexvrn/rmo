@@ -11,6 +11,7 @@ ControlPanel::ControlPanel(QWidget *parent)
   : QMainWindow(parent)
   , m_toolBar(new QToolBar(this))
 {
+
   m_indicatorsStackedWidget = new IndicatorsStackedWidget(this);
 
   m_toolBar->setMovable(false);
