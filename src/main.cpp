@@ -26,29 +26,11 @@ int main(int argc, char *argv[])
   QLocale russianLocale(QLocale::Russian, QLocale::RussianFederation);
   QLocale::setDefault(russianLocale);
 
-  MainWindow mainWindow;
-
-  return app.exec();
-
-
-  // Не показываем окно, пока не авторизуемся
-  ControlLeftPanel controlLeftPanel;
-
-  // Не показываем окно, пока не авторизуемся
-  ControlRightPanel controlRightPanel;
-
-  QObject::connect(&controlLeftPanel, &ControlLeftPanel::indicatorChecked, &controlRightPanel, &ControlRightPanel::indicatorCheck);
-  QObject::connect(&controlRightPanel, &ControlRightPanel::indicatorChecked, &controlLeftPanel, &ControlLeftPanel::indicatorCheck);
-  QObject::connect(&controlRightPanel, &ControlRightPanel::showWindow, &controlLeftPanel, &ControlLeftPanel::setVisible);
-  QObject::connect(&controlRightPanel, &ControlRightPanel::lightMode, &controlLeftPanel, &ControlLeftPanel::setLightMode);
-
   const bool release = false;//settings.value("release", true).toBool();
   if (!release)
   {
-    const auto screen = qApp->primaryScreen();
-    const auto screenGeometry = screen->geometry();
-    controlLeftPanel.setGeometry(0, 0, screenGeometry.width(), screenGeometry.height() / 2);
-    controlRightPanel.setGeometry(0, screenGeometry.height() / 2, screenGeometry.width(), screenGeometry.height() / 2);
+    //const auto screen = qApp->primaryScreen();
+    //const auto screenGeometry = screen->geometry();
   }
   else
   {
@@ -59,11 +41,6 @@ int main(int argc, char *argv[])
     Q_ASSERT_X((window1 >= 1 && window1 <= 2)
                && (window2 >= 1 && window2 <= 2)
                && (window1 != window2), "config", "Ошибка в задании номеров мониторов");
-
-    controlLeftPanel.setGeometry(screens[window1 - 1]->geometry());
-    controlLeftPanel.setWindowState(Qt::WindowFullScreen);
-    controlRightPanel.setGeometry(screens[window2 - 1]->geometry());
-    controlRightPanel.setWindowState(Qt::WindowFullScreen);
   }
 
   // Сохранённые настройки приложения
@@ -71,8 +48,8 @@ int main(int argc, char *argv[])
   QString indicatorLeft = settings.value("left/indicator", QObject::tr("ГЛ")).toString();
   QString mode = settings.value("mode", "sun").toString();
 
-  controlLeftPanel.setConfiguration(indicatorLeft, mode);
-  controlRightPanel.setConfiguration(indicatorRight, mode);
+  MainWindow mainWindow;
+  mainWindow.setConfiguration(indicatorLeft, indicatorRight, mode);
 
   // Подключение к серверу
   Client& client = Client::instance();
@@ -83,21 +60,18 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  QObject::connect(&client, &Client::success, &controlLeftPanel, &ControlRightPanel::show);
-  QObject::connect(&client, &Client::success, &controlRightPanel, &ControlLeftPanel::show);
+  QObject::connect(&client, &Client::success, &mainWindow, &MainWindow::showFullScreen);
 
   // Авторизация
   if (!client.logout())
     return 0;
 
-  QObject::connect(&client, &Client::newData, &controlRightPanel, &ControlRightPanel::newData);
-  QObject::connect(&client, &Client::newData, &controlLeftPanel, &ControlLeftPanel::newData);
+  QObject::connect(&client, &Client::newData, &mainWindow, &MainWindow::newData);
 
   // Проверка бездействия пользователя
   ScreenSaver& screenSaver = ScreenSaver::instance();
 
-  QObject::connect(&screenSaver, &ScreenSaver::logout, &controlLeftPanel, &ControlLeftPanel::hide);
-  QObject::connect(&screenSaver, &ScreenSaver::logout, &controlRightPanel, &ControlRightPanel::hide);
+  QObject::connect(&screenSaver, &ScreenSaver::logout, &mainWindow, &MainWindow::hide);
   QObject::connect(&screenSaver, &ScreenSaver::logout, &client, &Client::logout);
   QObject::connect(&client, &Client::success, &screenSaver, &ScreenSaver::checkIdle);
 

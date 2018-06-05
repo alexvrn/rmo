@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
 
   connect(m_leftPanel, &LeftPanel::indicatorChecked, m_leftIndicatorsStackedWidget, &IndicatorsStackedWidget::setCurrentIndicator);
   connect(m_rightPanel, &RightPanel::indicatorChecked, m_rightIndicatorsStackedWidget, &IndicatorsStackedWidget::setCurrentIndicator);
+  //QObject::connect(&controlRightPanel, &ControlRightPanel::showWindow, &controlLeftPanel, &ControlLeftPanel::setVisible);
+  //QObject::connect(&controlRightPanel, &ControlRightPanel::lightMode, &controlLeftPanel, &ControlLeftPanel::setLightMode);
 
   QWidget* centralWidget = new QWidget(this);
   QHBoxLayout* hLayout = new QHBoxLayout(centralWidget);
@@ -34,8 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
   setCentralWidget(centralWidget);
 
   qApp->installEventFilter(this);
-
-  showFullScreen();
 }
 
 
@@ -48,6 +48,16 @@ MainWindow::~MainWindow()
 void MainWindow::setConnectState(bool connect)
 {
 
+}
+
+
+void MainWindow::setConfiguration(const QString& leftType, const QString& rightType, const QString& mode)
+{
+  m_leftPanel->setConfiguration(leftType);
+  m_leftIndicatorsStackedWidget->setCurrentIndicator(leftType, true);
+
+  m_rightPanel->setConfiguration(rightType, mode);
+  m_rightIndicatorsStackedWidget->setCurrentIndicator(rightType, true);
 }
 
 

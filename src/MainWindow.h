@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow
     // Изменение внешнего вида окна при подключении\отключении сервера
     void setConnectState(bool connect);
 
-    //virtual void setConfiguration(const QString& type, const QString& mode = QString()) = 0;
+    void setConfiguration(const QString& leftType, const QString& rightType, const QString& mode = QString());
 
   public slots:
     virtual void newData(CommandType::Command cmd, const QVariant& value = QVariant());
