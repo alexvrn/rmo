@@ -24,21 +24,25 @@ class ButtonGroup : public QWidget
     explicit ButtonGroup(QWidget *parent = Q_NULLPTR);
     ~ButtonGroup();
 
+  public Q_SLOTS:
     QString indicatorCheck(const QString& type, bool checked);
     void setConfiguration(const QString& type);
+    QString fromOtherIndicatorChecked(const QString& type);
 
   signals:
-    void indicatorChecked(const QString& type, bool checked);
+    void indicatorChecked(const QString& type);
+    void otherIndicatorChecked(const QString& type, bool visible = true);
 
-  private slots:
+  private Q_SLOTS:
     void clicked(const QString& type);
     QString currentType() const;
+    void clear();
 
   private:
     Ui::ButtonGroup *ui;
 
     QSignalMapper *m_mapper;
-    QMap<QString, QToolButton*> m_map;
+    QHash<QString, QToolButton*> m_map;
 };
 
 #endif // BUTTONGROUP_H

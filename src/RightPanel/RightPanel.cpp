@@ -9,6 +9,7 @@
 #include <QDateTime>
 #include <QLabel>
 #include <QSettings>
+#include <QDebug>
 
 RightPanel::RightPanel(QWidget *parent)
   : QFrame(parent)
@@ -22,6 +23,7 @@ RightPanel::RightPanel(QWidget *parent)
 
   connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::indicatorChecked);
   connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::settingsSave);
+  connect(m_group, &ButtonGroup::otherIndicatorChecked, this, &RightPanel::otherIndicatorChecked);
   
   connect(m_settingPanel, &SettingRightPanel::lightMode, this, &RightPanel::lightMode);
 
@@ -42,10 +44,10 @@ RightPanel::~RightPanel()
 }
 
 
-void RightPanel::settingsSave(const QString& type, bool checked)
+void RightPanel::settingsSave(const QString& type)
 {
   QSettings settings("SAMI_DVO_RAN", "rmo");
-  settings.setValue("right/indicator", checked ? type : QString());
+  settings.setValue("right/indicator", type);
 }
 
 
@@ -64,6 +66,14 @@ void RightPanel::setConfiguration(const QString& type, const QString& mode)
 {
   m_group->setConfiguration(type);
   m_settingPanel->setConfiguration(mode);
+}
+
+
+void RightPanel::fromOtherIndicatorChecked(const QString& type)
+{
+  const QString currentType = m_group->fromOtherIndicatorChecked(type);
+  QSettings settings("SAMI_DVO_RAN", "rmo");
+  settings.setValue("right/indicator", currentType);
 }
 
 

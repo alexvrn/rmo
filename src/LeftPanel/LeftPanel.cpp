@@ -15,8 +15,11 @@ LeftPanel::LeftPanel(QWidget *parent)
 {
   ui->setupUi(this);
 
+  setWindowFlag(Qt::Dialog);
+
   connect(m_group, &ButtonGroup::indicatorChecked, this, &LeftPanel::indicatorChecked);
   connect(m_group, &ButtonGroup::indicatorChecked, this, &LeftPanel::settingsSave);
+  connect(m_group, &ButtonGroup::otherIndicatorChecked, this, &LeftPanel::otherIndicatorChecked);
 
   ui->horizontalLayout->addWidget(m_group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
@@ -32,10 +35,10 @@ LeftPanel::~LeftPanel()
 }
 
 
-void LeftPanel::settingsSave(const QString& type, bool checked)
+void LeftPanel::settingsSave(const QString& type)
 {
   QSettings settings("SAMI_DVO_RAN", "rmo");
-  settings.setValue("left/indicator", checked ? type : QString());
+  settings.setValue("left/indicator", type);
 }
 
 
@@ -45,6 +48,14 @@ void LeftPanel::indicatorCheck(const QString& type, bool checked)
     return;
 
   const QString currentType = m_group->indicatorCheck(type, checked);
+  QSettings settings("SAMI_DVO_RAN", "rmo");
+  settings.setValue("left/indicator", currentType);
+}
+
+
+void LeftPanel::fromOtherIndicatorChecked(const QString& type)
+{
+  const QString currentType = m_group->fromOtherIndicatorChecked(type);
   QSettings settings("SAMI_DVO_RAN", "rmo");
   settings.setValue("left/indicator", currentType);
 }

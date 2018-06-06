@@ -16,8 +16,6 @@ TEMPLATE = app
 unix:LIBS += -lX11 -lXss
 
 SOURCES += src/main.cpp\
-    src/LeftPanel/ControlLeftPanel.cpp \
-    src/RightPanel/ControlRightPanel.cpp \
     src/LeftPanel/LeftPanel.cpp \
     src/RightPanel/RightPanel.cpp \
     src/ButtonGroup.cpp \
@@ -25,7 +23,6 @@ SOURCES += src/main.cpp\
     src/RightPanel/SettingRightPanel.cpp \
     src/IndicatorsStackedWidget.cpp \
     src/Indicators/GL/GLIndicator.cpp \
-    src/ControlPanel.cpp \
     src/Indicators/TO/TOIndicator.cpp \
     src/Indicators/SA/SAIndicator.cpp \
     src/Client/Client.cpp \
@@ -53,8 +50,6 @@ SOURCES += src/main.cpp\
     src/MainWindow.cpp
 
 HEADERS += \
-    src/LeftPanel/ControlLeftPanel.h \
-    src/RightPanel/ControlRightPanel.h \
     src/LeftPanel/LeftPanel.h \
     src/RightPanel/RightPanel.h \
     src/ButtonGroup.h \
@@ -62,7 +57,6 @@ HEADERS += \
     src/RightPanel/SettingRightPanel.h \
     src/IndicatorsStackedWidget.h \
     src/Indicators/GL/GLIndicator.h \
-    src/ControlPanel.h \
     src/Indicators/TO/TOIndicator.h \
     src/Indicators/SA/SAIndicator.h \
     src/Client/Client.h \
@@ -91,8 +85,6 @@ HEADERS += \
     src/MainWindow.h
 
 FORMS += \
-    ui/ControlLeftPanel.ui \
-    ui/ControlRightPanel.ui \
     ui/LeftPanel.ui \
     ui/RightPanel.ui \
     ui/ButtonGroup.ui \

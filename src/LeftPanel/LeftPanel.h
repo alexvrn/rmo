@@ -21,15 +21,18 @@ class LeftPanel : public QFrame
     explicit LeftPanel(QWidget *parent = Q_NULLPTR);
     ~LeftPanel();
 
+  public slots:
     void indicatorCheck(const QString& type, bool checked);
     void setConfiguration(const QString& type);
+    void fromOtherIndicatorChecked(const QString& type);
 
   signals:
-    void indicatorChecked(const QString& type, bool checked);
+    void indicatorChecked(const QString& type);
+    void otherIndicatorChecked(const QString& type, bool visible = true);
 
   private slots:
     // Сохранение настроек окна
-    void settingsSave(const QString& type, bool checked);
+    void settingsSave(const QString& type);
 
   private:
     Ui::LeftPanel *ui;

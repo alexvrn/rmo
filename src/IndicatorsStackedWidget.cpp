@@ -38,27 +38,42 @@ IndicatorsStackedWidget::~IndicatorsStackedWidget()
 }
 
 
-void IndicatorsStackedWidget::setCurrentIndicator(const QString& type, bool checked)
+void IndicatorsStackedWidget::setCurrentIndicator(const QString& type)
 {
-  if (checked)
-  {
-    if (type == tr("ГЛ"))
-      setCurrentWidget(m_glIndicator);
-    else if (type == tr("ШП"))
-      setCurrentWidget(m_shpIndicator);
-    else if (type == tr("ТО"))
-      setCurrentWidget(m_toIndicator);
-    else if (type == tr("СА"))
-      setCurrentWidget(m_saIndicator);
+  // Т.к. индикатор могли сделать невидимым в других операциях
+  show();
 
-    m_type = type;
+  if (type == tr("ГЛ"))
+    setCurrentWidget(m_glIndicator);
+  else if (type == tr("ШП"))
+    setCurrentWidget(m_shpIndicator);
+  else if (type == tr("ТО"))
+    setCurrentWidget(m_toIndicator);
+  else if (type == tr("СА"))
+    setCurrentWidget(m_saIndicator);
+  else
+    setCurrentWidget(m_nullIndicator);
+
+  m_type = type;
+}
+
+
+void IndicatorsStackedWidget::setOtherCurrentIndicator(const QString& type, bool visible)
+{
+  setCurrentIndicator(type);
+
+  // Фишка для работы с ГЛ
+  if (!visible)
+  {
+    hide();
+    return;
   }
   else
   {
-    setCurrentWidget(m_nullIndicator);
-    m_type = QString();
+    show();
   }
 }
+
 
 //! TODO: Сделать красиво.
 void IndicatorsStackedWidget::sync(const QString& type, bool checked)

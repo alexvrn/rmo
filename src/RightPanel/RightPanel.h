@@ -23,18 +23,21 @@ class RightPanel : public QFrame
     explicit RightPanel(QWidget *parent = Q_NULLPTR);
     ~RightPanel();
 
+  public Q_SLOTS:
     void indicatorCheck(const QString& type, bool checked);
     void setConfiguration(const QString& type, const QString& mode);
+    void fromOtherIndicatorChecked(const QString& type);
 
   signals:
-    void indicatorChecked(const QString& type, bool checked);
+    void indicatorChecked(const QString& type);
+    void otherIndicatorChecked(const QString& type, bool visible = true);
 
     void lightMode(const QString& mode);
 
-  private slots:
+  private Q_SLOTS:
     void timer();
     // Сохранение настроек окна
-    void settingsSave(const QString& type, bool checked);
+    void settingsSave(const QString& type);
 
   private:
     Ui::RightPanel *ui;

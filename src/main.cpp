@@ -1,6 +1,4 @@
 // Local
-#include "ControlLeftPanel.h"
-#include "ControlRightPanel.h"
 #include "MainWindow.h"
 #include "Client.h"
 #include "ScreenSaver.h"

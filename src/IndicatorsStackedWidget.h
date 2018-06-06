@@ -24,7 +24,8 @@ class IndicatorsStackedWidget : public QStackedWidget
     ~IndicatorsStackedWidget();
 
   public slots:
-    void setCurrentIndicator(const QString& type, bool checked);
+    void setCurrentIndicator(const QString& type);
+    void setOtherCurrentIndicator(const QString& type, bool visible);
     void sync(const QString& type, bool checked);
     void setLightMode(const QString& mode);
     void newData(CommandType::Command cmd, const QVariant& value = QVariant());

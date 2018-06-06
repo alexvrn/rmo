@@ -26,6 +26,12 @@ MainWindow::MainWindow(QWidget *parent)
 
   connect(m_leftPanel, &LeftPanel::indicatorChecked, m_leftIndicatorsStackedWidget, &IndicatorsStackedWidget::setCurrentIndicator);
   connect(m_rightPanel, &RightPanel::indicatorChecked, m_rightIndicatorsStackedWidget, &IndicatorsStackedWidget::setCurrentIndicator);
+
+  connect(m_leftPanel, &LeftPanel::otherIndicatorChecked, m_leftIndicatorsStackedWidget, &IndicatorsStackedWidget::setOtherCurrentIndicator);
+  connect(m_rightPanel, &RightPanel::otherIndicatorChecked, m_rightIndicatorsStackedWidget, &IndicatorsStackedWidget::setOtherCurrentIndicator);
+
+  connect(m_leftPanel, &LeftPanel::indicatorChecked, m_rightPanel, &RightPanel::fromOtherIndicatorChecked);
+  connect(m_rightPanel, &RightPanel::indicatorChecked, m_leftPanel, &LeftPanel::fromOtherIndicatorChecked);
   //QObject::connect(&controlRightPanel, &ControlRightPanel::showWindow, &controlLeftPanel, &ControlLeftPanel::setVisible);
   //QObject::connect(&controlRightPanel, &ControlRightPanel::lightMode, &controlLeftPanel, &ControlLeftPanel::setLightMode);
 
@@ -54,10 +60,10 @@ void MainWindow::setConnectState(bool connect)
 void MainWindow::setConfiguration(const QString& leftType, const QString& rightType, const QString& mode)
 {
   m_leftPanel->setConfiguration(leftType);
-  m_leftIndicatorsStackedWidget->setCurrentIndicator(leftType, true);
+  m_leftIndicatorsStackedWidget->setCurrentIndicator(leftType);
 
   m_rightPanel->setConfiguration(rightType, mode);
-  m_rightIndicatorsStackedWidget->setCurrentIndicator(rightType, true);
+  m_rightIndicatorsStackedWidget->setCurrentIndicator(rightType);
 }
 
 
