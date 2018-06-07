@@ -69,6 +69,10 @@
          <property name="text">
           <string/>
          </property>
+         <property name="icon">
+          <iconset resource="../resources.qrc">
+           <normaloff>:/icons/inout-32.png</normaloff>:/icons/inout-32.png</iconset>
+         </property>
         </widget>
        </item>
        <item>
@@ -210,6 +214,9 @@
             <property name="text">
              <string/>
             </property>
+            <property name="pixmap">
+             <pixmap resource="../resources.qrc">:/icons/contrast.png</pixmap>
+            </property>
            </widget>
           </item>
           <item>
@@ -251,6 +258,9 @@
             </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="../resources.qrc">:/icons/sun.png</pixmap>
             </property>
            </widget>
           </item>
@@ -398,6 +408,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

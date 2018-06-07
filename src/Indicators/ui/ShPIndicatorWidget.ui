@@ -191,6 +191,10 @@
             <property name="text">
              <string/>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources.qrc">
+              <normaloff>:/icons/arrow-double-up-down-32.png</normaloff>:/icons/arrow-double-up-down-32.png</iconset>
+            </property>
            </widget>
           </item>
          </layout>
@@ -213,6 +217,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

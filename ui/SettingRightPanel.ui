@@ -107,13 +107,15 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>.</normaloff>.</iconset>
+      <iconset resource="../resources.qrc">
+       <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

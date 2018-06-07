@@ -115,6 +115,10 @@
         <property name="text">
          <string/>
         </property>
+        <property name="icon">
+         <iconset resource="../../../resources.qrc">
+          <normaloff>:/icons/checked.png</normaloff>:/icons/checked.png</iconset>
+        </property>
        </widget>
       </item>
       <item>
@@ -138,8 +142,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../../resources.qrc">
+          <normaloff>:/icons/redo-circular-arrow.png</normaloff>:/icons/redo-circular-arrow.png</iconset>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -170,8 +174,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../../resources.qrc">
+          <normaloff>:/icons/undo-circular-arrow.png</normaloff>:/icons/undo-circular-arrow.png</iconset>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -483,7 +487,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../../resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>nowToolButton</sender>
