@@ -40,6 +40,12 @@ IndicatorsStackedWidget::~IndicatorsStackedWidget()
 
 void IndicatorsStackedWidget::setCurrentIndicator(const QString& type)
 {
+  if (type.isEmpty())
+  {
+    hide();
+    return;
+  }
+
   // Т.к. индикатор могли сделать невидимым в других операциях
   show();
 
