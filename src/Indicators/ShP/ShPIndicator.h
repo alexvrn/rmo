@@ -35,9 +35,6 @@ class ShPIndicator : public Indicator
 
 private:
     Ui::ShPIndicator *ui;
-
-    ShPIndicatorItem *m_indicatorItem1;
-    ShPIndicatorItem *m_indicatorItem2;
 };
 
 #endif // SHPINDICATOR_H

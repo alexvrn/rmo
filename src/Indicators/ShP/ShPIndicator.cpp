@@ -8,13 +8,11 @@
 ShPIndicator::ShPIndicator(QWidget *parent)
   : Indicator(parent)
   , ui(new Ui::ShPIndicator)
-  , m_indicatorItem1(new ShPIndicatorItem(this))
-  , m_indicatorItem2(new ShPIndicatorItem(this))
 {
   ui->setupUi(this);
 
-  connect(m_indicatorItem1, &ShPIndicatorItem::info, this, &Indicator::info);
-  connect(m_indicatorItem2, &ShPIndicatorItem::info, this, &Indicator::info);
+  connect(ui->indicatorItem1, &ShPIndicatorItem::info, this, &Indicator::info);
+  connect(ui->indicatorItem2, &ShPIndicatorItem::info, this, &Indicator::info);
 
   ui->lastToolButton->setIcon(QIcon(":/icons/undo-circular-arrow.png"));
   ui->nowToolButton->setIcon(QIcon(":/icons/redo-circular-arrow.png"));
@@ -29,9 +27,6 @@ ShPIndicator::ShPIndicator(QWidget *parent)
   connect(ui->checkedToolButton, SIGNAL(clicked(bool)), SLOT(checkedDateTime()));
 
   connect(ui->nowToolButton, SIGNAL(toggled(bool)), SLOT(nowToggled()));
-
-  ui->indicatorsHorizontalLayout->addWidget(m_indicatorItem1);
-  ui->indicatorsHorizontalLayout->addWidget(m_indicatorItem2);
 }
 
 
@@ -54,26 +49,26 @@ void ShPIndicator::checkedDateTime()
   const auto data = Client::instance().parseFileForDateTime(ui->spinBox->value(), checkDateTime);
   qApp->restoreOverrideCursor();
 
-  m_indicatorItem1->setSelectedData(data, checkDateTime);
-  m_indicatorItem2->setSelectedData(data, checkDateTime);
+  ui->indicatorItem1->setSelectedData(data, checkDateTime);
+  ui->indicatorItem2->setSelectedData(data, checkDateTime);
 }
 
 
 void ShPIndicator::nowToggled()
 {
-  m_indicatorItem1->setNowData(ui->nowToolButton->isChecked());
-  m_indicatorItem2->setNowData(ui->nowToolButton->isChecked());
+  ui->indicatorItem1->setNowData(ui->nowToolButton->isChecked());
+  ui->indicatorItem2->setNowData(ui->nowToolButton->isChecked());
 
   // Обнуляем данные
-  m_indicatorItem1->setSelectedData(PgasData());
-  m_indicatorItem2->setSelectedData(PgasData());
+  ui->indicatorItem1->setSelectedData(PgasData());
+  ui->indicatorItem2->setSelectedData(PgasData());
 }
 
 
 void ShPIndicator::setLightMode(const QString& mode)
 {
-  m_indicatorItem1->setLightMode(mode);
-  m_indicatorItem2->setLightMode(mode);
+  ui->indicatorItem1->setLightMode(mode);
+  ui->indicatorItem2->setLightMode(mode);
 }
 
 
@@ -92,8 +87,8 @@ void ShPIndicator::newData(CommandType::Command cmd, const QVariant& value)
       // Если смотрим на текущие данные (иначе не игнорим, данные записались в файлы)
       if (!ui->lastToolButton->isChecked())
       {
-        m_indicatorItem1->newData();
-        m_indicatorItem2->newData();
+        ui->indicatorItem1->newData();
+        ui->indicatorItem2->newData();
       }
     }
   }
@@ -102,6 +97,6 @@ void ShPIndicator::newData(CommandType::Command cmd, const QVariant& value)
 
 void ShPIndicator::on_spinBox_valueChanged(int value)
 {
-  m_indicatorItem1->setCurrentPgasNumber(value);
-  m_indicatorItem2->setCurrentPgasNumber(value);
+  ui->indicatorItem1->setCurrentPgasNumber(value);
+  ui->indicatorItem2->setCurrentPgasNumber(value);
 }
