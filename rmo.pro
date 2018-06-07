@@ -49,7 +49,8 @@ SOURCES += src/main.cpp\
     src/Indicator.cpp \
     src/MainWindow.cpp \
     src/Indicators/GL/GLMarkerFormular.cpp \
-    src/Indicators/GL/GLSection.cpp
+    src/Indicators/GL/GLSection.cpp \
+    src/Indicators/GL/GLIndicatorWidget.cpp
 
 HEADERS += \
     src/LeftPanel/LeftPanel.h \
@@ -86,7 +87,8 @@ HEADERS += \
     src/Indicator.h \
     src/MainWindow.h \
     src/Indicators/GL/GLMarkerFormular.h \
-    src/Indicators/GL/GLSection.h
+    src/Indicators/GL/GLSection.h \
+    src/Indicators/GL/GLIndicatorWidget.h
 
 FORMS += \
     ui/LeftPanel.ui \
@@ -105,7 +107,8 @@ FORMS += \
     ui/GraphicTime.ui \
     ui/GraphicValue.ui \
     src/Indicators/ui/GLMarkerFormular.ui \
-    src/Indicators/GL/GLSection.ui
+    src/Indicators/GL/GLSection.ui \
+    src/Indicators/GL/GLIndicatorWidget.ui
 
 RESOURCES += \
     resources.qrc

@@ -6,6 +6,7 @@
 
 // Local
 #include "Indicator.h"
+class GLIndicatorWidget;
 
 // UI
 namespace Ui
@@ -21,8 +22,16 @@ class GLIndicator : public Indicator
     explicit GLIndicator(QWidget *parent = Q_NULLPTR);
     ~GLIndicator();
 
+  private Q_SLOTS:
+    void deleteDownWidget();
+    void countWidget();
+    void insertDownWidget();
+
   private:
     Ui::GLIndicator *ui;
+
+    GLIndicatorWidget* m_upWidget;
+    GLIndicatorWidget* m_downWidget;
 };
 
 #endif // GLIndicator_H
