@@ -31,11 +31,14 @@
    </property>
    <item row="0" column="0">
     <widget class="QSplitter" name="splitter_2">
+     <property name="midLineWidth">
+      <number>0</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <widget class="QWidget" name="widget" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="5,1">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -53,22 +56,6 @@
          <property name="spacing">
           <number>0</number>
          </property>
-         <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Minimum</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>200</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
          <item>
           <widget class="QWidget" name="widgetsVerticalLayout" native="true">
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -240,22 +227,6 @@
        <property name="rightMargin">
         <number>3</number>
        </property>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Preferred</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>80</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item>
         <widget class="QCustomPlot" name="graphic" native="true">
          <property name="minimumSize">

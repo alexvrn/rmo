@@ -20,6 +20,9 @@ ShPIndicatorItem::ShPIndicatorItem(QWidget *parent)
   ui->splitter->addWidget(m_upWidget);
   connect(m_upWidget, SIGNAL(countWidget()), SLOT(countWidget()));
 
+  // Чтобы нижний виджет(график) был меньше по высоте
+  ui->splitter_2->setStretchFactor(0, 4);
+  ui->splitter_2->setStretchFactor(1, 1);
 
   //
   auto graphic = ui->graphic->addGraph();
