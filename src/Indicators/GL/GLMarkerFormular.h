@@ -1,21 +1,24 @@
 #ifndef GLMARKERFORMULAR_H
 #define GLMARKERFORMULAR_H
 
+// Qt
 #include <QWidget>
 
-namespace Ui {
-class GLMarkerFormular;
+// UI
+namespace Ui
+{
+  class GLMarkerFormular;
 }
 
 class GLMarkerFormular : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
-    explicit GLMarkerFormular(QWidget *parent = 0);
+  public:
+    explicit GLMarkerFormular(QWidget *parent = nullptr);
     ~GLMarkerFormular();
 
-private:
+  private:
     Ui::GLMarkerFormular *ui;
 };
 

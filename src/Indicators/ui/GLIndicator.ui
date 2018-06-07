@@ -6,19 +6,82 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>219</height>
+    <width>1192</width>
+    <height>644</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="3,1">
    <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout"/>
+    <widget class="QWidget" name="widget_5" native="true"/>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,3,1">
+       <item>
+        <widget class="GraphicValue" name="widget" native="true"/>
+       </item>
+       <item>
+        <widget class="GraphicValue" name="widget_2" native="true"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Maximum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,3,1">
+       <item>
+        <widget class="GraphicValue" name="widget_3" native="true"/>
+       </item>
+       <item>
+        <widget class="GLSection" name="widget_4" native="true"/>
+       </item>
+       <item>
+        <widget class="GLMarkerFormular" name="widget_6" native="true"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GLMarkerFormular</class>
+   <extends>QWidget</extends>
+   <header location="global">GLMarkerFormular.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GraphicValue</class>
+   <extends>QWidget</extends>
+   <header location="global">GraphicValue.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GLSection</class>
+   <extends>QWidget</extends>
+   <header location="global">GLSection.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
