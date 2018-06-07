@@ -69,7 +69,7 @@ QString ButtonGroup::fromOtherIndicatorChecked(const QString& type)
     emit otherIndicatorChecked(tr("ГЛ"), false);
     return QString();
   }
-  else if (type == currentType() || currentType() == tr("ГЛ"))
+  else if ((currentType() == type || currentType() == tr("ГЛ")) || currentType().isEmpty())
   {
     for (auto it = m_map.begin(); it != m_map.end(); ++it)
     {
@@ -83,6 +83,14 @@ QString ButtonGroup::fromOtherIndicatorChecked(const QString& type)
     }
     return QString();
   }
+//  if (currentType().isEmpty())
+//  {
+//    for (auto it = m_map.begin(); it != m_map.end(); ++it)
+//    {
+//      if (it.key() != type && it.key() != tr("ГЛ"))
+//      {
+//    }
+//  }
   else
   {
     return currentType();
