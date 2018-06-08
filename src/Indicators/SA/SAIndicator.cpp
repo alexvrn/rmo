@@ -2,7 +2,6 @@
 #include "SAIndicator.h"
 #include "ui_SAIndicator.h"
 #include "Client.h"
-#include "GraphicWidget.h"
 #include "GraphicTime.h"
 
 

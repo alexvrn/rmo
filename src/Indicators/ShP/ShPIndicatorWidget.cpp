@@ -3,7 +3,6 @@
 #include "ui_ShPIndicatorWidget.h"
 #include "Graphic.h"
 #include "Client.h"
-#include "GraphicWidget.h"
 
 // Qt
 #include <QToolButton>
