@@ -10,6 +10,8 @@ class QAbstractButton;
 
 // Local
 class Graphic;
+#include "AbstractGraphic.h"
+
 #include <commandType.h>
 
 // QCustomPlot
@@ -48,11 +50,14 @@ class ShPIndicatorWidget : public QWidget
   private slots:
     void shpIndicatorView(QAbstractButton* button, bool checked);
     void dataRepaint();
+    void setIndicatorType(AbstractGraphic::IndicatorType indicatorType);
+    void setData(const QList<QVariantMap> &data, const QDateTime& dateTime = QDateTime());
+    void clearData();
+    void setDataType(const QString& text, CommandType::Command type);
+    void dataGraphicRepaint();
 
 private:
     Ui::ShPIndicatorWidget *ui;
-
-    Graphic* m_graphic;
 
     QColor m_graphColor;
 
@@ -66,8 +71,15 @@ private:
 
     int m_seconds;
     QDateTime m_checkDateTime;
+    QList<QVariantMap> m_data;
 
     QTimer m_replotTimer;
+
+    QList<AbstractGraphic*> m_graphics;
+    // Текущий график
+    AbstractGraphic* m_graphic;
+
+    CommandType::Command m_type; //! TODO: нужна ли эта переменная
 };
 
 #endif // SHPINDICATORWIDGET_H

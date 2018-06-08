@@ -39,7 +39,6 @@ SOURCES += src/main.cpp\
     riot_os_cbor/cbor.c \
     structs/cmd_data_packer.c \
     structs/cmd_data_debug.c \
-    src/GraphicWidget.cpp \
     src/CPColorMap/CPColorMap.cpp \
     src/AbstractGraphic.cpp \
     src/GraphicTime.cpp \
@@ -77,7 +76,6 @@ HEADERS += \
     riot_os_cbor/cbor.h \
     structs/cmd_data_packer.h \
     structs/cmd_data_debug.h \
-    src/GraphicWidget.h \
     src/CPColorMap/CPColorMap.h \
     src/AbstractGraphic.h \
     src/GraphicTime.h \
@@ -103,7 +101,6 @@ FORMS += \
     src/Indicators/ui/ShPIndicator.ui \
     src/Indicators/ui/ShPIndicatorWidget.ui \
     ui/AuthDialog.ui \
-    ui/GraphicWidget.ui \
     ui/GraphicTime.ui \
     ui/GraphicValue.ui \
     src/Indicators/ui/GLMarkerFormular.ui \

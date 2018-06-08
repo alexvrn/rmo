@@ -22,6 +22,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   , m_buttonGroup(new QButtonGroup(this))
   , m_nowData(true)
   , m_seconds(0)
+  , m_graphic(nullptr)
 {
   ui->setupUi(this);
 
@@ -48,9 +49,13 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
   ui->pchToolButton->setChecked(true);
 
-  ui->graphicWidget->setIndicatorType(AbstractGraphic::ShP);
-
-  connect(ui->graphicWidget, &GraphicWidget::info, this, &ShPIndicatorWidget::info);
+  m_graphics = QList<AbstractGraphic*>() << ui->graphic_shp1 << ui->graphic_shp2 << ui->graphic_pchss;
+  //for (auto graphic : m_graphics)
+  //  connect(graphic, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
+  connect(ui->graphic_shp1, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
+  connect(ui->graphic_shp2, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
+  connect(ui->graphic_pchss, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
+  setIndicatorType(AbstractGraphic::ShP);
 
   connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
   m_replotTimer.start(10000);
@@ -78,7 +83,7 @@ bool ShPIndicatorWidget::hasSwitch() const
 
 void ShPIndicatorWidget::setLightMode(const QString& mode)
 {
-  ui->graphicWidget->setLightMode(mode);
+  //ui->graphicWidget->setLightMode(mode);
 }
 
 
@@ -87,7 +92,7 @@ void ShPIndicatorWidget::newData(bool update)
 {
   if (m_buttonGroup->checkedId() == -1)
   {
-    ui->graphicWidget->setData(QList<QVariantMap>());
+    setData(QList<QVariantMap>());
     return;
   }
 
@@ -97,7 +102,7 @@ void ShPIndicatorWidget::newData(bool update)
     const auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
     const auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
 
-    ui->graphicWidget->setData(data, m_checkDateTime);
+    setData(data, m_checkDateTime);
   }
 }
 
@@ -118,7 +123,11 @@ int ShPIndicatorWidget::currentPgasNumber() const
 void ShPIndicatorWidget::setNowData(bool nowData)
 {
   m_nowData = nowData;
-  ui->graphicWidget->setNowData(nowData);
+
+  m_graphic->setNowData(nowData);
+  //colorScaleLayout();
+  dataGraphicRepaint();
+
   newData(true);
 }
 
@@ -143,7 +152,7 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
   if (checked)
   {
     CommandType::Command buttonType = static_cast<CommandType::Command>(m_buttonGroup->id(button));
-    ui->graphicWidget->setDataType(button->text(), buttonType);
+    setDataType(button->text(), buttonType);
   }
 
   newData(true);
@@ -153,4 +162,67 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 void ShPIndicatorWidget::dataRepaint()
 {
   newData(true);
+}
+
+
+void ShPIndicatorWidget::setIndicatorType(AbstractGraphic::IndicatorType indicatorType)
+{
+  for (auto graphic : m_graphics)
+    graphic->setIndicatorType(indicatorType);
+}
+
+
+void ShPIndicatorWidget::setData(const QList<QVariantMap> &data, const QDateTime& dateTime)
+{
+  m_data = data;
+  m_checkDateTime = dateTime;
+
+  // Обновляем данные не сразу, а по таймеру через каждые 10 секунд
+  dataGraphicRepaint();
+}
+
+
+void ShPIndicatorWidget::dataGraphicRepaint()
+{
+  if (m_data.isEmpty())
+  {
+    clearData();
+    return;
+  }
+
+  m_graphic->replot(m_data, m_checkDateTime);
+}
+
+
+void ShPIndicatorWidget::clearData()
+{
+  if (!m_graphic)
+    return;
+
+  m_graphic->clearData();
+}
+
+
+void ShPIndicatorWidget::setDataType(const QString& text, CommandType::Command type)
+{
+  m_type = type;
+  if (type == CommandType::Stream_3)
+  {
+    ui->graphicWidget->setCurrentIndex(1);
+    m_graphic = ui->graphic_shp1;
+  }
+  else if (type == CommandType::Stream_4)
+  {
+    ui->graphicWidget->setCurrentIndex(2);
+    m_graphic = ui->graphic_shp2;
+  }
+  else
+  {
+    ui->graphicWidget->setCurrentIndex(0);
+    m_graphic = ui->graphic_pchss;
+  }
+
+  m_graphic->setLabel(text);
+
+  dataGraphicRepaint();
 }
