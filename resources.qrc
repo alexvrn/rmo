@@ -10,5 +10,8 @@
         <file>icons/arrow_close_minimize-20.png</file>
         <file>icons/inout-32.png</file>
         <file>icons/arrow-double-up-down-32.png</file>
+        <file alias="icons/actions-view-calendar-icon.png">icons/actions-view-calendar-icon.png</file>
+        <file alias="icons/arrow-left-2-icon.png">icons/arrow-left-2-icon.png</file>
+        <file alias="icons/arrow-right-2-icon.png">icons/arrow-right-2-icon.png</file>
     </qresource>
 </RCC>
