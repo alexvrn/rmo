@@ -13,8 +13,8 @@
 #include <cmd_data_packer.h>
 #include <cmd_data_debug.h>
 
-const int commandCount = 22;
-const int messageLength = 100;
+const qint64 commandCount = 22;
+const qint64 messageLength = 100;
 
 ClientWorker::ClientWorker(QObject *parent)
   : QObject(parent)
@@ -226,103 +226,121 @@ void ClientWorker::parseFileForDateTime(int stationId, const QDateTime& dateTime
   QFile dat(QString("%1%2%3%4").arg(sourceDataPath).arg(QDir::separator())
                                .arg(QString("%1_%2").arg(dateTime.date().toString("ddMMyyyy")).arg(stationId))
                                .arg(".dat"));
-  if (dat.exists())
+  if (dat.exists() && dat.open(QIODevice::ReadOnly))
   {
-    if (dat.open(QIODevice::ReadOnly))
+    const auto msecsBegin = dateTime.time().msecsSinceStartOfDay();
+    const auto posBegin = msecsBegin * commandCount * messageLength;
+
+    PgasData result;
+    qint64 currentPos = posBegin;
+    int iter_msec = 0;
+
+    while (iter_msec < 60 * 1000)
     {
+      if (dat.size() < currentPos + commandCount * messageLength)
+        break;
+
+      bool check = false;
+
+      if (!dat.seek(currentPos))
+        break;
+
       QDataStream in(&dat);
       in.setVersion(QDataStream::Qt_5_9);
-
-//      const auto msecsBegin = dateTime.time().msecsSinceStartOfDay();
-//      const auto posBegin = msecsBegin * commandCount * messageLength;
-
-      PgasData result;
-
-//      qint64 currentPos = posBegin;
-//      bool check = true;
-//      while (!in.atEnd())
-//      {
-//        for (int c = 1; c <= 22; ++c)
-//        {
-//          currentPos += (c - 1) * messageLength;
-//          if (in.skipRawData(currentPos) == -1)
-//          {
-//            qWarning() << tr("Ошибка чтения файла") << dat.errorString();
-//            emit parsedFileForDateTime(PgasData());
-//            return;
-//          }
-//          quint16 cmd;
-//          in >> cmd;
-//          // Проверка что есть данные для данной команды для данного времени
-//          if (cmd < 1 && cmd > 22)
-//            break;
-
-//          quint32 dataLength;
-//          QByteArray dataArray;
-//          in >> dataLength;
-//          if (dataLength != 0)
-//          {
-//            dataArray.resize(dataLength);
-//            int bytesRead = in.readRawData(dataArray.data(), dataLength);
-//            if (bytesRead == -1)
-//            {
-//              qWarning() << tr("Ошибка чтения файла") << dat.errorString();
-//              //return PgasData();
-//              emit parsedFileForDateTime(PgasData());
-//              return;
-//            }
-//            CommandType::Command command = static_cast<CommandType::Command>(cmd);
-//            QVariantMap vm = parseData(command, dataArray);
-//            //QDateTime dt = vm["timestamp"].toDateTime();
-//            addDate(command, vm, result);
-//            //          if (dt.time().hour() == dateTime.time().hour()
-//            //              && dt.time().minute() == dateTime.time().minute())
-//            //          {
-//            //            addDate(command, vm, result);
-//            //          }
-//            //        }
-//          }
-//        }
-
-//        currentPos += commandCount * messageLength;
-//      }
-      while (!in.atEnd())
+      for (int c = 1; c <= 22; ++c)
       {
+        const qint64 pos = (c - 1) * messageLength;
+        if (in.skipRawData(pos) == -1)
+        {
+          check = true;
+          break;
+        }
+
+        QByteArray block;
+        block.resize(messageLength);
+        int bytesRead = in.readRawData(block.data(), messageLength);
+        if (bytesRead == -1)
+        {
+          qWarning() << tr("Ошибка чтения файла") << dat.errorString();
+          check = true;
+          break;
+        }
+
+        QDataStream blockData(&block, QIODevice::ReadOnly);
+        blockData.setVersion(QDataStream::Qt_5_9);
+
         quint16 cmd;
+        blockData >> cmd;
+        // Проверка что есть данные для данной команды
+        if (cmd < 1 || cmd > 22)
+          continue;
+
         quint32 dataLength;
         QByteArray dataArray;
-        in >> cmd;
-        in >> dataLength;
+        blockData >> dataLength;
         if (dataLength != 0)
         {
           dataArray.resize(dataLength);
-          int bytesRead = in.readRawData(dataArray.data(), dataLength);
+          int bytesRead = blockData.readRawData(dataArray.data(), dataLength);
           if (bytesRead == -1)
           {
-            qWarning() << tr("Ошибка чтения файла");
-            //return PgasData();
-            emit parsedFileForDateTime(PgasData());
-            return;
+            qWarning() << tr("Ошибка чтения данных") << dat.errorString();
+            check = true;
+            break;
           }
           CommandType::Command command = static_cast<CommandType::Command>(cmd);
           QVariantMap vm = parseData(command, dataArray);
-          QDateTime dt = vm["timestamp"].toDateTime();
-          if (dt.time().hour() == dateTime.time().hour()
-              && dt.time().minute() == dateTime.time().minute())
-          {
-            addDate(command, vm, result);
-          }
+          addDate(command, vm, result);
         }
-      }
+      } // for
 
-      //return result;
-      emit parsedFileForDateTime(result);
-      return;
-    }
+      currentPos += commandCount * messageLength;
+      iter_msec++;
+
+      if (check)
+        break;
+    }  // while
+
+    dat.close();
+
+//      while (!in.atEnd())
+//      {
+//        quint16 cmd;
+//        quint32 dataLength;
+//        QByteArray dataArray;
+//        in >> cmd;
+//        in >> dataLength;
+//        if (dataLength != 0)
+//        {
+//          dataArray.resize(dataLength);
+//          int bytesRead = in.readRawData(dataArray.data(), dataLength);
+//          if (bytesRead == -1)
+//          {
+//            qWarning() << tr("Ошибка чтения файла");
+//            //return PgasData();
+//            emit parsedFileForDateTime(PgasData());
+//            return;
+//          }
+//          CommandType::Command command = static_cast<CommandType::Command>(cmd);
+//          QVariantMap vm = parseData(command, dataArray);
+//          QDateTime dt = vm["timestamp"].toDateTime();
+//          if (dt.time().hour() == dateTime.time().hour()
+//              && dt.time().minute() == dateTime.time().minute())
+//          {
+//            addDate(command, vm, result);
+//          }
+//        }
+//      }
+
+    //return result;
+
+    emit parsedFileForDateTime(result);
+    return;
   }
-
-  //return PgasData();
-  emit parsedFileForDateTime(PgasData());
+  else
+  {
+    emit parsedFileForDateTime(PgasData());
+  }
 }
 
 
@@ -477,7 +495,7 @@ void ClientWorker::addDate(CommandType::Command command, const QVariantMap& vm, 
         // Берем первое и последнее добавляемое значение времени и берем разницу в секундах
         const QDateTime lowerDateTime = vms[0]["timestamp"].toDateTime();
         const QDateTime upperDateTime = vm["timestamp"].toDateTime();
-        if (lowerDateTime.addSecs(m_seconds) < upperDateTime)
+        if (lowerDateTime.toSecsSinceEpoch() + m_seconds < upperDateTime.toSecsSinceEpoch())//lowerDateTime.addSecs(m_seconds) < upperDateTime)
         {
           // Удаляем данные с первой датой
           auto end = std::remove_if(vms.begin(), vms.end(),

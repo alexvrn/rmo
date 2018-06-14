@@ -5,6 +5,7 @@
 // Qt
 #include <QApplication>
 #include <QTimer>
+#include <QDateTime>
 #include <QThread>
 #include <QLocalSocket>
 #include <QEventLoop>
@@ -102,6 +103,7 @@ PgasData Client::parseFileForDateTime(int stationId, const QDateTime& dateTime) 
   ResponseReceiver receiver;
   connect(m_clientWorker, &ClientWorker::parsedFileForDateTime, &receiver, &ResponseReceiver::messageReceived);
 
+  // Так-как получаем данные для выбранной минуты, откатываемся на минуту назад
   QMetaObject::invokeMethod(m_clientWorker, "parseFileForDateTime", Qt::QueuedConnection,
                             Q_ARG(int, stationId), Q_ARG(QDateTime, dateTime));
   receiver.run();
