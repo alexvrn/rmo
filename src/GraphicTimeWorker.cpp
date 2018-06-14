@@ -55,6 +55,6 @@ void GraphicTimeWorker::calculateData(const QList<QVariantMap>& data, bool isNow
     result.insert(qMakePair(xIndex, timeAxis[secs]), data[index]["data"].toDouble());
   }
 
-  emit calculatedData(result, nx, size, ny, bottomRange, verticalScrollBarValue);
+  emit calculatedData(result, nx, size, ny, bottomRange, verticalScrollBarMaximum, verticalScrollBarValue, reverse);
 }
 

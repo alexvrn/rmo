@@ -109,6 +109,29 @@ GraphicTime::~GraphicTime()
   delete m_worker;
 }
 
+//void GraphicWidget::colorValue(const QColor &color)
+//{
+//  m_graphColor = color;
+//  brightness(ui->brightnessSlider->value());
+//}
+
+
+//void GraphicWidget::brightness(int value)
+//{
+//  const QColor graphColorLighter = m_graphColor.lighter(value);
+//  //ui->customPlot->graph(0)->setPen(QPen(graphColorLighter));
+//  //ui->customPlot->graph(1)->setPen(QPen(graphColorLighter));
+//}
+
+
+//void GraphicWidget::setLightMode(const QString& mode)
+//{
+//  if (mode == "sun")
+//    ui->customPlot->setBackgroundColor(QColor(180, 180, 180));
+//  else if (mode == "night")
+//    ui->customPlot->setBackgroundColor(QColor(130, 130, 130));
+//}
+
 
 void GraphicTime::clearData()
 {
@@ -175,28 +198,36 @@ void GraphicTime::replot(const QList<QVariantMap>& data, const QDateTime& dateTi
 }
 
 
-//void GraphicWidget::colorValue(const QColor &color)
-//{
-//  m_graphColor = color;
-//  brightness(ui->brightnessSlider->value());
-//}
+void GraphicTime::calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange,
+                                 const QDateTime& bottomRange, int verticalScrollBarMaximum, int verticalScrollBarValue, bool reverse)
+{
+  //! TODO: разобраться с yRange
+  Q_UNUSED(yRange)
 
+  m_colorMap->data()->clear();
+  m_colorMap->data()->setSize(keySize, valueSize);
+  const int secs = bottomRange.time().msecsSinceStartOfDay() / 1000.0
+                   + (!reverse ? -verticalScrollBarValue : -verticalScrollBarMaximum + verticalScrollBarValue)
 
-//void GraphicWidget::brightness(int value)
-//{
-//  const QColor graphColorLighter = m_graphColor.lighter(value);
-//  //ui->customPlot->graph(0)->setPen(QPen(graphColorLighter));
-//  //ui->customPlot->graph(1)->setPen(QPen(graphColorLighter));
-//}
+                   - 60; //! TODO: фиг знает почему происходит сдвиг на 60 сек ???
 
+  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(secs, secs + valueSize));
+  QHashIterator<QPair<int, int>, double> iter(result);
+  while (iter.hasNext())
+  {
+    iter.next();
+    m_colorMap->data()->setCell(iter.key().first, iter.key().second, iter.value());
+  }
 
-//void GraphicWidget::setLightMode(const QString& mode)
-//{
-//  if (mode == "sun")
-//    ui->customPlot->setBackgroundColor(QColor(180, 180, 180));
-//  else if (mode == "night")
-//    ui->customPlot->setBackgroundColor(QColor(130, 130, 130));
-//}
+  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
+  //m_colorMap->rescaleDataRange();
+
+  // rescale the key (x) and value (y) axes so the whole color map is visible:
+  ui->graphic->rescaleAxes();
+
+  ui->graphic->yAxis->rescale();
+  ui->graphic->replot();
+}
 
 
 void GraphicTime::setIndicatorType(IndicatorType indicatorType)
@@ -220,32 +251,6 @@ void GraphicTime::setIndicatorType(IndicatorType indicatorType)
     ui->predIndicatorComboBox->addItem(tr("Логарифм"), PredIndicatorType::Logarithm);
     ui->predIndicatorComboBox->addItem(tr("Псевдо-линейная"), PredIndicatorType::PseudoLinear);
   }
-}
-
-
-void GraphicTime::calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange,
-                                 const QDateTime& bottomRange, int verticalScrollBarValue)
-{
-  m_colorMap->data()->clear();
-  m_colorMap->data()->setSize(keySize, valueSize);
-  const int secs = bottomRange.time().msecsSinceStartOfDay() / 1000.0;
-  m_colorMap->data()->setRange(QCPRange(0, keySize), QCPRange(secs + verticalScrollBarValue,
-                                                              secs + valueSize + verticalScrollBarValue));
-  QHashIterator<QPair<int, int>, double> iter(result);
-  while (iter.hasNext())
-  {
-    iter.next();
-    m_colorMap->data()->setCell(iter.key().first, iter.key().second, iter.value());
-  }
-
-  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
-  //m_colorMap->rescaleDataRange();
-
-  // rescale the key (x) and value (y) axes so the whole color map is visible:
-  ui->graphic->rescaleAxes();
-
-  ui->graphic->yAxis->rescale();
-  ui->graphic->replot();
 }
 
 
@@ -326,7 +331,7 @@ void GraphicTime::brightness(int value)
 
 void GraphicTime::replot()
 {
-  replot(m_data);
+  replot(m_data, m_nowData ? QDateTime() : m_checkDateTime);
 }
 
 

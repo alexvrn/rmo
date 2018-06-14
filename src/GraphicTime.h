@@ -47,7 +47,7 @@ class GraphicTime : public QWidget, public AbstractGraphic
   public Q_SLOTS:
     void onPalette(int value);
     void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange,
-                        const QDateTime& bottomRange, int verticalScrollBarValue);
+                        const QDateTime& bottomRange, int verticalScrollBarMaximum, int verticalScrollBarValue, bool reverse);
 
   signals:
     void info(const QString& text);

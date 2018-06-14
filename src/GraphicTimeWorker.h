@@ -19,7 +19,7 @@ class GraphicTimeWorker : public QObject
 
   Q_SIGNALS:
     void calculatedData(const QHash<QPair<int, int>, double>& result, int keySize, int valueSize, int yRange,
-                        const QDateTime& bottomRange, int verticalScrollBarValue);
+                        const QDateTime& bottomRange, int verticalScrollBarMaximum, int verticalScrollBarValue, bool reverse);
 };
 
 #endif // GRAPHICTIMEWORKER_H
