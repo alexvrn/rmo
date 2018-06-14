@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   QLocale russianLocale(QLocale::Russian, QLocale::RussianFederation);
   QLocale::setDefault(russianLocale);
 
-  const bool release = false;//settings.value("release", true).toBool();
+  const bool release = settings.value("release", true).toBool();
   if (!release)
   {
     //const auto screen = qApp->primaryScreen();
@@ -33,12 +33,12 @@ int main(int argc, char *argv[])
   else
   {
     const auto screens = qApp->screens();
-    const int window1 = settings.value("window1", 1).toInt();
-    const int window2 = settings.value("window2", 2).toInt();
-    Q_ASSERT_X(screens.count() >= 2, "main", "Количество мониторов должно быть больше 2-х");
-    Q_ASSERT_X((window1 >= 1 && window1 <= 2)
-               && (window2 >= 1 && window2 <= 2)
-               && (window1 != window2), "config", "Ошибка в задании номеров мониторов");
+//    const int window1 = settings.value("window1", 1).toInt();
+//    const int window2 = settings.value("window2", 2).toInt();
+    Q_ASSERT_X(screens.count() >= 2, "main", "Количество мониторов должно быть минимум два");
+//    Q_ASSERT_X((window1 >= 1 && window1 <= 2)
+//               && (window2 >= 1 && window2 <= 2)
+//               && (window1 != window2), "config", "Ошибка в задании номеров мониторов");
   }
 
   // Сохранённые настройки приложения
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  QObject::connect(&client, &Client::success, &mainWindow, &MainWindow::showFullScreen);
+  QObject::connect(&client, &Client::success, &mainWindow, &MainWindow::show);
 
   // Авторизация
   if (!client.logout())
