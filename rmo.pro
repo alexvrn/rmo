@@ -94,16 +94,16 @@ FORMS += \
     ui/ButtonGroup.ui \
     ui/MonitoringLeftPanel.ui \
     ui/SettingRightPanel.ui \
-    src/Indicators/ui/GLIndicator.ui \
-    src/Indicators/ui/TOIndicator.ui \
-    src/Indicators/ui/SAIndicator.ui \
-    src/Indicators/ui/ShPIndicatorItem.ui \
-    src/Indicators/ui/ShPIndicator.ui \
-    src/Indicators/ui/ShPIndicatorWidget.ui \
+    src/Indicators/GL/GLIndicator.ui \
+    src/Indicators/TO/TOIndicator.ui \
+    src/Indicators/SA/SAIndicator.ui \
+    src/Indicators/ShP/ShPIndicatorItem.ui \
+    src/Indicators/ShP/ShPIndicator.ui \
+    src/Indicators/ShP/ShPIndicatorWidget.ui \
     ui/AuthDialog.ui \
     ui/GraphicTime.ui \
     ui/GraphicValue.ui \
-    src/Indicators/ui/GLMarkerFormular.ui \
+    src/Indicators/GL/GLMarkerFormular.ui \
     src/Indicators/GL/GLSection.ui \
     src/Indicators/GL/GLIndicatorWidget.ui
 
