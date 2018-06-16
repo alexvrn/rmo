@@ -49,7 +49,9 @@ SOURCES += src/main.cpp\
     src/MainWindow.cpp \
     src/Indicators/GL/GLMarkerFormular.cpp \
     src/Indicators/GL/GLSection.cpp \
-    src/Indicators/GL/GLIndicatorWidget.cpp
+    src/Indicators/GL/GLIndicatorWidget.cpp \
+    src/Indicators/ZPS/ZPSIndicator.cpp \
+    src/Indicators/ZPS/ZPSIndicatorData.cpp
 
 HEADERS += \
     src/LeftPanel/LeftPanel.h \
@@ -86,7 +88,9 @@ HEADERS += \
     src/MainWindow.h \
     src/Indicators/GL/GLMarkerFormular.h \
     src/Indicators/GL/GLSection.h \
-    src/Indicators/GL/GLIndicatorWidget.h
+    src/Indicators/GL/GLIndicatorWidget.h \
+    src/Indicators/ZPS/ZPSIndicator.h \
+    src/Indicators/ZPS/ZPSIndicatorData.h
 
 FORMS += \
     ui/LeftPanel.ui \
@@ -105,7 +109,9 @@ FORMS += \
     ui/GraphicValue.ui \
     src/Indicators/GL/GLMarkerFormular.ui \
     src/Indicators/GL/GLSection.ui \
-    src/Indicators/GL/GLIndicatorWidget.ui
+    src/Indicators/GL/GLIndicatorWidget.ui \
+    src/Indicators/ZPS/ZPSIndicator.ui \
+    src/Indicators/ZPS/ZPSIndicatorData.ui
 
 RESOURCES += \
     resources.qrc
@@ -114,4 +120,5 @@ RESOURCES += \
 INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics \
               riot_os_cbor/ structs/ \
               src/Indicators/ src/Indicators/ShP/ src/Indicators/SA/ src/Indicators/TO/ src/Indicators/GL/ \
+              src/Indicators/ZPS/ \
               src/CPColorMap/

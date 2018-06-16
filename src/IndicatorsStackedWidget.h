@@ -11,6 +11,7 @@ class ShPIndicator;
 class GLIndicator;
 class TOIndicator;
 class SAIndicator;
+class ZPSIndicator;
 #include <commandType.h>
 #include "Indicator.h"
 
@@ -39,6 +40,7 @@ class IndicatorsStackedWidget : public QStackedWidget
     ShPIndicator *m_shpIndicator;
     TOIndicator *m_toIndicator;
     SAIndicator *m_saIndicator;
+    ZPSIndicator *m_zpsIndicator;
 
     QString m_type;
 };

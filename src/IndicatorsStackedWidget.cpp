@@ -6,6 +6,7 @@
 #include "GLIndicator.h"
 #include "TOIndicator.h"
 #include "SAIndicator.h"
+#include "ZPSIndicator.h"
 
 // Qt
 #include <QDebug>
@@ -18,12 +19,14 @@ IndicatorsStackedWidget::IndicatorsStackedWidget(QWidget *parent)
   , m_shpIndicator(new ShPIndicator(this))
   , m_toIndicator(new TOIndicator(this))
   , m_saIndicator(new SAIndicator(this))
+  , m_zpsIndicator(new ZPSIndicator(this))
 {
   addWidget(m_nullIndicator);
   addWidget(m_glIndicator);
   addWidget(m_shpIndicator);
   addWidget(m_toIndicator);
   addWidget(m_saIndicator);
+  addWidget(m_zpsIndicator);
 
   for (int i = 0; i < count(); i++)
     connect(qobject_cast<Indicator*>(widget(i)), SIGNAL(info(QString)), this, SIGNAL(info(QString)));
@@ -57,6 +60,8 @@ void IndicatorsStackedWidget::setCurrentIndicator(const QString& type)
     setCurrentWidget(m_toIndicator);
   else if (type == tr("СА"))
     setCurrentWidget(m_saIndicator);
+  else if (type == tr("ЗПС"))
+    setCurrentWidget(m_zpsIndicator);
   else
     setCurrentWidget(m_nullIndicator);
 
