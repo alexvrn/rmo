@@ -53,7 +53,9 @@ SOURCES += src/main.cpp\
     src/Indicators/ZPS/ZPSIndicator.cpp \
     src/Indicators/ZPS/ZPSIndicatorData.cpp \
     src/Indicators/ZPS/ZPSTableData.cpp \
-    src/Indicators/IZL/IZLIndicator.cpp
+    src/Indicators/IZL/IZLIndicator.cpp \
+    src/Indicators/IZL/PanelTask.cpp \
+    src/Indicators/IZL/PanelViewer.cpp
 
 HEADERS += \
     src/LeftPanel/LeftPanel.h \
@@ -94,7 +96,9 @@ HEADERS += \
     src/Indicators/ZPS/ZPSIndicator.h \
     src/Indicators/ZPS/ZPSIndicatorData.h \
     src/Indicators/ZPS/ZPSTableData.h \
-    src/Indicators/IZL/IZLIndicator.h
+    src/Indicators/IZL/IZLIndicator.h \
+    src/Indicators/IZL/PanelTask.h \
+    src/Indicators/IZL/PanelViewer.h
 
 FORMS += \
     ui/LeftPanel.ui \
@@ -116,7 +120,9 @@ FORMS += \
     src/Indicators/GL/GLIndicatorWidget.ui \
     src/Indicators/ZPS/ZPSIndicator.ui \
     src/Indicators/ZPS/ZPSIndicatorData.ui \
-    src/Indicators/IZL/IZLIndicator.ui
+    src/Indicators/IZL/IZLIndicator.ui \
+    src/Indicators/IZL/PanelTask.ui \
+    src/Indicators/IZL/PanelViewer.ui
 
 RESOURCES += \
     resources.qrc

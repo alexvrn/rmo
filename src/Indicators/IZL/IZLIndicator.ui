@@ -6,14 +6,71 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>663</width>
-    <height>409</height>
+    <width>995</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,5,1,1">
+   <property name="spacing">
+    <number>1</number>
+   </property>
+   <property name="leftMargin">
+    <number>1</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>1</number>
+   </property>
+   <property name="bottomMargin">
+    <number>1</number>
+   </property>
+   <item>
+    <widget class="PanelTask" name="panelTask" native="true"/>
+   </item>
+   <item>
+    <widget class="PanelViewer" name="panelViewer" native="true"/>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_2">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PanelTask</class>
+   <extends>QWidget</extends>
+   <header location="global">PanelTask.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PanelViewer</class>
+   <extends>QWidget</extends>
+   <header location="global">PanelViewer.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
