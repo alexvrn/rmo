@@ -55,7 +55,8 @@ SOURCES += src/main.cpp\
     src/Indicators/ZPS/ZPSTableData.cpp \
     src/Indicators/IZL/IZLIndicator.cpp \
     src/Indicators/IZL/PanelTask.cpp \
-    src/Indicators/IZL/PanelViewer.cpp
+    src/Indicators/IZL/PanelViewer.cpp \
+    src/Indicators/IZL/TonalModel.cpp
 
 HEADERS += \
     src/LeftPanel/LeftPanel.h \
@@ -98,7 +99,8 @@ HEADERS += \
     src/Indicators/ZPS/ZPSTableData.h \
     src/Indicators/IZL/IZLIndicator.h \
     src/Indicators/IZL/PanelTask.h \
-    src/Indicators/IZL/PanelViewer.h
+    src/Indicators/IZL/PanelViewer.h \
+    src/Indicators/IZL/TonalModel.h
 
 FORMS += \
     ui/LeftPanel.ui \

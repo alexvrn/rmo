@@ -1,8 +1,11 @@
 #ifndef PANELTASK_H
 #define PANELTASK_H
 
-// Local
+// Qt
 #include <QWidget>
+
+// Local
+#include "TonalModel.h"
 
 // UI
 namespace Ui
@@ -20,6 +23,9 @@ class PanelTask : public QWidget
 
   private:
     Ui::PanelTask *ui;
+
+    TonalModel* m_tonalModel;
+    TonalModel* m_complicatedModel;
 };
 
 #endif // PANELTASK_H

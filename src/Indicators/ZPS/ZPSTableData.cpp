@@ -7,8 +7,6 @@
 ZPSTableData::ZPSTableData(QObject *parent)
   : QAbstractTableModel(parent)
 {
-  m_data.append(1);
-  m_data.append(1);
 }
 
 
