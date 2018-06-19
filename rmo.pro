@@ -51,7 +51,8 @@ SOURCES += src/main.cpp\
     src/Indicators/GL/GLSection.cpp \
     src/Indicators/GL/GLIndicatorWidget.cpp \
     src/Indicators/ZPS/ZPSIndicator.cpp \
-    src/Indicators/ZPS/ZPSIndicatorData.cpp
+    src/Indicators/ZPS/ZPSIndicatorData.cpp \
+    src/Indicators/ZPS/ZPSTableData.cpp
 
 HEADERS += \
     src/LeftPanel/LeftPanel.h \
@@ -90,7 +91,8 @@ HEADERS += \
     src/Indicators/GL/GLSection.h \
     src/Indicators/GL/GLIndicatorWidget.h \
     src/Indicators/ZPS/ZPSIndicator.h \
-    src/Indicators/ZPS/ZPSIndicatorData.h
+    src/Indicators/ZPS/ZPSIndicatorData.h \
+    src/Indicators/ZPS/ZPSTableData.h
 
 FORMS += \
     ui/LeftPanel.ui \

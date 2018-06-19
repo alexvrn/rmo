@@ -4,10 +4,12 @@
 
 // Qt
 #include <QButtonGroup>
+#include <QTableView>
 
 ZPSIndicatorData::ZPSIndicatorData(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ZPSIndicatorData)
+  , m_zpsModel(new ZPSTableData(this))
 {
   ui->setupUi(this);
 
@@ -18,6 +20,9 @@ ZPSIndicatorData::ZPSIndicatorData(QWidget *parent)
   QButtonGroup* inputButtonGroup = new QButtonGroup(this);
   inputButtonGroup->addButton(ui->ikhPushButton);
   inputButtonGroup->addButton(ui->textPushButton);
+
+  ui->tableView->verticalHeader()->hide();
+  ui->tableView->setModel(m_zpsModel);
 }
 
 

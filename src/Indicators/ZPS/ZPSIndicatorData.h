@@ -10,6 +10,9 @@ namespace Ui
   class ZPSIndicatorData;
 }
 
+// Local
+#include "ZPSTableData.h"
+
 class ZPSIndicatorData : public QWidget
 {
   Q_OBJECT
@@ -24,6 +27,8 @@ class ZPSIndicatorData : public QWidget
 
 private:
     Ui::ZPSIndicatorData *ui;
+
+    ZPSTableData* m_zpsModel;
 };
 
 #endif // ZPSINDICATORDATA_H
