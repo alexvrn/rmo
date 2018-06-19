@@ -1,17 +1,16 @@
-#ifndef TONALMODEL_H
-#define TONALMODEL_H
+#ifndef VIEWERMODEL_H
+#define VIEWERMODEL_H
 
 // Qt
 #include <QAbstractTableModel>
 
-//! FIXME: возможно нужно было сделать другое название, например TaskModel
 
-class TonalModel : public QAbstractTableModel
+class ViewerModel : public QAbstractTableModel
 {
   Q_OBJECT
 
   public:
-    explicit TonalModel(QObject *parent = nullptr);
+    explicit ViewerModel(QObject *parent = nullptr);
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
@@ -24,4 +23,4 @@ class TonalModel : public QAbstractTableModel
     QList<int> m_data;
 };
 
-#endif // TONALMODEL_H
+#endif // VIEWERMODEL_H

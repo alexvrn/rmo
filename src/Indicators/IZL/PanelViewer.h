@@ -4,6 +4,9 @@
 // Qt
 #include <QWidget>
 
+// Local
+#include "ViewerModel.h"
+
 // UI
 namespace Ui
 {
@@ -20,6 +23,8 @@ class PanelViewer : public QWidget
 
   private:
     Ui::PanelViewer *ui;
+
+    ViewerModel* m_viewerModel;
 };
 
 #endif // PANELVIEWER_H
