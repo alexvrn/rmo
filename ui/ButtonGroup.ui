@@ -146,7 +146,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="izpToolButton">
+    <widget class="QToolButton" name="izlToolButton">
      <property name="minimumSize">
       <size>
        <width>40</width>
@@ -160,7 +160,7 @@
       </size>
      </property>
      <property name="text">
-      <string>ИЗП</string>
+      <string>ИЗЛ</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
