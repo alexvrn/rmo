@@ -20,6 +20,11 @@ GraphicTime::GraphicTime(QWidget *parent)
   // Количество секунд для отображения
   QSettings settings("SAMI_DVO_RAN", "rmo");
   m_seconds = settings.value("SHP/seconds", 60).toInt();
+  if (m_seconds < 60)
+  {
+    qWarning() << tr("Количество секунд для отображения данных было задано меньше 60! Исправлено на 60");
+    m_seconds = 60;
+  }
 
   connect(m_worker, &GraphicTimeWorker::calculatedData, this, &GraphicTime::calculatedData, Qt::QueuedConnection);
 
@@ -278,10 +283,10 @@ void GraphicTime::scrollMinMax()
 }
 
 
+//! Видимый диапозон - 60 сек
 int GraphicTime::shiftData() const
 {
-  //! TODO: делить на 4 или на сколько вообще!
-  return m_seconds / 4;
+  return 60;
 }
 
 
