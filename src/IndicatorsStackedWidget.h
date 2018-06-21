@@ -16,7 +16,6 @@ class IZLIndicator;
 #include <commandType.h>
 #include "Indicator.h"
 
-
 class IndicatorsStackedWidget : public QStackedWidget
 {
   Q_OBJECT
@@ -36,7 +35,7 @@ class IndicatorsStackedWidget : public QStackedWidget
     void info(const QString& text);
 
   private:
-    Indicator *m_nullIndicator;
+    QWidget *m_nullIndicator;
     GLIndicator *m_glIndicator;
     ShPIndicator *m_shpIndicator;
     TOIndicator *m_toIndicator;

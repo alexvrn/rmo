@@ -25,6 +25,18 @@ GLIndicator::~GLIndicator()
 }
 
 
+QString GLIndicator::name() const
+{
+  return tr("ГЛ");
+}
+
+
+void GLIndicator::newData(CommandType::Command cmd, const QVariant& value)
+{
+
+}
+
+
 void GLIndicator::deleteDownWidget()
 {
   Q_ASSERT(m_downWidget);

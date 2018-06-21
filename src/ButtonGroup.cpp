@@ -8,10 +8,11 @@
 #include <QDebug>
 
 
-ButtonGroup::ButtonGroup(QWidget *parent)
+ButtonGroup::ButtonGroup(SideType sideType, QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::ButtonGroup)
   , m_mapper(new QSignalMapper(this))
+  , m_sideType(sideType)
 {
   ui->setupUi(this);
 
@@ -66,7 +67,10 @@ QString ButtonGroup::fromOtherIndicatorChecked(const QString& type)
   if (type == tr("ГЛ"))
   {
     clear();
-    emit otherIndicatorChecked(tr("ГЛ"), false);
+    if (m_sideType == SideType::Left)
+      emit currentIndicators(QString(), tr("ГЛ"));
+    else
+      emit currentIndicators(tr("ГЛ"), QString());
     return QString();
   }
   else if ((currentType() == type || currentType() == tr("ГЛ")) || currentType().isEmpty())
@@ -77,22 +81,22 @@ QString ButtonGroup::fromOtherIndicatorChecked(const QString& type)
       {
         clear();
         it.value()->setChecked(true);
-        emit otherIndicatorChecked(it.key(), true);
+
+        if (m_sideType == SideType::Left)
+          emit currentIndicators(it.key(), type);
+        else
+          emit currentIndicators(type, it.key());
         return it.key();
       }
     }
     return QString();
   }
-//  if (currentType().isEmpty())
-//  {
-//    for (auto it = m_map.begin(); it != m_map.end(); ++it)
-//    {
-//      if (it.key() != type && it.key() != tr("ГЛ"))
-//      {
-//    }
-//  }
   else
   {
+    if (m_sideType == SideType::Left)
+      emit currentIndicators(currentType(), type);
+    else
+      emit currentIndicators(type, currentType());
     return currentType();
   }
 }

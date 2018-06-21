@@ -15,7 +15,7 @@ RightPanel::RightPanel(QWidget *parent)
   : QFrame(parent)
   , ui(new Ui::RightPanel)
   , m_settingPanel(new SettingRightPanel(this))
-  , m_group(new ButtonGroup(this))
+  , m_group(new ButtonGroup(ButtonGroup::Right, this))
   , m_dateTimeLabel(new QLabel(this))
   , m_timer(new QTimer(this))
 {
@@ -23,7 +23,7 @@ RightPanel::RightPanel(QWidget *parent)
 
   connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::indicatorChecked);
   connect(m_group, &ButtonGroup::indicatorChecked, this, &RightPanel::settingsSave);
-  connect(m_group, &ButtonGroup::otherIndicatorChecked, this, &RightPanel::otherIndicatorChecked);
+  connect(m_group, &ButtonGroup::currentIndicators, this, &RightPanel::currentIndicators);
   
   connect(m_settingPanel, &SettingRightPanel::lightMode, this, &RightPanel::lightMode);
 

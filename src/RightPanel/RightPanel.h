@@ -30,7 +30,7 @@ class RightPanel : public QFrame
 
   signals:
     void indicatorChecked(const QString& type);
-    void otherIndicatorChecked(const QString& type, bool visible = true);
+    void currentIndicators(const QString& leftType, const QString& rightType);
 
     void lightMode(const QString& mode);
 

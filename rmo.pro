@@ -21,7 +21,7 @@ SOURCES += src/main.cpp\
     src/ButtonGroup.cpp \
     src/LeftPanel/MonitoringLeftPanel.cpp \
     src/RightPanel/SettingRightPanel.cpp \
-    src/IndicatorsStackedWidget.cpp \
+    #src/IndicatorsStackedWidget.cpp \
     src/Indicators/GL/GLIndicator.cpp \
     src/Indicators/TO/TOIndicator.cpp \
     src/Indicators/SA/SAIndicator.cpp \
@@ -57,7 +57,8 @@ SOURCES += src/main.cpp\
     src/Indicators/IZL/PanelTask.cpp \
     src/Indicators/IZL/PanelViewer.cpp \
     src/Indicators/IZL/TonalModel.cpp \
-    src/Indicators/IZL/ViewerModel.cpp
+    src/Indicators/IZL/ViewerModel.cpp \
+    src/IndicatorList.cpp
 
 HEADERS += \
     src/LeftPanel/LeftPanel.h \
@@ -65,7 +66,7 @@ HEADERS += \
     src/ButtonGroup.h \
     src/LeftPanel/MonitoringLeftPanel.h \
     src/RightPanel/SettingRightPanel.h \
-    src/IndicatorsStackedWidget.h \
+    #src/IndicatorsStackedWidget.h \
     src/Indicators/GL/GLIndicator.h \
     src/Indicators/TO/TOIndicator.h \
     src/Indicators/SA/SAIndicator.h \
@@ -102,7 +103,8 @@ HEADERS += \
     src/Indicators/IZL/PanelTask.h \
     src/Indicators/IZL/PanelViewer.h \
     src/Indicators/IZL/TonalModel.h \
-    src/Indicators/IZL/ViewerModel.h
+    src/Indicators/IZL/ViewerModel.h \
+    src/IndicatorList.h
 
 FORMS += \
     ui/LeftPanel.ui \
@@ -126,7 +128,8 @@ FORMS += \
     src/Indicators/ZPS/ZPSIndicatorData.ui \
     src/Indicators/IZL/IZLIndicator.ui \
     src/Indicators/IZL/PanelTask.ui \
-    src/Indicators/IZL/PanelViewer.ui
+    src/Indicators/IZL/PanelViewer.ui \
+    src/IndicatorList.ui
 
 RESOURCES += \
     resources.qrc

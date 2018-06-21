@@ -8,7 +8,7 @@
 // Local
 class LeftPanel;
 class RightPanel;
-class IndicatorsStackedWidget;
+class IndicatorList;
 #include "commandType.h"
 
 class MainWindow : public QMainWindow
@@ -36,8 +36,9 @@ class MainWindow : public QMainWindow
     LeftPanel* m_leftPanel;
     RightPanel* m_rightPanel;
 
-    IndicatorsStackedWidget* m_leftIndicatorsStackedWidget;
-    IndicatorsStackedWidget* m_rightIndicatorsStackedWidget;
+    IndicatorList* m_indicatorList;
+    //IndicatorsStackedWidget* m_leftIndicatorsStackedWidget;
+    //IndicatorsStackedWidget* m_rightIndicatorsStackedWidget;
 };
 
 #endif // MAINWINDOW_H

@@ -21,6 +21,11 @@ class TOIndicator : public Indicator
     explicit TOIndicator(QWidget *parent = Q_NULLPTR);
     ~TOIndicator();
 
+    QString name() const override;
+
+  public Q_SLOTS:
+    void newData(CommandType::Command cmd, const QVariant& value = QVariant()) override;
+
   private:
     Ui::TOIndicator *ui;
 };

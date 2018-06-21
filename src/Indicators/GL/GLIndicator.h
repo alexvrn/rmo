@@ -22,10 +22,14 @@ class GLIndicator : public Indicator
     explicit GLIndicator(QWidget *parent = Q_NULLPTR);
     ~GLIndicator();
 
+    QString name() const override;
+
   private Q_SLOTS:
     void deleteDownWidget();
     void countWidget();
     void insertDownWidget();
+
+    void newData(CommandType::Command cmd, const QVariant& value = QVariant()) override;
 
   private:
     Ui::GLIndicator *ui;

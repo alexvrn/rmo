@@ -28,7 +28,7 @@ class LeftPanel : public QFrame
 
   signals:
     void indicatorChecked(const QString& type);
-    void otherIndicatorChecked(const QString& type, bool visible = true);
+    void currentIndicators(const QString& leftType, const QString& rightType);
 
   private slots:
     // Сохранение настроек окна

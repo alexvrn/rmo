@@ -36,6 +36,12 @@ ShPIndicator::~ShPIndicator()
 }
 
 
+QString ShPIndicator::name() const
+{
+  return tr("ШП");
+}
+
+
 void ShPIndicator::checkedDateTime()
 {
   // Обнуляем секунды

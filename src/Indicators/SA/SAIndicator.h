@@ -25,9 +25,11 @@ class SAIndicator : public Indicator
     explicit SAIndicator(QWidget *parent = Q_NULLPTR);
     ~SAIndicator();
 
+    QString name() const override;
+
   public slots:
     void setLightMode(const QString& mode);
-    void newData(CommandType::Command cmd, const QVariant& value = QVariant());
+    void newData(CommandType::Command cmd, const QVariant& value = QVariant()) override;
 
   private slots:
     void checkedDateTime();

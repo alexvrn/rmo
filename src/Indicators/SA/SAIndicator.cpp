@@ -46,6 +46,12 @@ SAIndicator::~SAIndicator()
 }
 
 
+QString SAIndicator::name() const
+{
+  return tr("СА");
+}
+
+
 void SAIndicator::checkedDateTime()
 {
   // Обнуляем секунды

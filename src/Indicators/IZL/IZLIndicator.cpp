@@ -15,3 +15,15 @@ IZLIndicator::~IZLIndicator()
 {
   delete ui;
 }
+
+
+void IZLIndicator::newData(CommandType::Command cmd, const QVariant& value)
+{
+
+}
+
+
+QString IZLIndicator::name() const
+{
+  return tr("ИЗЛ");
+}

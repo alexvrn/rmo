@@ -14,3 +14,16 @@ TOIndicator::~TOIndicator()
 {
   delete ui;
 }
+
+
+QString TOIndicator::name() const
+{
+  return tr("ТО");
+}
+
+
+void TOIndicator::newData(CommandType::Command cmd, const QVariant& value)
+{
+
+}
+

@@ -21,7 +21,14 @@ class ButtonGroup : public QWidget
   Q_OBJECT
 
   public:
-    explicit ButtonGroup(QWidget *parent = Q_NULLPTR);
+
+    enum SideType
+    {
+      Left,
+      Right
+    };
+
+    explicit ButtonGroup(SideType sideType, QWidget *parent = Q_NULLPTR);
     ~ButtonGroup();
 
   public Q_SLOTS:
@@ -31,7 +38,7 @@ class ButtonGroup : public QWidget
 
   signals:
     void indicatorChecked(const QString& type);
-    void otherIndicatorChecked(const QString& type, bool visible = true);
+    void currentIndicators(const QString& leftType, const QString& rightType);
 
   private Q_SLOTS:
     void clicked(const QString& type);
@@ -43,6 +50,8 @@ class ButtonGroup : public QWidget
 
     QSignalMapper *m_mapper;
     QHash<QString, QToolButton*> m_map;
+
+    SideType m_sideType;
 };
 
 #endif // BUTTONGROUP_H

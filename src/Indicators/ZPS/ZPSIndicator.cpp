@@ -23,3 +23,16 @@ ZPSIndicator::~ZPSIndicator()
 {
   delete ui;
 }
+
+
+QString ZPSIndicator::name() const
+{
+  return tr("ЗПС");
+}
+
+
+void ZPSIndicator::newData(CommandType::Command cmd, const QVariant& value)
+{
+
+}
+

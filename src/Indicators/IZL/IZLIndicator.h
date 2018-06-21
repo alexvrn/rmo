@@ -22,6 +22,11 @@ class IZLIndicator : public Indicator
     explicit IZLIndicator(QWidget *parent = 0);
     ~IZLIndicator();
 
+    QString name() const override;
+
+  public Q_SLOTS:
+    void newData(CommandType::Command cmd, const QVariant& value = QVariant()) override;
+
   private:
     Ui::IZLIndicator *ui;
 };

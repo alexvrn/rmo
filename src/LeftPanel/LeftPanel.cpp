@@ -11,7 +11,7 @@
 LeftPanel::LeftPanel(QWidget *parent)
   : QFrame(parent)
   , ui(new Ui::LeftPanel)
-  , m_group(new ButtonGroup(this))
+  , m_group(new ButtonGroup(ButtonGroup::Left, this))
 {
   ui->setupUi(this);
 
@@ -19,7 +19,7 @@ LeftPanel::LeftPanel(QWidget *parent)
 
   connect(m_group, &ButtonGroup::indicatorChecked, this, &LeftPanel::indicatorChecked);
   connect(m_group, &ButtonGroup::indicatorChecked, this, &LeftPanel::settingsSave);
-  connect(m_group, &ButtonGroup::otherIndicatorChecked, this, &LeftPanel::otherIndicatorChecked);
+  connect(m_group, &ButtonGroup::currentIndicators, this, &LeftPanel::currentIndicators);
 
   ui->horizontalLayout->addWidget(m_group);
   ui->horizontalLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));

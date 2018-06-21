@@ -21,6 +21,11 @@ class ZPSIndicator : public Indicator
     explicit ZPSIndicator(QWidget *parent = 0);
     ~ZPSIndicator();
 
+    QString name() const override;
+
+  public Q_SLOTS:
+    void newData(CommandType::Command cmd, const QVariant& value = QVariant()) override;
+
   private:
     Ui::ZPSIndicator *ui;
 };
