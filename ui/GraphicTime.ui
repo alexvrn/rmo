@@ -367,6 +367,9 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="spacing">
+         <number>1</number>
+        </property>
         <item>
          <widget class="QCustomPlot" name="graphic" native="true">
           <layout class="QGridLayout" name="gridLayout_2">
