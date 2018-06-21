@@ -73,8 +73,8 @@ class GraphicTime : public QWidget, public AbstractGraphic
 
     Ui::GraphicTime *ui;
     
-    GraphicTimeWorker* m_worker;
     QThread* m_thread;
+    GraphicTimeWorker* m_worker;
 
     QColor m_graphColor;
 

@@ -62,8 +62,8 @@ class GraphicValue : public QWidget, public AbstractGraphic
 
     Ui::GraphicValue *ui;
 
-    GraphicValueWorker* m_worker;
     QThread* m_thread;
+    GraphicValueWorker* m_worker;
 
     QColor m_graphColor;
 
