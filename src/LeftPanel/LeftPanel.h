@@ -22,7 +22,7 @@ class LeftPanel : public QFrame
     ~LeftPanel();
 
   public slots:
-    void setConfiguration(const QString& type);
+    QString setConfiguration(const QString& type, const QStringList& filter = QStringList());
     void fromOtherIndicatorChecked(const QString& type);
 
   signals:

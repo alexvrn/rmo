@@ -64,10 +64,13 @@ void MainWindow::setConnectState(bool connect)
 
 void MainWindow::setConfiguration(const QString& leftType, const QString& rightType, const QString& mode)
 {
-  m_leftPanel->setConfiguration(leftType);
-  m_rightPanel->setConfiguration(rightType, mode);
+  // Производим установку слева направо.
+  // leftConfig - используем для правого индикатора для корректного отображения выбора кнопок,
+  // вслучае некорректных записей в config-файле
+  QString leftConfig = m_leftPanel->setConfiguration(leftType);
+  QString rightConfig = m_rightPanel->setConfiguration(rightType, QStringList() << leftConfig, mode);
 
-  m_indicatorList->setCurrentIndicators(leftType, rightType);
+  m_indicatorList->setCurrentIndicators(leftConfig, rightConfig);
 }
 
 

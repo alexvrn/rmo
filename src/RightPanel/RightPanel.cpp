@@ -51,10 +51,16 @@ void RightPanel::settingsSave(const QString& type)
 }
 
 
-void RightPanel::setConfiguration(const QString& type, const QString& mode)
+QString RightPanel::setConfiguration(const QString& type, const QStringList& filter, const QString& mode)
 {
-  m_group->setConfiguration(type);
+  QString rightConfig = m_group->setConfiguration(type, filter);
+  if (type != rightConfig)
+  {
+    QSettings settings("SAMI_DVO_RAN", "rmo");
+    settings.setValue("right/indicator", rightConfig);
+  }
   m_settingPanel->setConfiguration(mode);
+  return rightConfig;
 }
 
 

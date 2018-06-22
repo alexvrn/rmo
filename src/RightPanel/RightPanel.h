@@ -24,7 +24,7 @@ class RightPanel : public QFrame
     ~RightPanel();
 
   public Q_SLOTS:
-    void setConfiguration(const QString& type, const QString& mode);
+    QString setConfiguration(const QString& type, const QStringList& filter = QStringList(), const QString& mode = QString());
     void fromOtherIndicatorChecked(const QString& type);
 
   signals:

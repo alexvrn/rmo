@@ -42,8 +42,8 @@ int main(int argc, char *argv[])
   }
 
   // Сохранённые настройки приложения
+  QString indicatorLeft = settings.value("left/indicator", QObject::tr("")).toString();
   QString indicatorRight = settings.value("right/indicator", QObject::tr("ГЛ")).toString();
-  QString indicatorLeft = settings.value("left/indicator", QObject::tr("ГЛ")).toString();
   QString mode = settings.value("mode", "sun").toString();
 
   MainWindow mainWindow;

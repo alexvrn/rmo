@@ -50,9 +50,16 @@ void LeftPanel::fromOtherIndicatorChecked(const QString& type)
 }
 
 
-void LeftPanel::setConfiguration(const QString& type)
+QString LeftPanel::setConfiguration(const QString& type, const QStringList& filter)
 {
-  m_group->setConfiguration(type);
+  QString leftConfig = m_group->setConfiguration(type, filter);
+  if (type != leftConfig)
+  {
+    QSettings settings("SAMI_DVO_RAN", "rmo");
+    settings.setValue("left/indicator", leftConfig);
+  }
+
+  return leftConfig;
 }
 
 
