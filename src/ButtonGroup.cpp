@@ -42,26 +42,6 @@ ButtonGroup::~ButtonGroup()
 }
 
 
-QString ButtonGroup::indicatorCheck(const QString& type, bool checked)
-{
-  if (!checked)
-    return currentType();
-
-  auto toolButton = m_map.find(type);
-  Q_ASSERT(toolButton != m_map.end());
-
-  if (toolButton.value()->isChecked())
-  {
-    toolButton.value()->setChecked(false);
-    return QString();
-  }
-  else
-  {
-    return currentType();
-  }
-}
-
-
 QString ButtonGroup::fromOtherIndicatorChecked(const QString& type)
 {
   if (type == tr("ГЛ"))
