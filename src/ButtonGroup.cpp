@@ -115,6 +115,12 @@ void ButtonGroup::clicked(const QString& type)
 {
   QToolButton* toolButton = qobject_cast<QToolButton*>(m_mapper->mapping(type));
   Q_ASSERT(toolButton);
+
+  // Кнопка отключается при повторном нажатии. Поэтому в любом случае делаем её активной
+  //! TODO: Хотя надо более красивое решение. Например переопределить какой-то метод. Но пока та :)
+  toolButton->setChecked(true);
+
+  // Отключаем все кнопки, кроме той, на которую нажали
   for (auto it = m_map.begin(); it != m_map.end(); ++it)
   {
     if (it.value() != toolButton)
