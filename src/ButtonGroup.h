@@ -32,7 +32,7 @@ class ButtonGroup : public QWidget
     ~ButtonGroup();
 
   public Q_SLOTS:
-    void setConfiguration(const QString& type);
+    QString setConfiguration(const QString& type, const QStringList& filter = QStringList());
     QString fromOtherIndicatorChecked(const QString& type);
 
   signals:

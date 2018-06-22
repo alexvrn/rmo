@@ -5,6 +5,7 @@
 // Qt
 #include <QSignalMapper>
 #include <QToolButton>
+#include <QSettings>
 #include <QDebug>
 
 
@@ -16,18 +17,37 @@ ButtonGroup::ButtonGroup(SideType sideType, QWidget *parent)
 {
   ui->setupUi(this);
 
-  m_map[tr("ГЛ")  ] = ui->glToolButton;
-  m_map[tr("ШП")  ] = ui->shpToolButton;
-  m_map[tr("ТО")  ] = ui->toToolButton;
-  m_map[tr("СА")  ] = ui->saToolButton;
-  m_map[tr("АНТ") ] = ui->antToolButton;
-  m_map[tr("ИЗЛ") ] = ui->izlToolButton;
-  m_map[tr("ЗПС")]  = ui->zpsToolButton;
-  m_map[tr("ОЭ")  ] = ui->oeToolButton;
-  m_map[tr("АСТД")] = ui->astdToolButton;
+  QHash<QPair<QString,QToolButton*>, QString> names = QHash<QPair<QString,QToolButton*>, QString>
+  {
+    { qMakePair(tr("ГЛ"),   ui->glToolButton),   "HydroLocation" },
+    { qMakePair(tr("ШП"),   ui->shpToolButton),  "NoiseControl" },
+    { qMakePair(tr("ТО"),   ui->toToolButton),   "TacticalSituation" },
+    { qMakePair(tr("СА"),   ui->saToolButton),   "SpectralAnalysis" },
+    { qMakePair(tr("АНТ"),  ui->antToolButton),  "AntennaChannel" },
+    { qMakePair(tr("ИЗЛ"),  ui->izlToolButton),  "Radiation" },
+    { qMakePair(tr("ЗПС"),  ui->zpsToolButton),  "SoundCommunication" },
+    { qMakePair(tr("ОЭ"),   ui->oeToolButton),   "EfficiencyMark" },
+    { qMakePair(tr("АСТД"), ui->astdToolButton), "FunctionalDiagnosticsComplex" }
+  };
+
+  // Делаем все кнопки невидимыми
+  for (auto key : names.keys())
+    key.second->hide();
+
+  QSettings settings("SAMI_DVO_RAN", "rmo");
+  for (auto indicatorName : names.values())
+  {
+    bool exists = settings.value(QString("Indicators/%1").arg(indicatorName), false).toBool();
+    if (exists)
+    {
+      m_map[names.key(indicatorName).first] = names.key(indicatorName).second;
+      names.key(indicatorName).second->show();
+    }
+  }
+
+  Q_ASSERT_X(m_map.count() >= 2, "ButtonGroup", "Количество индикаторов должно быть минимум два");
 
   connect(m_mapper, SIGNAL(mapped(QString)), SLOT(clicked(QString)));
-
   for (auto it = m_map.constBegin(); it != m_map.constEnd(); ++it)
   {
     connect(it.value(), SIGNAL(clicked()), m_mapper, SLOT(map()));
@@ -83,10 +103,36 @@ QString ButtonGroup::fromOtherIndicatorChecked(const QString& type)
 
 
 //! Установка данных из конфигурационного файла
-void ButtonGroup::setConfiguration(const QString& type)
+QString ButtonGroup::setConfiguration(const QString& type, const QStringList& filter)
 {
-  for (auto it = m_map.begin(); it != m_map.end(); ++it)
-    it.value()->setChecked(it.key() == type);
+  if (type.isEmpty())
+  {
+    clear();
+    return QString();
+  }
+  if (m_map.contains(type))
+  {
+    for (auto it = m_map.begin(); it != m_map.end(); ++it)
+      it.value()->setChecked(it.key() == type);
+    return type;
+  }
+  else
+  {
+    // Если список не содержит выбранного типа индикатора, то пытаемся найти первый подходящий,
+    // кроме индикаторов, входящий в список filter
+    // Защита от некорректного config-файла
+    clear();
+    QString newType;
+    for (auto it = m_map.begin(); it != m_map.end(); ++it)
+    {
+      if (!filter.contains(it.key()) && (it.key() != tr("ГЛ")))
+      {
+        newType = it.key();
+        break;
+      }
+    }
+    return newType;
+  }
 }
 
 
@@ -97,7 +143,7 @@ void ButtonGroup::clicked(const QString& type)
   Q_ASSERT(toolButton);
 
   // Кнопка отключается при повторном нажатии. Поэтому в любом случае делаем её активной
-  //! TODO: Хотя надо более красивое решение. Например переопределить какой-то метод. Но пока та :)
+  //! TODO: Хотя надо более красивое решение. Например переопределить какой-то метод. Но пока так :)
   toolButton->setChecked(true);
 
   // Отключаем все кнопки, кроме той, на которую нажали
