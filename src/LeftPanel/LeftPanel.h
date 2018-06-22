@@ -22,7 +22,6 @@ class LeftPanel : public QFrame
     ~LeftPanel();
 
   public slots:
-    void indicatorCheck(const QString& type, bool checked);
     void setConfiguration(const QString& type);
     void fromOtherIndicatorChecked(const QString& type);
 
