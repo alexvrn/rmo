@@ -13,6 +13,7 @@ class Indicator : public QWidget
 
   public:
     explicit Indicator(QWidget *parent = nullptr);
+    virtual ~Indicator();
 
     virtual QString name() const = 0;
 

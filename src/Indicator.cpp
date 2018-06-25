@@ -6,3 +6,9 @@ Indicator::Indicator(QWidget *parent)
 {
 
 }
+
+
+Indicator::~Indicator()
+{
+
+}
