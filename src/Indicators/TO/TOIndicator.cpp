@@ -22,7 +22,7 @@ QString TOIndicator::name() const
 }
 
 
-void TOIndicator::newData(CommandType::Command cmd, const QVariant& value)
+void TOIndicator::newData(cmd_e cmd, const QVariant& value)
 {
 
 }

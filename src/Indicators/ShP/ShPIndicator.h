@@ -28,7 +28,7 @@ class ShPIndicator : public Indicator
 
   public slots:
     void setLightMode(const QString& mode);
-    void newData(CommandType::Command cmd, const QVariant& value = QVariant()) override;
+    void newData(cmd_e cmd, const QVariant& value = QVariant()) override;
 
   private slots:
     void checkedDateTime();

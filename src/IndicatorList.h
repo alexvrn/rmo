@@ -33,7 +33,7 @@ class IndicatorList : public QWidget
   public slots:
     void setCurrentIndicators(const QString& leftType, const QString& rightType);
     void setLightMode(const QString& mode);
-    void newData(CommandType::Command cmd, const QVariant& value = QVariant());
+    void newData(cmd_e cmd, const QVariant& value = QVariant());
 
   signals:
     void info(const QString& text);

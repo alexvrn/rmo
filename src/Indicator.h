@@ -18,7 +18,7 @@ class Indicator : public QWidget
     virtual QString name() const = 0;
 
   public Q_SLOTS:
-    virtual void newData(CommandType::Command cmd, const QVariant& value = QVariant()) = 0;
+    virtual void newData(cmd_e cmd, const QVariant& value = QVariant()) = 0;
 
   signals:
     void info(const QString& text);

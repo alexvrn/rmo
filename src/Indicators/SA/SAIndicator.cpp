@@ -71,7 +71,7 @@ void SAIndicator::setLightMode(const QString& mode)
 }
 
 
-void SAIndicator::newData(CommandType::Command cmd, const QVariant& value)
+void SAIndicator::newData(cmd_e cmd, const QVariant& value)
 {
   // Если выбрано получение данных по конкретной дате, то текущие данные игнорим
   if (!ui->nowToolButton->isChecked())
@@ -81,7 +81,7 @@ void SAIndicator::newData(CommandType::Command cmd, const QVariant& value)
   else
   {
     // Если текущие данные ПГАС
-    if (cmd >= CommandType::Stream_1 && cmd <= CommandType::Stream_22)
+    if (cmd >= CMD_STREAM1 && cmd <= CMD_STREAM22)
     {
       // Если смотрим на текущие данные (иначе не игнорим, данные записались в файлы)
       if (!ui->lastToolButton->isChecked())

@@ -53,7 +53,7 @@ class ShPIndicatorWidget : public QWidget
     void setIndicatorType(AbstractGraphic::IndicatorType indicatorType);
     void setData(const QList<QVariantMap> &data, const QDateTime& dateTime = QDateTime());
     void clearData();
-    void setDataType(const QString& text, CommandType::Command type);
+    void setDataType(const QString& text, cmd_e type);
     void dataGraphicRepaint();
 
 private:
@@ -79,7 +79,7 @@ private:
     // Текущий график
     AbstractGraphic* m_graphic;
 
-    CommandType::Command m_type; //! TODO: нужна ли эта переменная
+    cmd_e m_type; //! TODO: нужна ли эта переменная
 };
 
 #endif // SHPINDICATORWIDGET_H

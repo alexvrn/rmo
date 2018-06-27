@@ -31,7 +31,7 @@ QString GLIndicator::name() const
 }
 
 
-void GLIndicator::newData(CommandType::Command cmd, const QVariant& value)
+void GLIndicator::newData(cmd_e cmd, const QVariant& value)
 {
 
 }

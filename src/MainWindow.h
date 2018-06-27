@@ -11,6 +11,9 @@ class RightPanel;
 class IndicatorList;
 #include "commandType.h"
 
+// cmd
+#include <cmd.h>
+
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
@@ -25,7 +28,7 @@ class MainWindow : public QMainWindow
     void setConfiguration(const QString& leftType, const QString& rightType, const QString& mode = QString());
 
   public slots:
-    virtual void newData(CommandType::Command cmd, const QVariant& value = QVariant());
+    virtual void newData(cmd_e cmd, const QVariant& value = QVariant());
 
   protected:
     void closeEvent(QCloseEvent *e) Q_DECL_OVERRIDE;

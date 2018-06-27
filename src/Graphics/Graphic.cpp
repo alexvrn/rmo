@@ -54,7 +54,7 @@ void Graphic::slotAlarmTimer()
   //m_graphicsScene->setSceneRect(0, 0, width, height);
   m_graphicsScene->setSceneRect(0, 0, width, height);
 
-  auto mdata = m_data[CommandType::Stream_3];
+  auto mdata = m_data[CMD_STREAM3];
   for (int i = 0; i < mdata.length(); ++i)
   {
     int h = m_up ? height - i : i;
@@ -69,7 +69,7 @@ void Graphic::slotAlarmTimer()
 }
 
 
-void Graphic::addData(const QMap<CommandType::Command, QList<QVariantMap> >& data)
+void Graphic::addData(const QMap<cmd_e, QList<QVariantMap> >& data)
 {
   m_data = data;
   //QColor color = QColor(255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX, 255.0 * qrand() / RAND_MAX);

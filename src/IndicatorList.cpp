@@ -92,7 +92,7 @@ void IndicatorList::setLightMode(const QString& mode)
 }
 
 
-void IndicatorList::newData(CommandType::Command cmd, const QVariant& value)
+void IndicatorList::newData(cmd_e cmd, const QVariant& value)
 {
   for (auto indicator : m_indicators.values())
     indicator->newData(cmd, value);

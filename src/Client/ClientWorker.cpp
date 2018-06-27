@@ -8,11 +8,6 @@
 #include <QDateTime>
 #include <QDebug>
 
-// CBOR
-#include <cbor.h>
-#include <cmd_data_packer.h>
-#include <cmd_data_debug.h>
-
 const qint64 commandCount = 22;
 const qint64 messageLength = 100;
 
@@ -40,174 +35,243 @@ ClientWorker::~ClientWorker()
 }
 
 
-QVariantMap ClientWorker::parseData(CommandType::Command cmd, const QByteArray& data) const
+QVariantMap ClientWorker::parseData(cmd_e command, const QByteArray& message) const
 {
-  QByteArray _d = data; //! TODO
-  size_t offset = 0;
-  cbor_stream_t cborStream = {reinterpret_cast<unsigned char*>(_d.data()), static_cast<size_t>(data.length()), 0};
-  switch (cmd)
+  QVariantMap vm;
+
+  switch (command)
   {
-    case CommandType::Stream_1:
+    // STREAM
+    case CMD_STREAM1:
     {
-      cmd_data86_t cmdData;
-      cmd_data86_unpack(&cborStream, &offset, &cmdData);
-      QVariantMap vm;
-      vm["streamId"]    = cmdData.streamId;
-      vm["timestamp"]   = QDateTime::fromSecsSinceEpoch(cmdData.timestamp);
-      vm["coefCount"]   = cmdData.coefCount;
-      vm["elemCount"]   = cmdData.elemCount;
-      vm["lowFreq"]     = cmdData.lowFreq;
-      vm["highFreq"]    = cmdData.highFreq;
-      vm["heading"]     = cmdData.heading;
-      vm["data"]        = cmdData.data;
-      vm["stationId"]   = cmdData.stationId;
-      vm["serviceData"] = QByteArray(cmdData.serviceData.data);
-      return vm;
+      cmd_data86_t* cmd_data86 = reinterpret_cast<cmd_data86_t*>(const_cast<char*>(message.data()));
+      cmd_data86_print(cmd_data86);
+      break;
     }
-//    case CommandType::Stream_2:
-//    {
-//      cmd_data89_t cmdData;
-//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-    case CommandType::Stream_3:
-    case CommandType::Stream_4:
+    case CMD_STREAM2:
     {
-      cmd_data92_t cmdData;
-      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-      QVariantMap vm;
-      vm["streamId"]    = cmdData.streamId;
-      vm["timestamp"]   = QDateTime::fromSecsSinceEpoch(cmdData.timestamp);
-      vm["beamCount"]   = cmdData.beamCount;
-      vm["lowFreq"]     = cmdData.lowFreq;
-      vm["highFreq"]    = cmdData.highFreq;
-      vm["heading"]     = cmdData.heading;
-      vm["headingStd"]  = cmdData.headingStd;
-      vm["data"]        = cmdData.data;
-      vm["stationId"]   = cmdData.stationId;
-      vm["serviceData"] = QByteArray(cmdData.serviceData.data);
-      if (cmd == CommandType::Stream_4)
+      cmd_data89_t* cmd_data89 = reinterpret_cast<cmd_data89_t*>(const_cast<char*>(message.data()));
+      cmd_data89_print(cmd_data89);
+      break;
+    }
+    case CMD_STREAM3:
+    case CMD_STREAM4:
+    {
+      cmd_data92_t* cmd_data92 = reinterpret_cast<cmd_data92_t*>(const_cast<char*>(message.data()));
+      cmd_data92_print(cmd_data92);
+      vm["streamId"]    = cmd_data92->streamId;
+      vm["timestamp"]   = QDateTime::fromSecsSinceEpoch(cmd_data92->timestamp);
+      vm["beamCount"]   = cmd_data92->beamCount;
+      vm["lowFreq"]     = cmd_data92->lowFreq;
+      vm["highFreq"]    = cmd_data92->highFreq;
+      vm["heading"]     = cmd_data92->heading;
+      vm["headingStd"]  = cmd_data92->headingStd;
+      vm["data"]        = cmd_data92->data;
+      vm["stationId"]   = cmd_data92->stationId;
+      vm["serviceData"] = QByteArray(cmd_data92->serviceData.data);
+      if (command == CMD_STREAM4)
       {
         //uint timestamp = vm["timestamp"].toUInt();
         //QDateTime dt = QDateTime::fromSecsSinceEpoch(timestamp);
         //qDebug() << vm["beamCount"] << dt;
       }
-      return vm;
+      break;
     }
-//    case CommandType::Stream_5:
-//    {
-//      cmd_data89_t cmdData;
-//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_6:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_7:
-//    {
-//      cmd_data86_t cmdData;
-//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_8:
-//    {
-//      cmd_data89_t cmdData;
-//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_9:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//     return QVariantMap();
-//    }
-//    case CommandType::Stream_10:
-//    {
-//      cmd_data86_t cmdData;
-//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_11:
-//    {
-//      cmd_data89_t cmdData;
-//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_12:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_13:
-//    {
-//      cmd_data86_t cmdData;
-//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_14:
-//    {
-//      cmd_data89_t cmdData;
-//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_15:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_16:
-//    {
-//      cmd_data86_t cmdData;
-//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_17:
-//    {
-//      cmd_data89_t cmdData;
-//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
-//     return QVariantMap();
-//    }
-//    case CommandType::Stream_18:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_19:
-//    {
-//      cmd_data86_t cmdData;
-//      cmd_data86_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_20:
-//    {
-//      cmd_data89_t cmdData;
-//      cmd_data89_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_21:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
-//    case CommandType::Stream_22:
-//    {
-//      cmd_data92_t cmdData;
-//      cmd_data92_unpack(&cborStream, &offset, &cmdData);
-//      return QVariantMap();
-//    }
+    case CMD_STREAM5:
+    case CMD_STREAM6:
+    {
+      cmd_data95_t* cmd_data95 = reinterpret_cast<cmd_data95_t*>(const_cast<char*>(message.data()));
+      cmd_data95_print(cmd_data95);
+      break;
+    }
+    case CMD_STREAM7:
+    {
+      cmd_data104_t* cmd_data104 = reinterpret_cast<cmd_data104_t*>(const_cast<char*>(message.data()));
+      cmd_data104_print(cmd_data104);
+      break;
+    }
+    case CMD_STREAM8:
+    case CMD_STREAM10:
+    case CMD_STREAM12:
+    {
+      cmd_data107_t* cmd_data107 = reinterpret_cast<cmd_data107_t*>(const_cast<char*>(message.data()));
+      cmd_data107_print(cmd_data107);
+      break;
+    }
+    case CMD_STREAM9:
+    case CMD_STREAM11:
+    case CMD_STREAM13:
+    {
+      cmd_data110_t* cmd_data110 = reinterpret_cast<cmd_data110_t*>(const_cast<char*>(message.data()));
+      cmd_data110_print(cmd_data110);
+      break;
+    }
+    case CMD_STREAM14:
+    {
+      cmd_data114_t* cmd_data114 = reinterpret_cast<cmd_data114_t*>(const_cast<char*>(message.data()));
+      cmd_data114_print(cmd_data114);
+      break;
+    }
+    case CMD_STREAM15:
+    {
+      cmd_data117_t* cmd_data117 = reinterpret_cast<cmd_data117_t*>(const_cast<char*>(message.data()));
+      cmd_data117_print(cmd_data117);
+      break;
+    }
+    case CMD_STREAM16:
+    {
+      cmd_data121_t* cmd_data121 = reinterpret_cast<cmd_data121_t*>(const_cast<char*>(message.data()));
+      cmd_data121_print(cmd_data121);
+      break;
+    }
+    case CMD_STREAM17:
+    {
+      cmd_data124_t* cmd_data124 = reinterpret_cast<cmd_data124_t*>(const_cast<char*>(message.data()));
+      cmd_data124_print(cmd_data124);
+      break;
+    }
+    case CMD_STREAM18:
+    {
+      cmd_data132_t* cmd_data132 = reinterpret_cast<cmd_data132_t*>(const_cast<char*>(message.data()));
+      cmd_data132_print(cmd_data132);
+      break;
+    }
+    case CMD_STREAM19:
+    {
+      cmd_data135_t* cmd_data135 = reinterpret_cast<cmd_data135_t*>(const_cast<char*>(message.data()));
+      cmd_data135_print(cmd_data135);
+      break;
+    }
+    case CMD_STREAM20:
+    {
+      cmd_data145_t* cmd_data145 = reinterpret_cast<cmd_data145_t*>(const_cast<char*>(message.data()));
+      cmd_data145_print(cmd_data145);
+      break;
+    }
+    case CMD_STREAM21:
+    {
+      cmd_data154_t* cmd_data154 = reinterpret_cast<cmd_data154_t*>(const_cast<char*>(message.data()));
+      cmd_data154_print(cmd_data154);
+      break;
+    }
+    case CMD_STREAM22:
+    {
+      cmd_data174_t* cmd_data174 = reinterpret_cast<cmd_data174_t*>(const_cast<char*>(message.data()));
+      cmd_data174_print(cmd_data174);
+      break;
+    }
+    // STREAM
+
+    case CMD_GET_SELF_DIAGNOSIS:
+    {
+      cmd_data187_t* cmd_data187 = reinterpret_cast<cmd_data187_t*>(const_cast<char*>(message.data()));
+      cmd_data187_print(cmd_data187);
+      break;
+    }
+    case CMD_SERVICE:
+    {
+      cmd_data0_t* cmd_data0 = reinterpret_cast<cmd_data0_t*>(const_cast<char*>(message.data()));
+      cmd_data0_print(cmd_data0);
+      break;
+    }
+    case CMD_GET_FIRMWARE_SHA1:
+    {
+      cmd_data16_t* cmd_data16 = reinterpret_cast<cmd_data16_t*>(const_cast<char*>(message.data()));
+      cmd_data16_print(cmd_data16);
+      break;
+    }
+    case CMD_GET_RTC:
+    {
+      cmd_data19_t* cmd_data19 = reinterpret_cast<cmd_data19_t*>(const_cast<char*>(message.data()));
+      cmd_data19_print(cmd_data19);
+      break;
+    }
+    case CMD_GET_ANTENNA_DEFECTIVE_COLUMNS:
+    {
+      cmd_data28_t* cmd_data28 = reinterpret_cast<cmd_data28_t*>(const_cast<char*>(message.data()));
+      cmd_data28_print(cmd_data28);
+      break;
+    }
+    case CMD_GET_ENV_PARAMS:
+    {
+      cmd_data36_t* cmd_data36 = reinterpret_cast<cmd_data36_t*>(const_cast<char*>(message.data()));
+      cmd_data36_print(cmd_data36);
+      break;
+    }
+    case CMD_GET_ACTIVE_SCHEDULE:
+    {
+      cmd_data47_t* cmd_data47 = reinterpret_cast<cmd_data47_t*>(const_cast<char*>(message.data()));
+      cmd_data47_print(cmd_data47);
+      break;
+    }
+    case CMD_GET_UTCS_TRANSMIT_SCHEDULE:
+    {
+      cmd_data58_t* cmd_data58 = reinterpret_cast<cmd_data58_t*>(const_cast<char*>(message.data()));
+      cmd_data58_print(cmd_data58);
+      break;
+    }
+    case CMD_GET_SATCOM_SCHEDULE:
+    {
+      cmd_data69_t* cmd_data69 = reinterpret_cast<cmd_data69_t*>(const_cast<char*>(message.data()));
+      cmd_data69_print(cmd_data69);
+      break;
+    }
+    case CMD_GET_PASSIVE_PROCESSING_PARAMETERS:
+    {
+      cmd_data71_t* cmd_data71 = reinterpret_cast<cmd_data71_t*>(const_cast<char*>(message.data()));
+      cmd_data71_print(cmd_data71);
+      break;
+    }
+    case CMD_GET_ATT_1:
+    {
+      cmd_data82_t* cmd_data82 = reinterpret_cast<cmd_data82_t*>(const_cast<char*>(message.data()));
+      cmd_data82_print(cmd_data82);
+      break;
+    }
+    case CMD_GET_PASSIVE_MARKS:
+    {
+      cmd_data101_t* cmd_data101 = reinterpret_cast<cmd_data101_t*>(const_cast<char*>(message.data()));
+      cmd_data101_print(cmd_data101);
+      break;
+    }
+    case CMD_GET_ACTIVE_GET_ANGLE_ID_MARKS:
+    {
+      cmd_data129_t* cmd_data129 = reinterpret_cast<cmd_data129_t*>(const_cast<char*>(message.data()));
+      cmd_data129_print(cmd_data129);
+      break;
+    }
+    case CMD_GET_UTCS_INBOX:
+    {
+      cmd_data142_t* cmd_data142 = reinterpret_cast<cmd_data142_t*>(const_cast<char*>(message.data()));
+      cmd_data142_print(cmd_data142);
+      break;
+    }
+    case CMD_GET_PASSIVE_TARGETS:
+    {
+      cmd_data151_t* cmd_data151 = reinterpret_cast<cmd_data151_t*>(const_cast<char*>(message.data()));
+      cmd_data151_print(cmd_data151);
+      break;
+    }
+    case CMD_GET_ACTIVE_TARGETS:
+    {
+      cmd_data160_t* cmd_data160 = reinterpret_cast<cmd_data160_t*>(const_cast<char*>(message.data()));
+      cmd_data160_print(cmd_data160);
+      break;
+    }
+    case CMD_GET_STREAMS:
+    {
+      cmd_data172_t* cmd_data172 = reinterpret_cast<cmd_data172_t*>(const_cast<char*>(message.data()));
+      cmd_data172_print(cmd_data172);
+      break;
+    }
     default:
     {
-      //qWarning() << tr("Неизвестный номер потока") << cmd;
+      qWarning() << tr("Прочитана неизвестная команда") << command;
       return QVariantMap();
     }
   }
+
+  return vm;
 }
 
 
@@ -247,9 +311,9 @@ void ClientWorker::parseFileForDateTime(int stationId, const QDateTime& dateTime
 
       QDataStream in(&dat);
       in.setVersion(QDataStream::Qt_5_9);
-      for (int c = 1; c <= 22; ++c)
+      for (int c = static_cast<int>(CMD_STREAM1); c <= static_cast<int>(CMD_STREAM22); ++c)
       {
-        const qint64 pos = (c - 1) * messageLength;
+        const qint64 pos = (c - static_cast<int>(CMD_STREAM1)) * messageLength;
         if (in.skipRawData(pos) == -1)
         {
           check = true;
@@ -272,7 +336,7 @@ void ClientWorker::parseFileForDateTime(int stationId, const QDateTime& dateTime
         quint16 cmd;
         blockData >> cmd;
         // Проверка что есть данные для данной команды
-        if (cmd < 1 || cmd > 22)
+        if (cmd < static_cast<quint16>(CMD_STREAM1) || cmd > static_cast<quint16>(CMD_STREAM22))
           continue;
 
         quint32 dataLength;
@@ -288,7 +352,7 @@ void ClientWorker::parseFileForDateTime(int stationId, const QDateTime& dateTime
             check = true;
             break;
           }
-          CommandType::Command command = static_cast<CommandType::Command>(cmd);
+          cmd_e command = static_cast<cmd_e>(cmd);
           QVariantMap vm = parseData(command, dataArray);
           addDate(command, vm, result);
         }
@@ -321,7 +385,7 @@ void ClientWorker::parseFileForDateTime(int stationId, const QDateTime& dateTime
 //            emit parsedFileForDateTime(PgasData());
 //            return;
 //          }
-//          CommandType::Command command = static_cast<CommandType::Command>(cmd);
+//          cmd_e command = static_cast<cmd_e>(cmd);
 //          QVariantMap vm = parseData(command, dataArray);
 //          QDateTime dt = vm["timestamp"].toDateTime();
 //          if (dt.time().hour() == dateTime.time().hour()
@@ -388,7 +452,7 @@ PgasData ClientWorker::parseFile(int stationId, int seconds) const
             qWarning() << tr("Ошибка чтения файла");
             return PgasData();
           }
-          const CommandType::Command command = static_cast<CommandType::Command>(cmd);
+          const cmd_e command = static_cast<cmd_e>(cmd);
           const QVariantMap vm = parseData(command, dataArray);
           const QDateTime dt = vm["timestamp"].toDateTime();
           if (dt.secsTo(now) <= seconds)
@@ -406,7 +470,7 @@ PgasData ClientWorker::parseFile(int stationId, int seconds) const
 }
 
 
-QList<QVariantMap> ClientWorker::parseFile(int stationId, CommandType::Command command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const
+QList<QVariantMap> ClientWorker::parseFile(int stationId, cmd_e command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const
 {
   // Проверка корректности данных
   if (lowerDateTime >= upperDateTime)
@@ -433,9 +497,9 @@ QList<QVariantMap> ClientWorker::parseFile(int stationId, CommandType::Command c
 }
 
 
-void ClientWorker::calculateData(const QByteArray& data, CommandType::Command cmd)
+void ClientWorker::calculateData(const QByteArray& data, cmd_e cmd)
 {
-  if (cmd >= CommandType::Stream_1 && cmd <= CommandType::Stream_22)
+  if (cmd >= CMD_STREAM1 && cmd <= CMD_STREAM22)
   {
     QVariantMap vm = parseData(cmd, data);
 
@@ -461,14 +525,15 @@ void ClientWorker::calculateData(const QByteArray& data, CommandType::Command cm
 //      }
     }
   }
-  else if (cmd >= CommandType::CMD_RequestData_DateTime)
+  else
+  //else if (cmd >= CommandType::CMD_RequestData_DateTime)
   {
     // Команда на запрос данных по дате-времени
   }
 }
 
 
-void ClientWorker::addDate(CommandType::Command command, const QVariantMap& vm, PgasData& container) const
+void ClientWorker::addDate(cmd_e command, const QVariantMap& vm, PgasData& container) const
 {
   // Номер ПГАС
   int stationId = vm["stationId"].toInt();
@@ -516,7 +581,7 @@ void ClientWorker::addDate(CommandType::Command command, const QVariantMap& vm, 
     }
     else
     {
-      QHash<CommandType::Command, QList<QVariantMap> > cvm;
+      QHash<cmd_e, QList<QVariantMap> > cvm;
       cvm.insert(command, QList<QVariantMap>() << vm);
       container.insert(stationId, cvm);
     }

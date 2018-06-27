@@ -29,7 +29,7 @@ class IndicatorsStackedWidget : public QStackedWidget
     void setOtherCurrentIndicator(const QString& type, bool visible);
     void sync(const QString& type, bool checked);
     void setLightMode(const QString& mode);
-    void newData(CommandType::Command cmd, const QVariant& value = QVariant());
+    void newData(cmd_e cmd, const QVariant& value = QVariant());
 
    signals:
     void info(const QString& text);

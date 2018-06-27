@@ -31,7 +31,7 @@ QString ZPSIndicator::name() const
 }
 
 
-void ZPSIndicator::newData(CommandType::Command cmd, const QVariant& value)
+void ZPSIndicator::newData(cmd_e cmd, const QVariant& value)
 {
 
 }

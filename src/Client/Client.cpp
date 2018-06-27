@@ -22,7 +22,7 @@ Client::Client(QObject *parent)
   , m_waitState(WaitingId)
   , m_messageLength(0)
 {
-  qRegisterMetaType<CommandType::Command>();
+  qRegisterMetaType<cmd_e>("cmd_e");
   qRegisterMetaType<PgasData>("PgasData");
 
   m_thread->start();
@@ -54,11 +54,11 @@ Client::~Client()
 }
 
 
-void Client::sendCommand(CommandType::Command cmd, const QVariantMap& value)
+void Client::sendCommand(cmd_e cmd, const QVariantMap& value)
 {
   QByteArray data;
 
-  switch (cmd)
+  /*switch (cmd)
   {
     case CommandType::CMD_RequestData_DateTime:
     {
@@ -69,7 +69,7 @@ void Client::sendCommand(CommandType::Command cmd, const QVariantMap& value)
     }
     default:
       qWarning() << "Неизвестный тип команды" << cmd;
-  }
+  }*/
 
   QByteArray package;
   QDataStream out(&package, QIODevice::WriteOnly);
@@ -184,11 +184,11 @@ void Client::init()
 }
 
 
-void Client::calculateData(const QByteArray& data, CommandType::Command cmd)
+void Client::calculateData(const QByteArray& data, cmd_e cmd)
 {
   QMetaObject::invokeMethod(m_clientWorker, "calculateData", Qt::QueuedConnection,
                               Q_ARG(QByteArray, data),
-                              Q_ARG(CommandType::Command, cmd));
+                              Q_ARG(cmd_e, cmd));
 }
 
 
@@ -233,7 +233,7 @@ void Client::readyRead()
 
     quint16 command;
     dataStream >> command;
-    m_command = static_cast<CommandType::Command>(command);
+    m_command = static_cast<cmd_e>(command);
 
     m_waitState = WaitingLength;
   }
@@ -271,7 +271,7 @@ void Client::readyRead()
 }
 
 
-void Client::getNewData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value)
+void Client::getNewData(const PgasData& pgasData, cmd_e cmd, const QVariant& value)
 {
   m_pgasData = pgasData;
   emit newData(cmd, value);

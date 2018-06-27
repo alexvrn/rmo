@@ -17,7 +17,7 @@ IZLIndicator::~IZLIndicator()
 }
 
 
-void IZLIndicator::newData(CommandType::Command cmd, const QVariant& value)
+void IZLIndicator::newData(cmd_e cmd, const QVariant& value)
 {
 
 }

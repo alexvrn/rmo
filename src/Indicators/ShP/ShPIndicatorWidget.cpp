@@ -31,8 +31,8 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
 
   // Индикаторная картина ШП
   m_buttonGroup->addButton(ui->pchToolButton);
-  m_buttonGroup->addButton(ui->ps1t1ToolButton, CommandType::Stream_3);
-  m_buttonGroup->addButton(ui->ps2t1ToolButton, CommandType::Stream_4);
+  m_buttonGroup->addButton(ui->ps1t1ToolButton, CMD_STREAM3);
+  m_buttonGroup->addButton(ui->ps2t1ToolButton, CMD_STREAM4);
   m_buttonGroup->addButton(ui->ps1t2ToolButton);
   m_buttonGroup->addButton(ui->ps2t2ToolButton);
   connect(m_buttonGroup, SIGNAL(buttonToggled(QAbstractButton*,bool)), SLOT(shpIndicatorView(QAbstractButton*,bool)));
@@ -99,7 +99,7 @@ void ShPIndicatorWidget::newData(bool update)
   {
     // Берем данные в зависимости от режима (текущие данные или выбранные для определённой даты)
     const auto pgasData = isNowData() ? Client::instance().pgasData() : m_selectedData;
-    const auto data = pgasData[m_pgasNumber][static_cast<CommandType::Command>(m_buttonGroup->checkedId())];
+    const auto data = pgasData[m_pgasNumber][static_cast<cmd_e>(m_buttonGroup->checkedId())];
 
     setData(data, m_checkDateTime);
   }
@@ -150,7 +150,7 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 {
   if (checked)
   {
-    CommandType::Command buttonType = static_cast<CommandType::Command>(m_buttonGroup->id(button));
+    cmd_e buttonType = static_cast<cmd_e>(m_buttonGroup->id(button));
     setDataType(button->text(), buttonType);
   }
 
@@ -202,15 +202,15 @@ void ShPIndicatorWidget::clearData()
 }
 
 
-void ShPIndicatorWidget::setDataType(const QString& text, CommandType::Command type)
+void ShPIndicatorWidget::setDataType(const QString& text, cmd_e type)
 {
   m_type = type;
-  if (type == CommandType::Stream_3)
+  if (type == CMD_STREAM3)
   {
     ui->graphicWidget->setCurrentIndex(1);
     m_graphic = ui->graphic_shp1;
   }
-  else if (type == CommandType::Stream_4)
+  else if (type == CMD_STREAM4)
   {
     ui->graphicWidget->setCurrentIndex(2);
     m_graphic = ui->graphic_shp2;

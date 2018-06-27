@@ -10,7 +10,7 @@ class QThread;
 // Local
 #include "AuthDialog.h"
 #include "ResponseReceiver.h"
-#include <commandType.h>
+#include "cmd.h"
 class ClientWorker;
 
 class Client : public QObject
@@ -32,7 +32,7 @@ class Client : public QObject
     bool connectToServer(const QString& host);
 
     //! Отправка команды(или запроса) локальному серверу
-    void sendCommand(CommandType::Command cmd, const QVariantMap& value = QVariantMap());
+    void sendCommand(cmd_e cmd, const QVariantMap& value = QVariantMap());
 
     //! Данные, полученные от ПГАС-ов
     PgasData pgasData() const;
@@ -50,7 +50,7 @@ class Client : public QObject
     bool logout();
 
   signals:
-    void newData(CommandType::Command cmd, const QVariant& value = QVariant());
+    void newData(cmd_e cmd, const QVariant& value = QVariant());
     void success();
     void failure();
     void messageReceived(const QVariantMap& result);
@@ -63,9 +63,9 @@ class Client : public QObject
 
     void authAccess(const QVariantMap& userData);
 
-    void calculateData(const QByteArray& data, CommandType::Command cmd);
+    void calculateData(const QByteArray& data, cmd_e cmd);
 
-    void getNewData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value = QVariant());
+    void getNewData(const PgasData& pgasData, cmd_e cmd, const QVariant& value = QVariant());
     void getPgasData(const PgasData& pgasData);
 
     // FAKE
@@ -91,7 +91,7 @@ class Client : public QObject
 
     // Для чтения данных с сокета
     WaitState m_waitState;
-    CommandType::Command m_command;
+    cmd_e m_command;
     quint32 m_messageLength;
 
     PgasData m_pgasData;

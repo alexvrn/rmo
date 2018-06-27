@@ -74,7 +74,7 @@ void MainWindow::setConfiguration(const QString& leftType, const QString& rightT
 }
 
 
-void MainWindow::newData(CommandType::Command cmd, const QVariant& value)
+void MainWindow::newData(cmd_e cmd, const QVariant& value)
 {
   m_indicatorList->newData(cmd, value);
 }

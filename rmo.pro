@@ -36,9 +36,9 @@ SOURCES += src/main.cpp\
     src/ScreenSaver.cpp \
     src/Client/ResponseReceiver.cpp \
     src/Graphics/Graphic.cpp \
-    riot_os_cbor/cbor.c \
-    structs/cmd_data_packer.c \
-    structs/cmd_data_debug.c \
+    #riot_os_cbor/cbor.c \
+    #structs/cmd_data_packer.c \
+    #structs/cmd_data_debug.c \
     src/CPColorMap/CPColorMap.cpp \
     src/AbstractGraphic.cpp \
     src/GraphicTime.cpp \
@@ -58,7 +58,11 @@ SOURCES += src/main.cpp\
     src/Indicators/IZL/PanelViewer.cpp \
     src/Indicators/IZL/TonalModel.cpp \
     src/Indicators/IZL/ViewerModel.cpp \
-    src/IndicatorList.cpp
+    src/IndicatorList.cpp \
+    src/cmd/cmd_data_debug.c \
+    src/cmd/cmd_data_rnd.c \
+    src/cmd/cmd_host.c \
+    src/cmd/common.c
 
 HEADERS += \
     src/LeftPanel/LeftPanel.h \
@@ -82,9 +86,9 @@ HEADERS += \
     src/Client/ResponseReceiver.h \
     src/Graphics/Graphic.h \
     src/commandType.h \
-    riot_os_cbor/cbor.h \
-    structs/cmd_data_packer.h \
-    structs/cmd_data_debug.h \
+    #riot_os_cbor/cbor.h \
+    #structs/cmd_data_packer.h \
+    #structs/cmd_data_debug.h \
     src/CPColorMap/CPColorMap.h \
     src/AbstractGraphic.h \
     src/GraphicTime.h \
@@ -104,7 +108,13 @@ HEADERS += \
     src/Indicators/IZL/PanelViewer.h \
     src/Indicators/IZL/TonalModel.h \
     src/Indicators/IZL/ViewerModel.h \
-    src/IndicatorList.h
+    src/IndicatorList.h \
+    src/cmd/cmd_data_debug.h \
+    src/cmd/cmd_data_rnd.h \
+    src/cmd/cmd_data.h \
+    src/cmd/cmd_host.h \
+    src/cmd/cmd.h \
+    src/cmd/common.h
 
 FORMS += \
     ui/LeftPanel.ui \
@@ -136,7 +146,7 @@ RESOURCES += \
 
 
 INCLUDEPATH = src/ src/LeftPanel/ src/RightPanel/ src/Client/ src/QCustomPlot/ src/AuthDialog/ src/Graphics \
-              riot_os_cbor/ structs/ \
+              src/cmd/ \
               src/Indicators/ src/Indicators/ShP/ src/Indicators/SA/ src/Indicators/TO/ src/Indicators/GL/ \
               src/Indicators/ZPS/ src/Indicators/IZL/ \
               src/CPColorMap/

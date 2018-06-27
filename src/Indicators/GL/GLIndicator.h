@@ -29,7 +29,7 @@ class GLIndicator : public Indicator
     void countWidget();
     void insertDownWidget();
 
-    void newData(CommandType::Command cmd, const QVariant& value = QVariant()) override;
+    void newData(cmd_e cmd, const QVariant& value = QVariant()) override;
 
   private:
     Ui::GLIndicator *ui;

@@ -8,7 +8,10 @@
 // Local
 #include "AuthDialog.h"
 #include "ResponseReceiver.h"
-#include "commandType.h"
+
+// cmd
+#include <cmd.h>
+#include <cmd_data_debug.h>
 
 class ClientWorker : public QObject
 {
@@ -19,14 +22,14 @@ class ClientWorker : public QObject
     ~ClientWorker();
 
   public slots:
-    void calculateData(const QByteArray& data, CommandType::Command cmd);
+    void calculateData(const QByteArray& data, cmd_e cmd);
 
     //! Получение данных из файла для времени dateTime(с точностью до минуты)
     //! int stationId - номер ПГАС
     void parseFileForDateTime(int stationId, const QDateTime& dateTime);
 
   signals:
-    void newData(const PgasData& pgasData, CommandType::Command cmd, const QVariant& value = QVariant());
+    void newData(const PgasData& pgasData, cmd_e cmd, const QVariant& value = QVariant());
     void pgasData(const PgasData& pgasData);
     void parsedFileForDateTime(const PgasData& data);
 
@@ -35,11 +38,11 @@ class ClientWorker : public QObject
     PgasData parseFile(int stationId, int seconds) const;
 
     //! Получение данных за заданный период
-    QList<QVariantMap> parseFile(int stationId, CommandType::Command command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const;
+    QList<QVariantMap> parseFile(int stationId, cmd_e command, const QDateTime& lowerDateTime, const QDateTime& upperDateTime) const;
 
   private:
-    QVariantMap parseData(CommandType::Command cmd, const QByteArray& data) const;
-    void addDate(CommandType::Command cmd, const QVariantMap& vm, PgasData& container) const;
+    QVariantMap parseData(cmd_e cmd, const QByteArray& data) const;
+    void addDate(cmd_e cmd, const QVariantMap& vm, PgasData& container) const;
 
     PgasData m_pgasData;
     int m_seconds;
