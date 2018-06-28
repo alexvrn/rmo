@@ -58,7 +58,7 @@ QVariantMap ClientWorker::parseData(cmd_e command, const QByteArray& message) co
     case CMD_STREAM4:
     {
       cmd_data92_t* cmd_data92 = reinterpret_cast<cmd_data92_t*>(const_cast<char*>(message.data()));
-      cmd_data92_print(cmd_data92);
+      //cmd_data92_print(cmd_data92);
       vm["streamId"]    = cmd_data92->streamId;
       vm["timestamp"]   = QDateTime::fromSecsSinceEpoch(cmd_data92->timestamp);
       vm["beamCount"]   = cmd_data92->beamCount;
@@ -546,11 +546,11 @@ void ClientWorker::addDate(cmd_e command, const QVariantMap& vm, PgasData& conta
   {
     if (container.contains(stationId))
     {
-      auto map = container[stationId];
+      auto& map = container[stationId];
       if (map.contains(command))
       {
         // Проверяем, наполнен ли контейнер до максимального значения
-        QList<QVariantMap> vms = container[stationId][command];
+        QList<QVariantMap>& vms = container[stationId][command];
         if (vms.isEmpty())
         {
           // Контейнер пустой, поэтому просто добавляем элемент
@@ -581,7 +581,7 @@ void ClientWorker::addDate(cmd_e command, const QVariantMap& vm, PgasData& conta
     }
     else
     {
-      QHash<cmd_e, QList<QVariantMap> > cvm;
+      QMap<cmd_e, QList<QVariantMap> > cvm;
       cvm.insert(command, QList<QVariantMap>() << vm);
       container.insert(stationId, cvm);
     }

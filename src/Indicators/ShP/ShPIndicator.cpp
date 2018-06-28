@@ -80,6 +80,8 @@ void ShPIndicator::setLightMode(const QString& mode)
 
 void ShPIndicator::newData(cmd_e cmd, const QVariant& value)
 {
+  Q_UNUSED(value);
+
   // Если выбрано получение данных по конкретной дате, то текущие данные игнорим
   if (!ui->nowToolButton->isChecked())
   {

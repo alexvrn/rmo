@@ -9,6 +9,6 @@
 #include <cmd.h>
 
 // <Номер ПГАС, данные>
-typedef QHash<int, QHash<cmd_e, QList<QVariantMap> > > PgasData;
+typedef QMap<int, QMap<cmd_e, QList<QVariantMap> > > PgasData;
 
 #endif // COMMANDTYPE_H

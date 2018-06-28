@@ -57,7 +57,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   setIndicatorType(AbstractGraphic::ShP);
 
   connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
-  m_replotTimer.start(10000);
+  m_replotTimer.start(5000);
   dataRepaint();
 }
 
@@ -87,6 +87,8 @@ void ShPIndicatorWidget::setLightMode(const QString& mode)
 
 
 //! update - если true, то обновляем картинку данных
+//! Данных может приходить много, из-за этого частая отрисовка может тормозить,
+//! поэтому обновляем изображение на индикаторах не после каждого нового сообщения с данными, а по таймеру
 void ShPIndicatorWidget::newData(bool update)
 {
   if (m_buttonGroup->checkedId() == -1)
@@ -176,7 +178,6 @@ void ShPIndicatorWidget::setData(const QList<QVariantMap> &data, const QDateTime
   m_data = data;
   m_checkDateTime = dateTime;
 
-  // Обновляем данные не сразу, а по таймеру через каждые 10 секунд
   dataGraphicRepaint();
 }
 
