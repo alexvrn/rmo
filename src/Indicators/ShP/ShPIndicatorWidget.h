@@ -3,7 +3,6 @@
 
 // Qt
 #include <QWidget>
-#include <QTimer>
 #include <QVariantMap>
 class QToolButton;
 class QAbstractButton;
@@ -46,10 +45,10 @@ class ShPIndicatorWidget : public QWidget
   signals:
     void countWidget();
     void info(const QString& text);
+    void sectionData(const QVector<double>& keys, const QVector<double>& values);
 
   private slots:
     void shpIndicatorView(QAbstractButton* button, bool checked);
-    void dataRepaint();
     void setIndicatorType(AbstractGraphic::IndicatorType indicatorType);
     void setData(const QList<QVariantMap> &data, const QDateTime& dateTime = QDateTime());
     void clearData();
@@ -72,8 +71,6 @@ private:
     int m_seconds;
     QDateTime m_checkDateTime;
     QList<QVariantMap> m_data;
-
-    QTimer m_replotTimer;
 
     QList<AbstractGraphic*> m_graphics;
     // Текущий график

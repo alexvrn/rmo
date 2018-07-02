@@ -55,10 +55,6 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   connect(ui->graphic_shp2, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
   connect(ui->graphic_pchss, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
   setIndicatorType(AbstractGraphic::ShP);
-
-  connect(&m_replotTimer, SIGNAL(timeout()), SLOT(dataRepaint()));
-  m_replotTimer.start(5000);
-  dataRepaint();
 }
 
 
@@ -160,12 +156,6 @@ void ShPIndicatorWidget::shpIndicatorView(QAbstractButton* button, bool checked)
 }
 
 
-void ShPIndicatorWidget::dataRepaint()
-{
-  newData(true);
-}
-
-
 void ShPIndicatorWidget::setIndicatorType(AbstractGraphic::IndicatorType indicatorType)
 {
   for (auto graphic : m_graphics)
@@ -179,6 +169,28 @@ void ShPIndicatorWidget::setData(const QList<QVariantMap> &data, const QDateTime
   m_checkDateTime = dateTime;
 
   dataGraphicRepaint();
+
+  // Сечение
+  // Берем данные в зависимости от режима (текущие данные или выбранные для определённой даты)
+  QVector<double> keys;
+  QVector<double> values;
+  if (!data.isEmpty())
+  {
+    // Идём с конца списка и берем только данные для последней секунды
+    auto last = data.last();
+    QListIterator<QVariantMap> it(data);
+    it.toBack();
+    while (it.hasPrevious())
+    {
+      auto vm = it.previous();
+      if (vm["timestamp"].toDateTime() != last["timestamp"].toDateTime())
+        break;
+
+      keys.append(vm["beamCount"].toInt());
+      values.append(vm["data"].toDouble());
+    }
+  }
+  emit sectionData(keys, values);
 }
 
 

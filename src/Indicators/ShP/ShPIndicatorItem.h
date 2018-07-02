@@ -6,10 +6,14 @@
 #include <QSplitter>
 #include <QVariantMap>
 #include <QDateTime>
+#include <QTimer>
 
 // Local
 class ShPIndicatorWidget;
 #include <commandType.h>
+
+// QCustomPlot
+#include <qcustomplot.h>
 
 // UI
 namespace Ui
@@ -39,6 +43,9 @@ class ShPIndicatorItem : public QWidget
     void insertDownWidget();
     void countWidget();
 
+    void dataRepaint();
+    void sectionData(const QVector<double>& keys, const QVector<double>& values);
+
   signals:
     void info(const QString& text);
 
@@ -47,6 +54,14 @@ class ShPIndicatorItem : public QWidget
 
     ShPIndicatorWidget *m_upWidget;
     ShPIndicatorWidget *m_downWidget;
+
+    PgasData m_selectedData;
+
+    QTimer m_replotTimer;
+    int m_pgasNumber;
+    bool m_nowData;
+
+    QCPGraph* m_graphic;
 };
 
 #endif // SHPINDICATORITEM_H
