@@ -35,7 +35,7 @@ class Client : public QObject
     void sendCommand(cmd_e cmd, const QVariantMap& value = QVariantMap());
 
     //! Данные, полученные от ПГАС-ов
-    PgasData pgasData() const;
+    PgasData& pgasData() ;
 
     //! Получение данных из файла для времени dateTime(с точностью до минуты)
     //! int stationId - номер ПГАС

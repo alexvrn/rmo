@@ -91,7 +91,7 @@ void Client::sendCommand(cmd_e cmd, const QVariantMap& value)
 }
 
 
-PgasData Client::pgasData() const
+PgasData& Client::pgasData()
 {
   return m_pgasData;
 }
