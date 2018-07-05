@@ -240,7 +240,7 @@ void ShPIndicatorWidget::visorClick(int beamCount, const QTime& time)
                          {
                            return vm["timestamp"].toDateTime().time() == time && vm["beamCount"].toInt() == 0;
                          });
-  for (it; it != m_data.end(); ++it)
+  for (; it != m_data.end(); ++it)
   {
     QVariantMap vm = *it;
 

@@ -161,6 +161,6 @@ void ShPIndicatorItem::sectionData(const QVector<double> &keys, const QVector<do
 {
   m_graphic->setData(keys, values);
 
-  m_graphic->rescaleAxes(true);
+  m_graphic->rescaleAxes();
   ui->graphic->replot();
 }
