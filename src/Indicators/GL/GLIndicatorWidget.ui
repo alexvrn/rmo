@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>840</width>
-    <height>475</height>
+    <width>954</width>
+    <height>252</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,59 +116,106 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QToolButton" name="pchToolButton">
+            <widget class="QLabel" name="label">
              <property name="text">
-              <string>ПЧСС</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
+              <string>Порог ГЛ1</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="ps1t1ToolButton">
-             <property name="text">
-              <string>ПС1 T1</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
+            <widget class="QDoubleSpinBox" name="doubleSpinBox">
+             <property name="maximum">
+              <double>5000.000000000000000</double>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="ps2t1ToolButton">
-             <property name="text">
-              <string>ПС2 T1</string>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="checkable">
-              <bool>true</bool>
+             <property name="sizeType">
+              <enum>QSizePolicy::Maximum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>10</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Порог ГЛ2</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="ps1t2ToolButton">
-             <property name="text">
-              <string>ПС1 T2</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+             <property name="maximum">
+              <double>5000.000000000000000</double>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="ps2t2ToolButton">
-             <property name="text">
-              <string>ПС2 T2</string>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="checkable">
-              <bool>true</bool>
+             <property name="sizeType">
+              <enum>QSizePolicy::Maximum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Реверберация</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton">
+            <widget class="QSpinBox" name="spinBox">
+             <property name="prefix">
+              <string>Полуширина </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBox_2">
+             <property name="prefix">
+              <string>Сдвиг </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Maximum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton">
              <property name="text">
-              <string>ААААА</string>
+              <string>Рассчитать</string>
              </property>
             </widget>
            </item>
