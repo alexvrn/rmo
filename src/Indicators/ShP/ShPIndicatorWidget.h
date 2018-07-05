@@ -54,6 +54,7 @@ class ShPIndicatorWidget : public QWidget
     void clearData();
     void setDataType(const QString& text, cmd_e type);
     void dataGraphicRepaint();
+    void visorClick(int beamCount, const QTime& time);
 
 private:
     Ui::ShPIndicatorWidget *ui;

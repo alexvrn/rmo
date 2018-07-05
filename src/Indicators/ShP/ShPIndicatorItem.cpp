@@ -90,6 +90,7 @@ void ShPIndicatorItem::insertDownWidget()
   m_downWidget = new ShPIndicatorWidget(this);
   m_downWidget->setCurrentPgasNumber(m_upWidget->currentPgasNumber());
   connect(m_downWidget, &ShPIndicatorWidget::info, this, &ShPIndicatorItem::info);
+  connect(m_downWidget, &ShPIndicatorWidget::sectionData, this, &ShPIndicatorItem::sectionData);
 
   ui->splitter->addWidget(m_downWidget);
 }

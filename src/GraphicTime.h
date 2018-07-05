@@ -51,6 +51,7 @@ class GraphicTime : public QWidget, public AbstractGraphic
 
   signals:
     void info(const QString& text);
+    void visorClick(int beamCount, const QTime& time);
 
   private Q_SLOTS:
     void mouseMove(QMouseEvent* event);

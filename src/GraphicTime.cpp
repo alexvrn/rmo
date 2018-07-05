@@ -351,11 +351,12 @@ void GraphicTime::mousePress(QMouseEvent* event)
   const int x = ui->graphic->xAxis->pixelToCoord(event->pos().x());
   const int y = ui->graphic->yAxis->pixelToCoord(event->pos().y());
 
-  // Проверяем чтобы клик был только по обрасти графика
+  // Проверяем чтобы клик был только по области графика
   if (!m_colorMap->data()->keyRange().contains(x) || m_colorMap->data()->keyRange().contains(y))
     return;
 
   m_colorMap->setPoint(QPoint(x, y));
   ui->graphic->replot();
+  emit visorClick(x, QTime::fromMSecsSinceStartOfDay(y*1000));
 }
 
