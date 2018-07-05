@@ -51,7 +51,18 @@ QVariantMap ClientWorker::parseData(cmd_e command, const QByteArray& message) co
     case CMD_STREAM2:
     {
       cmd_data89_t* cmd_data89 = reinterpret_cast<cmd_data89_t*>(const_cast<char*>(message.data()));
-      cmd_data89_print(cmd_data89);
+      vm["streamId"]    = cmd_data89->streamId;
+      vm["timestamp"]   = QDateTime::fromSecsSinceEpoch(cmd_data89->timestamp);
+      vm["coefCount"]   = cmd_data89->coefCount;
+      vm["beamCount"]   = cmd_data89->beamCount;
+      vm["lowFreq"]     = cmd_data89->lowFreq;
+      vm["highFreq"]    = cmd_data89->highFreq;
+      vm["heading"]     = cmd_data89->heading;
+      vm["headingStd"]  = cmd_data89->headingStd;
+      vm["data"]        = cmd_data89->data;
+      vm["stationId"]   = cmd_data89->stationId;
+      vm["serviceData"] = QByteArray(cmd_data89->serviceData.data);
+      //cmd_data89_print(cmd_data89);
       break;
     }
     case CMD_STREAM3:
@@ -69,12 +80,6 @@ QVariantMap ClientWorker::parseData(cmd_e command, const QByteArray& message) co
       vm["data"]        = cmd_data92->data;
       vm["stationId"]   = cmd_data92->stationId;
       vm["serviceData"] = QByteArray(cmd_data92->serviceData.data);
-      if (command == CMD_STREAM4)
-      {
-        //uint timestamp = vm["timestamp"].toUInt();
-        //QDateTime dt = QDateTime::fromSecsSinceEpoch(timestamp);
-        //qDebug() << vm["beamCount"] << dt;
-      }
       break;
     }
     case CMD_STREAM5:

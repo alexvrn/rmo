@@ -30,7 +30,7 @@ ShPIndicatorWidget::ShPIndicatorWidget(QWidget *parent)
   m_seconds = settings.value("SHP/seconds", 60).toInt();
 
   // Индикаторная картина ШП
-  m_buttonGroup->addButton(ui->pchToolButton);
+  m_buttonGroup->addButton(ui->pchToolButton,   CMD_STREAM2);
   m_buttonGroup->addButton(ui->ps1t1ToolButton, CMD_STREAM3);
   m_buttonGroup->addButton(ui->ps2t1ToolButton, CMD_STREAM4);
   m_buttonGroup->addButton(ui->ps1t2ToolButton);
@@ -201,7 +201,12 @@ void ShPIndicatorWidget::clearData()
 void ShPIndicatorWidget::setDataType(const QString& text, cmd_e type)
 {
   m_type = type;
-  if (type == CMD_STREAM3)
+  if (type == CMD_STREAM2)
+  {
+    ui->graphicWidget->setCurrentIndex(0);
+    m_graphic = ui->graphic_pchss;
+  }
+  else if (type == CMD_STREAM3)
   {
     ui->graphicWidget->setCurrentIndex(1);
     m_graphic = ui->graphic_shp1;
@@ -213,8 +218,7 @@ void ShPIndicatorWidget::setDataType(const QString& text, cmd_e type)
   }
   else
   {
-    ui->graphicWidget->setCurrentIndex(0);
-    m_graphic = ui->graphic_pchss;
+    qWarning() << tr("Необрабатываемый тип") << type;
   }
 
   m_graphic->setLabel(text);
